@@ -1,0 +1,9 @@
+.conteiner{
+	flex: 1 1 600px;
+}
+.list{
+	display: flex;
+	flex-direction: column;
+	align-items:flex-end;
+	gap: 10px;
+}

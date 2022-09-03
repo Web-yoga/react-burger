@@ -1,0 +1,9 @@
+.conteiner{
+	flex: 0 0 600px;
+}
+.tabs{
+	display:flex;
+}
+.tabs>div{
+	flex-grow: 1;
+}
