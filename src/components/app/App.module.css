@@ -8,10 +8,8 @@
 }
 .content{
 	width: 100%;
-	
 	flex: 1 1 900px;
 	align-self: stretch;
-
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
