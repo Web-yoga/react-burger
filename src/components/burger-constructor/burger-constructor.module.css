@@ -1,9 +1,9 @@
-.conteiner{
-	flex: 0 0 600px;
+.container{
+	flex: 1 1 600px;
 }
-.tabs{
-	display:flex;
-}
-.tabs>div{
-	flex-grow: 1;
+.list{
+	display: flex;
+	flex-direction: column;
+	align-items:flex-end;
+	gap: 10px;
 }

@@ -1,30 +1,37 @@
-import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
+import { useState } from 'react';
+import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import styles from './burger-ingredients.module.css';
 
-function BurgerIngredients({data}) {
+function BurgerIngredients() {
+	const INGREDIENT_TYPES = {
+		BUN: 'bun', 
+		SAUCE: 'sauce', 
+		TOPPING: 'topping'
+	};
+	const [current, setCurrent] = useState(INGREDIENT_TYPES.BUN)
 	return (
-		<div className={ `${styles.conteiner}` }>
-			<div className={ `${styles.list} mt-25` }>
-    		  <ConstructorElement
-    		    type="top"
-    		    isLocked={true}
-    		    text="Краторная булка N-200i (верх)"
-    		    price={200}
-    		    thumbnail={'https://code.s3.yandex.net/react/code/bun-02.png'}
-    		  />
-    		  <ConstructorElement
-    		    text="Краторная булка N-200i (верх)"
-    		    price={50}
-    		    thumbnail={'https://code.s3.yandex.net/react/code/bun-02.png'}
-    		  />
-    		  <ConstructorElement
-    		    type="bottom"
-    		    isLocked={true}
-    		    text="Краторная булка N-200i (низ)"
-    		    price={200}
-    		    thumbnail={'https://code.s3.yandex.net/react/code/bun-02.png'}
-    		  />
+		<div className={ `${styles.container} mr-10` }>
+			<h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
+			<div className={styles.tabs}>
+    		  <Tab 
+			  value={INGREDIENT_TYPES.BUN} 
+			  active={current === INGREDIENT_TYPES.BUN} 
+			  onClick={setCurrent}>
+    		    Булки
+    		  </Tab>
+    		  <Tab 
+			  value={INGREDIENT_TYPES.SAUCE} 
+			  active={current === INGREDIENT_TYPES.SAUCE} 
+			  onClick={setCurrent}>
+    		    Соусы
+    		  </Tab>
+    		  <Tab 
+			  value={INGREDIENT_TYPES.TOPPING} 
+			  active={current === INGREDIENT_TYPES.TOPPING} 
+			  onClick={setCurrent}>
+    		    Начинки
+    		  </Tab>
     		</div>
 		</div>
 	);
