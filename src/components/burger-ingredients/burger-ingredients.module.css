@@ -13,7 +13,7 @@
 	flex-grow: 1;
 }
 .ingredientsList{
-	flex: 1 0 500px;
+	flex: 1 0 100px;
 	overflow-y: auto;
 }
 .ingredientsList::-webkit-scrollbar-track{

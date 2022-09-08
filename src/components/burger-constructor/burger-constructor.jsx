@@ -1,32 +1,107 @@
-import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
+import { 
+	ConstructorElement,
+	Button, 
+	CurrencyIcon, 
+	DragIcon
+} from '@ya.praktikum/react-developer-burger-ui-components';
 import PropTypes from 'prop-types';
 
 import styles from './burger-constructor.module.css';
 
-function BurgerConstructor ({ingredients}) {
+function BurgerConstructor ({ ingredients }) {
+
+	const total = 100;
+
+	const 	ingredientBlocked =	[{
+		"_id":"60666c42cc7b410027a1a9b1",
+		"name":"Краторная булка N-200i",
+		"type":"bun",
+		"proteins":80,
+		"fat":24,
+		"carbohydrates":53,
+		"calories":420,
+		"price":1255,
+		"image":"https://code.s3.yandex.net/react/code/bun-02.png",
+		"image_mobile":"https://code.s3.yandex.net/react/code/bun-02-mobile.png",
+		"image_large":"https://code.s3.yandex.net/react/code/bun-02-large.png",
+		"__v":0
+	 }];
+
+	const IngredientItem = ({ ingredient, type, isLocked, draggable }) => {
+		return(
+			<li className={styles.itemContainer}>
+				{ draggable
+				? <span  className={styles.itemDrag}><DragIcon type="primary" /></span>
+				: null
+				}
+
+				<ConstructorElement
+					type={type}
+					isLocked={isLocked}
+					handleClose={null}
+					text={ingredient.name}
+					thumbnail={ingredient.image}
+					price={ingredient.price}
+				/>
+			</li>
+		);
+	}
+
 	return (
-		<div className={ `${styles.container}` }>
-			<div className={ `${styles.list} mt-25` }>
-    		  <ConstructorElement
-    		    type="top"
-    		    isLocked={true}
-    		    text="Краторная булка N-200i (верх)"
-    		    price={200}
-    		    thumbnail={'https://code.s3.yandex.net/react/code/bun-02.png'}
-    		  />
-    		  <ConstructorElement
-    		    text="Краторная булка N-200i (верх)"
-    		    price={50}
-    		    thumbnail={'https://code.s3.yandex.net/react/code/bun-02.png'}
-    		  />
-    		  <ConstructorElement
-    		    type="bottom"
-    		    isLocked={true}
-    		    text="Краторная булка N-200i (низ)"
-    		    price={200}
-    		    thumbnail={'https://code.s3.yandex.net/react/code/bun-02.png'}
-    		  />
-    		</div>
+		<div className={styles.container}>
+			<section className={styles.ingredientsBlockedTop}>
+				<ul className={styles.ingredientsList}>
+				{ingredientBlocked.map((ingredient, i) => {
+						
+						return (
+							<IngredientItem 
+							key={i}
+							ingredient={ingredient}
+							type={'top'}
+							isLocked={true}
+							draggable={false}
+							/>
+						)
+					} )}
+				</ul>
+			</section>
+			<section className={styles.ingredientsSection}>
+				<ul className={styles.ingredientsList}>
+					{ingredients.map((ingredient, i) => {
+						
+						return (
+							<IngredientItem 
+							key={i}
+							ingredient={ingredient}
+							type={null}
+							isLocked={false}
+							draggable={true}
+							/>
+						)
+					} )}
+				</ul>
+    		</section>
+			<section className={styles.ingredientsBlockedBottom}>
+				<ul className={styles.ingredientsList}>
+				{ingredientBlocked.map((ingredient, i) => {
+						
+						return (
+							<IngredientItem 
+							key={i}
+							ingredient={ingredient}
+							type={'bottom'}
+							isLocked={true}
+							draggable={false}
+							/>
+						)
+					} )}
+				</ul>
+			</section>
+			<section className={styles.order}>
+				<span className="text text_type_digits-medium">{ total }</span>
+				<span className="pl-2 pr-10"><CurrencyIcon type="primary" /></span>
+				<Button type="primary" size="medium"> Оформить заказ </Button>
+			</section>
 		</div>
 	);
 }
