@@ -223,7 +223,7 @@ function App() {
 		<div className={ styles.app }>
 			<AppHeader/>
 			<main className={ `${styles.content} container` }>
-				<BurgerIngredients />
+				<BurgerIngredients  ingredients={ ingredients }  />
 				<BurgerConstructor  ingredients={ ingredients } />
 			</main>
 		</div>

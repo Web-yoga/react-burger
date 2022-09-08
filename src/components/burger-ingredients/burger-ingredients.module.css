@@ -1,9 +1,47 @@
 .container{
 	flex: 0 0 600px;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: stretch;
 }
 .tabs{
-	display:flex;
+	display: flex;
 }
 .tabs>div{
 	flex-grow: 1;
+}
+.ingredientsList{
+	flex: 1 0 500px;
+	overflow-y: auto;
+}
+.itemsSection{
+	display: flex;
+	flex-wrap: wrap;
+}
+.itemContainer{
+	display: inline-block;
+	position: relative;
+	width: 272px;
+	height: 208px;
+	margin-bottom: 32px;
+	text-align: center;
+}
+.itemContainer:nth-of-type(1n){
+	margin-left: 16px;
+}
+.itemContainer:nth-of-type(2n){
+	margin-left: 24px;
+}
+.itemCounter{
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+.itemPrice{
+	display:flex;
+	justify-content: center;
+	align-items: center;
+	gap: 8px;
+	padding: 4px 0;
 }
