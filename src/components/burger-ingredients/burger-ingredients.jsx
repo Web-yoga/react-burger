@@ -71,7 +71,7 @@ function BurgerIngredients({ ingredients }) {
     		  </Tab>
     		</section>
 			<section className={styles.ingredientsList}>
-				<h2 className="text text_type_main-medium mt-10 mb-6">Булки</h2>
+				<h2 className="text text_type_main-medium mb-6">Булки</h2>
 				<IngredientsSection filter='bun' />
 				<h2 className="text text_type_main-medium mt-2 mb-6">Соусы</h2>
 				<IngredientsSection filter='sauce' />
