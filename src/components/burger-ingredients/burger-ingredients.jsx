@@ -93,9 +93,16 @@ function BurgerIngredients({ ingredients }) {
 				<h2 className="text text_type_main-medium mt-2 mb-6">Начинки</h2>
 				<IngredientsSection filter='main' />
 			</section>
-			<Modal header="Детали ингредиента" isOpen={isModalOpen} onClose={handleModalClose}>
-				<IngredientDetails ingredient={ingredientDetails}/>
-			</Modal>
+			{
+				isModalOpen &&
+				<Modal 
+					header="Детали ингредиента" 
+					isOpen={isModalOpen} 
+					onClose={handleModalClose}>
+					<IngredientDetails ingredient={ingredientDetails}/>
+				</Modal>
+			}
+			
 		</div>
 					
 	);

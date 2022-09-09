@@ -1,11 +1,28 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect } from "react";
 import { createPortal } from "react-dom";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import ModalOverlay from "../modal-overlay/modal-overlay";
 import styles from './modal.module.css';
 
+
 const modalRoot = document.getElementById('app-modal');
 
 function Modal({children, header, isOpen, onClose}){
+
+	const exitByEscape = (e) => {
+		if (e.key === "Escape") {
+			onClose();
+		}
+	} 
+
+	useEffect(() => {
+		document.body.addEventListener('keydown', exitByEscape, true);
+		return () => {
+			document.body.removeEventListener('keydown', exitByEscape, true);
+		}
+	}, []);
+
 	return (
 		isOpen && createPortal(
 			<div className={styles.root}>

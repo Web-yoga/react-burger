@@ -113,9 +113,16 @@ function BurgerConstructor ({ ingredients }) {
 				<span className="text text_type_digits-medium">{ total }</span>
 				<span className="pl-2 pr-10"><CurrencyIcon type="primary" /></span>
 				<Button type="primary" size="medium" onClick={onOrderModalOpen}> Оформить заказ </Button>
-				<Modal header="" isOpen={isModalOpen} onClose={handleModalClose}>
-					<OrderDetails/>
-				</Modal>
+				{
+					isModalOpen &&
+					<Modal 
+						header="" 
+						isOpen={isModalOpen} 
+						onClose={handleModalClose}>
+						<OrderDetails/>
+					</Modal>
+				}
+				
 			</section>
 		</div>
 	);
