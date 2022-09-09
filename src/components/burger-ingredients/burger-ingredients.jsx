@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import { CurrencyIcon, Tab, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
+import Modal from '../modal/modal';
+import IngredientDetails from './../ingredient-details/ingredient-details';
 
 import styles from './burger-ingredients.module.css';
+
 
 function BurgerIngredients({ ingredients }) {
 	const ingredient_counter = 0;
@@ -11,7 +14,17 @@ function BurgerIngredients({ ingredients }) {
 		MAIN: 'main'
 	};
 
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [ingredientDetails, setIngredientDetails] = useState();
 	const [current, setCurrent] = useState(INGREDIENT_TYPES.BUN)
+
+	const onModalClose = () => {
+		setIsModalOpen(false);
+	}
+	const onDetailsModalOpen = (ingredient) => {
+		setIngredientDetails(ingredient);
+		setIsModalOpen(true);
+	}
 
 	const IngredientsSection = ({ filter }) => {
 		return(
@@ -27,7 +40,9 @@ function BurgerIngredients({ ingredients }) {
 
 	const IngredientItem = ({ ingredient }) => {
 		return(
-			<li className={styles.itemContainer}>
+			<li 
+			className={styles.itemContainer} 
+			onClick={ () => {onDetailsModalOpen(ingredient)} }>
 				<div className={styles.itemCounter}>
 					{
 						ingredient_counter > 0 
@@ -78,7 +93,11 @@ function BurgerIngredients({ ingredients }) {
 				<h2 className="text text_type_main-medium mt-2 mb-6">Начинки</h2>
 				<IngredientsSection filter='main' />
 			</section>
+			<Modal header="Детали ингредиента" isOpen={isModalOpen} onClose={onModalClose}>
+				<IngredientDetails ingredient={ingredientDetails}/>
+			</Modal>
 		</div>
+					
 	);
 }
   

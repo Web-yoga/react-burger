@@ -1,0 +1,18 @@
+.container{
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: center;
+}
+.composition{
+	display: flex;
+	justify-content: space-between;
+	gap: 20px;
+}
+.compositionItem{
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: center;
+	color: var(--secondary-text);
+}
