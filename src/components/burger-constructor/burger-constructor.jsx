@@ -13,8 +13,8 @@ import styles from './burger-constructor.module.css';
 
 function BurgerConstructor ({ ingredients }) {
 
+	/* Test data */
 	const total = 100;
-
 	const 	ingredientBlocked =	[{
 		"_id":"60666c42cc7b410027a1a9b1",
 		"name":"Краторная булка N-200i",
@@ -30,14 +30,14 @@ function BurgerConstructor ({ ingredients }) {
 		"__v":0
 	 }];
 
-	 const [isModalOpen, setIsModalOpen] = useState(false);
+	const [isModalOpen, setIsModalOpen] = useState(false);
 
-	 const handleModalClose = () => {
-		 setIsModalOpen(false);
-	 }
-	 const onOrderModalOpen = () => {
-		 setIsModalOpen(true);
-	 }
+	const handleModalClose = () => {
+		setIsModalOpen(false);
+	}
+	const onOrderModalOpen = () => {
+		setIsModalOpen(true);
+	}
 
 	const IngredientItem = ({ ingredient, type, isLocked, draggable }) => {
 		return(
@@ -122,7 +122,6 @@ function BurgerConstructor ({ ingredients }) {
 						<OrderDetails/>
 					</Modal>
 				}
-				
 			</section>
 		</div>
 	);
@@ -143,6 +142,6 @@ BurgerConstructor.propTypes = {
 		image_large: PropTypes.string,
 		__v: PropTypes.number.isRequired,
 	})).isRequired,
- }
+}
   
 export default BurgerConstructor;
