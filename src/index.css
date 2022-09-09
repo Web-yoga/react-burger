@@ -40,3 +40,13 @@ li{
 .constructor-element{
 	max-width: 536px!important;
 }
+@media (max-width: 992px) {
+	.constructor-element{
+		max-width: 100%!important;
+	}
+}
+@media (max-width: 768px) {
+	.constructor-element__row{
+		flex-wrap: wrap;
+	}
+}

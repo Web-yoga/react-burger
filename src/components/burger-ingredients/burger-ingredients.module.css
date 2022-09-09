@@ -49,3 +49,34 @@
 	gap: 8px;
 	padding: 4px 0;
 }
+@media (max-width: 1270px) {
+	.container{
+		flex: 0 0 300px;
+	}
+}
+@media (max-width: 992px) {
+	.container{
+		margin-right: 0!important;
+		padding: 0 15px;
+	}
+	.ingredientsList{
+		flex: 1 0 300px;
+	}
+}
+@media (max-width: 768px) {
+	.itemContainer{
+		width: 100%;
+		margin:0;
+		margin-left: 0!important;
+	}
+}
+@media (max-width: 400px) {
+	.tabs{
+		flex-direction: column;
+		padding-bottom: 48px;
+	}
+	.itemContainer img{
+		margin: 0;
+		width: 100%;
+	}
+}
