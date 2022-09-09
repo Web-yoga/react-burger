@@ -1,9 +1,12 @@
+import { useState } from 'react';
 import { 
 	ConstructorElement,
 	Button, 
 	CurrencyIcon, 
 	DragIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
+import Modal from './../modal/modal';
+import OrderDetails from './../order-details/order-details';
 import PropTypes from 'prop-types';
 
 import styles from './burger-constructor.module.css';
@@ -26,6 +29,15 @@ function BurgerConstructor ({ ingredients }) {
 		"image_large":"https://code.s3.yandex.net/react/code/bun-02-large.png",
 		"__v":0
 	 }];
+
+	 const [isModalOpen, setIsModalOpen] = useState(false);
+
+	 const handleModalClose = () => {
+		 setIsModalOpen(false);
+	 }
+	 const onOrderModalOpen = () => {
+		 setIsModalOpen(true);
+	 }
 
 	const IngredientItem = ({ ingredient, type, isLocked, draggable }) => {
 		return(
@@ -100,7 +112,10 @@ function BurgerConstructor ({ ingredients }) {
 			<section className={styles.order}>
 				<span className="text text_type_digits-medium">{ total }</span>
 				<span className="pl-2 pr-10"><CurrencyIcon type="primary" /></span>
-				<Button type="primary" size="medium"> Оформить заказ </Button>
+				<Button type="primary" size="medium" onClick={onOrderModalOpen}> Оформить заказ </Button>
+				<Modal header="" isOpen={isModalOpen} onClose={handleModalClose}>
+					<OrderDetails/>
+				</Modal>
 			</section>
 		</div>
 	);

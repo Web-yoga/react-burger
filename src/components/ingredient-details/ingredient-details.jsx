@@ -1,7 +1,6 @@
 import styles from './ingredient-details.module.css';
 
 function IngredientDetails({ ingredient }){
-console.log(ingredient)
 	return(
 		<section className={styles.container}>
 			<img src={ingredient.image_large} alt={ingredient.name} className="mb-4"/>
