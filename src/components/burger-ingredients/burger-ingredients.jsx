@@ -44,15 +44,15 @@ function BurgerIngredients({ ingredients }) {
 			<section className={styles.ingredientsList}>
 				<BurgerIngredientsSection
 					ingredients = {ingredients}
-					filter='bun'
+					filter={INGREDIENT_TYPES.BUN}
 					title='Булки' />
 				<BurgerIngredientsSection
 					ingredients = {ingredients}
-					filter='sauce'
+					filter={INGREDIENT_TYPES.SAUCE}
 					title='Соусы' />
 				<BurgerIngredientsSection
 					ingredients = {ingredients}
-					filter='main'
+					filter={INGREDIENT_TYPES.MAIN}
 					title='Начинки' />
 			</section>
 		</div>

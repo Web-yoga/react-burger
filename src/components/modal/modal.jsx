@@ -3,6 +3,8 @@ import { useEffect } from "react";
 import { createPortal } from "react-dom";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import ModalOverlay from "../modal-overlay/modal-overlay";
+import config from '../../config/modalConfig';
+
 import PropTypes from 'prop-types';
 
 import styles from './modal.module.css';
@@ -13,7 +15,7 @@ const modalRoot = document.getElementById('app-modal');
 function Modal({children, header, onClose}){
 
 	const exitByEscape = (e) => {
-		if (e.key === "Escape") {
+		if (e.key === config.ESC_KEY) {
 			onClose();
 		}
 	} 

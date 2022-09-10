@@ -15,7 +15,7 @@ const BurgerIngredientsSection = ({ ingredients, filter, title }) => {
 				.filter( item => item.type === filter)
 				.map( (ingredient, i) => 
 				<BurgerIngredientsItem 
-				key={ ingredient._id + i} 
+				key={ingredient._id} 
 				ingredient={ingredient}
 				/> ) 
 				}

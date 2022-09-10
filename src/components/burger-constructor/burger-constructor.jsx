@@ -16,8 +16,8 @@ import styles from './burger-constructor.module.css';
 function BurgerConstructor ({ ingredients }) {
 
 	/* Test data */
-	const total = 100;
-	const 	bun = {
+	const TOTAL = 100;
+	const BUN = {
 		"_id":"60666c42cc7b410027a1a9b1",
 		"name":"Краторная булка N-200i",
 		"type":"bun",
@@ -46,7 +46,7 @@ function BurgerConstructor ({ ingredients }) {
 			<section className={styles.ingredientsBlockedTop}>
 				<ul className={styles.ingredientsList}>
 					<BurgerConstructorItem 
-					ingredient={bun}
+					ingredient={BUN}
 					type={'top'}
 					isLocked={true}
 					draggable={false}
@@ -71,7 +71,7 @@ function BurgerConstructor ({ ingredients }) {
 			<section className={styles.ingredientsBlockedBottom}>
 				<ul className={styles.ingredientsList}>
 					<BurgerConstructorItem 
-					ingredient={bun}
+					ingredient={BUN}
 					type={'bottom'}
 					isLocked={true}
 					draggable={false}
@@ -79,7 +79,7 @@ function BurgerConstructor ({ ingredients }) {
 				</ul>
 			</section>
 			<section className={styles.order}>
-				<span className="text text_type_digits-medium">{ total }</span>
+				<span className="text text_type_digits-medium">{ TOTAL }</span>
 				<span className="pl-2 pr-10"><CurrencyIcon type="primary" /></span>
 				<Button type="primary" size="medium" onClick={onOrderModalOpen}> Оформить заказ </Button>
 				{
