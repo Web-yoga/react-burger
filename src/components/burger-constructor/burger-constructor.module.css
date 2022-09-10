@@ -36,19 +36,6 @@
 .ingredientsList{
 	width:100%;
 }
-.itemContainer{
-	width: 100%;
-	display: flex;
-	position: relative;
-	justify-content: stretch;
-	align-items: center;
-	padding-bottom: 16px;
-}
-.itemDrag{
-	width: 24px;
-	height: 24px;
-	margin-right: 8px;
-}
 .order{
 	display: flex;
 	justify-content: flex-end;

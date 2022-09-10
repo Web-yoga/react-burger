@@ -19,37 +19,6 @@
 .ingredientsList::-webkit-scrollbar-track{
     margin-bottom: 50px;
 }
-.itemsSection{
-	display: flex;
-	flex-wrap: wrap;
-}
-.itemContainer{
-	display: inline-block;
-	position: relative;
-	width: 272px;
-	height: 208px;
-	margin-bottom: 32px;
-	text-align: center;
-	cursor: pointer;
-}
-.itemContainer:nth-of-type(1n){
-	margin-left: 16px;
-}
-.itemContainer:nth-of-type(2n){
-	margin-left: 24px;
-}
-.itemCounter{
-	position: absolute;
-	top: 0;
-	right: 0;
-}
-.itemPrice{
-	display:flex;
-	justify-content: center;
-	align-items: center;
-	gap: 8px;
-	padding: 4px 0;
-}
 @media (max-width: 1270px) {
 	.container{
 		flex: 0 0 300px;
@@ -64,20 +33,9 @@
 		flex: 1 0 300px;
 	}
 }
-@media (max-width: 768px) {
-	.itemContainer{
-		width: 100%;
-		margin:0;
-		margin-left: 0!important;
-	}
-}
 @media (max-width: 400px) {
 	.tabs{
 		flex-direction: column;
 		padding-bottom: 48px;
-	}
-	.itemContainer img{
-		margin: 0;
-		width: 100%;
 	}
 }

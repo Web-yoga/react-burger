@@ -1,15 +1,16 @@
 import { useState } from 'react';
 import { 
-	ConstructorElement,
 	Button, 
-	CurrencyIcon, 
-	DragIcon
+	CurrencyIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from './../modal/modal';
 import OrderDetails from './../order-details/order-details';
+import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item';
+
 import PropTypes from 'prop-types';
 
 import styles from './burger-constructor.module.css';
+
 
 function BurgerConstructor ({ ingredients }) {
 
@@ -39,26 +40,6 @@ function BurgerConstructor ({ ingredients }) {
 		setIsModalOpen(true);
 	}
 
-	const IngredientItem = ({ ingredient, type, isLocked, draggable }) => {
-		return(
-			<li className={styles.itemContainer}>
-				{ draggable
-				? <span  className={styles.itemDrag}><DragIcon type="primary" /></span>
-				: null
-				}
-
-				<ConstructorElement
-					type={type}
-					isLocked={isLocked}
-					handleClose={null}
-					text={ingredient.name}
-					thumbnail={ingredient.image}
-					price={ingredient.price}
-				/>
-			</li>
-		);
-	}
-
 	return (
 		<div className={styles.container}>
 			<section className={styles.ingredientsBlockedTop}>
@@ -66,7 +47,7 @@ function BurgerConstructor ({ ingredients }) {
 				{ingredientBlocked.map((ingredient, i) => {
 						
 						return (
-							<IngredientItem 
+							<BurgerConstructorItem 
 							key={i}
 							ingredient={ingredient}
 							type={'top'}
@@ -82,7 +63,7 @@ function BurgerConstructor ({ ingredients }) {
 					{ingredients.map((ingredient, i) => {
 						
 						return (
-							<IngredientItem 
+							<BurgerConstructorItem 
 							key={i}
 							ingredient={ingredient}
 							type={null}
@@ -98,7 +79,7 @@ function BurgerConstructor ({ ingredients }) {
 				{ingredientBlocked.map((ingredient, i) => {
 						
 						return (
-							<IngredientItem 
+							<BurgerConstructorItem 
 							key={i}
 							ingredient={ingredient}
 							type={'bottom'}
@@ -117,7 +98,6 @@ function BurgerConstructor ({ ingredients }) {
 					isModalOpen &&
 					<Modal 
 						header="" 
-						isOpen={isModalOpen} 
 						onClose={handleModalClose}>
 						<OrderDetails/>
 					</Modal>
