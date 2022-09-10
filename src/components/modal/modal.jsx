@@ -10,7 +10,7 @@ import styles from './modal.module.css';
 
 const modalRoot = document.getElementById('app-modal');
 
-function Modal({children, header, isOpen, onClose}){
+function Modal({children, header, onClose}){
 
 	const exitByEscape = (e) => {
 		if (e.key === "Escape") {
@@ -26,7 +26,7 @@ function Modal({children, header, isOpen, onClose}){
 	}, []);
 
 	return (
-		isOpen && createPortal(
+		createPortal(
 			<div className={styles.root}>
 				<div className={styles.modal}>
 					<section className={styles.header}>
@@ -48,7 +48,6 @@ function Modal({children, header, isOpen, onClose}){
 Modal.propTypes = {
 	children: PropTypes.element,
 	header: PropTypes.string, 
-	isOpen: PropTypes.bool.isRequired, 
 	onClose: PropTypes.func.isRequired,
 }
 
