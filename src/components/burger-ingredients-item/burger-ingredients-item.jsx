@@ -3,7 +3,7 @@ import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-c
 import Modal from './../modal/modal';
 import IngredientDetails from './../ingredient-details/ingredient-details';
 
-import PropTypes from 'prop-types';
+import { ingredientPropTypes } from '../../utils/prop-types';
 
 import styles from './burger-ingredients-item.module.css';
 
@@ -57,20 +57,7 @@ const BurgerIngredientsItem = ({ ingredient }) => {
 }
 
 BurgerIngredientsItem.propTypes = {
-	ingredient: PropTypes.shape({
-		_id: PropTypes.string.isRequired,
-		name: PropTypes.string.isRequired,
-		type: PropTypes.oneOf(["bun", "main", "sauce"]).isRequired,
-		proteins: PropTypes.number.isRequired,
-		fat: PropTypes.number.isRequired,
-		carbohydrates: PropTypes.number.isRequired,
-		calories: PropTypes.number.isRequired,
-		price: PropTypes.number.isRequired,
-		image: PropTypes.string,
-		image_mobile: PropTypes.string,
-		image_large: PropTypes.string,
-		__v: PropTypes.number.isRequired,
-	}).isRequired,
+	ingredient: ingredientPropTypes.isRequired
 }
 
 export default BurgerIngredientsItem;

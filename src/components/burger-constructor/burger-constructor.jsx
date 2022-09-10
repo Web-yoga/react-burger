@@ -8,6 +8,7 @@ import OrderDetails from './../order-details/order-details';
 import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item';
 
 import PropTypes from 'prop-types';
+import { ingredientPropTypes } from '../../utils/prop-types';
 
 import styles from './burger-constructor.module.css';
 
@@ -16,7 +17,7 @@ function BurgerConstructor ({ ingredients }) {
 
 	/* Test data */
 	const total = 100;
-	const 	ingredientBlocked =	[{
+	const 	bun = {
 		"_id":"60666c42cc7b410027a1a9b1",
 		"name":"Краторная булка N-200i",
 		"type":"bun",
@@ -29,7 +30,7 @@ function BurgerConstructor ({ ingredients }) {
 		"image_mobile":"https://code.s3.yandex.net/react/code/bun-02-mobile.png",
 		"image_large":"https://code.s3.yandex.net/react/code/bun-02-large.png",
 		"__v":0
-	 }];
+	 };
 
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -44,24 +45,17 @@ function BurgerConstructor ({ ingredients }) {
 		<div className={styles.container}>
 			<section className={styles.ingredientsBlockedTop}>
 				<ul className={styles.ingredientsList}>
-				{ingredientBlocked.map((ingredient, i) => {
-						
-						return (
-							<BurgerConstructorItem 
-							key={i}
-							ingredient={ingredient}
-							type={'top'}
-							isLocked={true}
-							draggable={false}
-							/>
-						)
-					} )}
+					<BurgerConstructorItem 
+					ingredient={bun}
+					type={'top'}
+					isLocked={true}
+					draggable={false}
+					/>
 				</ul>
 			</section>
 			<section className={styles.ingredientsSection}>
 				<ul className={styles.ingredientsList}>
 					{ingredients.map((ingredient, i) => {
-						
 						return (
 							<BurgerConstructorItem 
 							key={i}
@@ -76,18 +70,12 @@ function BurgerConstructor ({ ingredients }) {
     		</section>
 			<section className={styles.ingredientsBlockedBottom}>
 				<ul className={styles.ingredientsList}>
-				{ingredientBlocked.map((ingredient, i) => {
-						
-						return (
-							<BurgerConstructorItem 
-							key={i}
-							ingredient={ingredient}
-							type={'bottom'}
-							isLocked={true}
-							draggable={false}
-							/>
-						)
-					} )}
+					<BurgerConstructorItem 
+					ingredient={bun}
+					type={'bottom'}
+					isLocked={true}
+					draggable={false}
+					/>
 				</ul>
 			</section>
 			<section className={styles.order}>
@@ -108,20 +96,7 @@ function BurgerConstructor ({ ingredients }) {
 }
 
 BurgerConstructor.propTypes = {
-	ingredients: PropTypes.arrayOf(PropTypes.shape({
-		_id: PropTypes.string.isRequired,
-		name: PropTypes.string.isRequired,
-		type: PropTypes.oneOf(["bun", "main", "sauce"]).isRequired,
-		proteins: PropTypes.number.isRequired,
-		fat: PropTypes.number.isRequired,
-		carbohydrates: PropTypes.number.isRequired,
-		calories: PropTypes.number.isRequired,
-		price: PropTypes.number.isRequired,
-		image: PropTypes.string,
-		image_mobile: PropTypes.string,
-		image_large: PropTypes.string,
-		__v: PropTypes.number.isRequired,
-	})).isRequired,
+	ingredients: PropTypes.arrayOf(ingredientPropTypes).isRequired,
 }
   
 export default BurgerConstructor;
