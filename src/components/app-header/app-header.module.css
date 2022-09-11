@@ -1,0 +1,48 @@
+.header{
+	width: 100%;
+	background-color: var(--modal-bg-color);
+}
+.menu{
+	display: flex;
+    flex-direction: row;
+	justify-content: center;
+    align-items: center;
+}
+.menu svg{
+	margin-left: auto;
+	margin-right: auto;
+}
+.btn{
+	display: flex;
+	align-items: center;
+	border-radius: 40px;
+	text-decoration: none;
+	color: var(--secondary-text);
+}
+.btn.active{
+	color: var(--primary-light);
+}
+.btn:nth-of-type(1){
+	margin-left: -20px;
+}
+.btn:nth-last-of-type(1){
+	margin-left: auto;
+	margin-right: -20px;
+}
+@media (max-width: 1280px) {
+	.btn:nth-of-type(1){
+		margin-left: 0;
+	}
+	.btn:nth-last-of-type(1){
+		margin-right: 0;
+	}
+}
+@media (max-width: 768px) {
+	.menu{
+		flex-direction: column;
+		justify-content: flex-start;
+	}
+	.btn:nth-last-of-type(1){
+		margin-right: auto;
+	}
+}

@@ -1,0 +1,41 @@
+.container{
+	flex: 0 0 600px;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: stretch;
+}
+.tabs{
+	display: flex;
+	padding-bottom: 48px;
+}
+.tabs>div{
+	flex-grow: 1;
+}
+.ingredientsList{
+	flex: 1 0 100px;
+	overflow-y: auto;
+}
+.ingredientsList::-webkit-scrollbar-track{
+    margin-bottom: 50px;
+}
+@media (max-width: 1270px) {
+	.container{
+		flex: 0 0 300px;
+	}
+}
+@media (max-width: 992px) {
+	.container{
+		margin-right: 0!important;
+		padding: 0 15px;
+	}
+	.ingredientsList{
+		flex: 1 0 300px;
+	}
+}
+@media (max-width: 400px) {
+	.tabs{
+		flex-direction: column;
+		padding-bottom: 48px;
+	}
+}
