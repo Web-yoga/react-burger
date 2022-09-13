@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { 
 	Button, 
 	CurrencyIcon
@@ -6,31 +6,17 @@ import {
 import Modal from './../modal/modal';
 import OrderDetails from './../order-details/order-details';
 import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item';
-
-import PropTypes from 'prop-types';
-import { ingredientPropTypes } from '../../utils/prop-types';
+import { IngredientsContext } from '../../services/appContext';
 
 import styles from './burger-constructor.module.css';
 
+function BurgerConstructor () {
 
-function BurgerConstructor ({ ingredients }) {
+	const { ingredientsConstructor } = useContext(IngredientsContext);
+	const { bun, ingredients } = ingredientsConstructor;
 
 	/* Test data */
 	const TOTAL = 100;
-	const BUN = {
-		"_id":"60666c42cc7b410027a1a9b1",
-		"name":"Краторная булка N-200i",
-		"type":"bun",
-		"proteins":80,
-		"fat":24,
-		"carbohydrates":53,
-		"calories":420,
-		"price":1255,
-		"image":"https://code.s3.yandex.net/react/code/bun-02.png",
-		"image_mobile":"https://code.s3.yandex.net/react/code/bun-02-mobile.png",
-		"image_large":"https://code.s3.yandex.net/react/code/bun-02-large.png",
-		"__v":0
-	 };
 
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -45,24 +31,30 @@ function BurgerConstructor ({ ingredients }) {
 		<div className={styles.container}>
 			<section className={styles.ingredientsBlockedTop}>
 				<ul className={styles.ingredientsList}>
-					<BurgerConstructorItem 
-					ingredient={BUN}
-					type={'top'}
-					isLocked={true}
-					draggable={false}
-					/>
+					{
+						bun &&
+						<BurgerConstructorItem 
+							ingredient={bun}
+							type={'top'}
+							isLocked={true}
+							draggable={false}
+						/>
+					}
+					
 				</ul>
 			</section>
 			<section className={styles.ingredientsSection}>
 				<ul className={styles.ingredientsList}>
-					{ingredients.map((ingredient, i) => {
+					{
+					ingredients &&
+					ingredients.map((ingredient, i) => {
 						return (
 							<BurgerConstructorItem 
-							key={i}
-							ingredient={ingredient}
-							type={null}
-							isLocked={false}
-							draggable={true}
+								key={i}
+								ingredient={ingredient}
+								type={null}
+								isLocked={false}
+								draggable={true}
 							/>
 						)
 					} )}
@@ -70,12 +62,16 @@ function BurgerConstructor ({ ingredients }) {
     		</section>
 			<section className={styles.ingredientsBlockedBottom}>
 				<ul className={styles.ingredientsList}>
-					<BurgerConstructorItem 
-					ingredient={BUN}
-					type={'bottom'}
-					isLocked={true}
-					draggable={false}
+					{
+						bun &&
+						<BurgerConstructorItem 
+						ingredient={bun}
+						type={'bottom'}
+						isLocked={true}
+						draggable={false}
 					/>
+					}
+					
 				</ul>
 			</section>
 			<section className={styles.order}>
@@ -93,10 +89,6 @@ function BurgerConstructor ({ ingredients }) {
 			</section>
 		</div>
 	);
-}
-
-BurgerConstructor.propTypes = {
-	ingredients: PropTypes.arrayOf(ingredientPropTypes).isRequired,
 }
   
 export default BurgerConstructor;

@@ -19,6 +19,7 @@ function useFetch(request){
 				setError(false);
 			})
 			.catch(error => {
+				console.log('Fetch Error:');
 				console.log(error);
 				setError(true);
 			})
