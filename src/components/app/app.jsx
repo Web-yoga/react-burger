@@ -6,6 +6,7 @@ import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 
 import { useFetch } from '../../hooks/use-fetch';
 import api from '../../utils/burger-api';
+
 import { IngredientsContext } from '../../services/appContext';
 
 import styles from './app.module.css';
@@ -14,11 +15,13 @@ function App() {
 	const [ingredientsConstructor, setIngredientsConstructor] = useState({bun:null, ingredients:null });
 
 	const { 
-		data: ingredients, 
+		data, 
 		loading, 
 		error, 
 		execute: executeIngredients 
 	} = useFetch(api.getIngredients);
+
+	const ingredients = data ? data.data : null;
 
 	useEffect(()=>{
 		executeIngredients();

@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useMemo, useReducer } from 'react';
 import { 
 	Button, 
 	CurrencyIcon
@@ -6,25 +6,47 @@ import {
 import Modal from './../modal/modal';
 import OrderDetails from './../order-details/order-details';
 import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item';
+
 import { IngredientsContext } from '../../services/appContext';
 
 import styles from './burger-constructor.module.css';
+
+const initialTotalPrice = {count: 0};
+
+function totalPriceReducer (state, action){
+	switch (action.type){
+		case "count":
+			const {bun, ingredients} = action.payload;
+			let total = bun ? bun.price*2 : 0;
+			if(ingredients && ingredients.length){
+				total = ingredients.reduce((prev, curr) => {
+						return { price: prev.price + curr.price}},
+					{price: total})['price'];
+			}
+			return {count: total}
+		default:
+			throw new Error(`Wrong type of action: ${action.type}`)
+	}
+}
 
 function BurgerConstructor () {
 
 	const { ingredientsConstructor } = useContext(IngredientsContext);
 	const { bun, ingredients } = ingredientsConstructor;
 
-	/* Test data */
-	const TOTAL = 100;
+	const [totalPrice, dispatchTotalPrice] = useReducer(totalPriceReducer, initialTotalPrice)
 
-	const [isModalOpen, setIsModalOpen] = useState(false);
+	useMemo( () => {
+		dispatchTotalPrice({type: "count", payload:{ bun, ingredients }});
+	}, [ bun, ingredients ]); 
 
-	const handleModalClose = () => {
-		setIsModalOpen(false);
+	const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
+
+	const handleOrderClose = () => {
+		setIsOrderModalOpen(false);
 	}
-	const onOrderModalOpen = () => {
-		setIsModalOpen(true);
+	const handleOrderOpen = () => {
+		setIsOrderModalOpen(true);
 	}
 
 	return (
@@ -75,14 +97,14 @@ function BurgerConstructor () {
 				</ul>
 			</section>
 			<section className={styles.order}>
-				<span className="text text_type_digits-medium">{ TOTAL }</span>
+				<span className="text text_type_digits-medium">{ totalPrice.count }</span>
 				<span className="pl-2 pr-10"><CurrencyIcon type="primary" /></span>
-				<Button type="primary" size="medium" onClick={onOrderModalOpen}> Оформить заказ </Button>
+				<Button type="primary" size="medium" onClick={handleOrderOpen}> Оформить заказ </Button>
 				{
-					isModalOpen &&
+					isOrderModalOpen &&
 					<Modal 
 						header="" 
-						onClose={handleModalClose}>
+						onClose={handleOrderClose}>
 						<OrderDetails/>
 					</Modal>
 				}

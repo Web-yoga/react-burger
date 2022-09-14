@@ -9,13 +9,14 @@ function useFetch(request){
 		return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 	  };
 
-	function execute(){
+	function execute(data){
+		let options = {...request.options, body: JSON.stringify(data)}
 			setLoading(true);
 			setError(false);
-			fetch(request.url, request.options)
+			fetch(request.url, options)
 			.then(checkReponse)
 			.then(res => {
-				setData(res.data);
+				setData(res);
 				setError(false);
 			})
 			.catch(error => {
