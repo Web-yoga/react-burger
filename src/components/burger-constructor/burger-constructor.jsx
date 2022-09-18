@@ -1,4 +1,4 @@
-import { useContext, useState, useMemo, useReducer } from 'react';
+import { useContext, useState } from 'react';
 import { 
 	Button, 
 	CurrencyIcon
@@ -7,45 +7,32 @@ import Modal from './../modal/modal';
 import OrderDetails from './../order-details/order-details';
 import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item';
 
-import { IngredientsContext } from '../../services/appContext';
+import { useFetch } from '../../hooks/use-fetch';
+import api from '../../utils/burger-api';
+
+import { BurgerConstructorContext, BurgerOrderContext } from '../../services/appContext';
 
 import styles from './burger-constructor.module.css';
 
-const initialTotalPrice = {count: 0};
-
-function totalPriceReducer (state, action){
-	switch (action.type){
-		case "count":
-			const {bun, ingredients} = action.payload;
-			let total = bun ? bun.price*2 : 0;
-			if(ingredients && ingredients.length){
-				total = ingredients.reduce((prev, curr) => {
-						return { price: prev.price + curr.price}},
-					{price: total})['price'];
-			}
-			return {count: total}
-		default:
-			throw new Error(`Wrong type of action: ${action.type}`)
-	}
-}
-
 function BurgerConstructor () {
 
-	const { ingredientsConstructor } = useContext(IngredientsContext);
-	const { bun, ingredients } = ingredientsConstructor;
-
-	const [totalPrice, dispatchTotalPrice] = useReducer(totalPriceReducer, initialTotalPrice)
-
-	useMemo( () => {
-		dispatchTotalPrice({type: "count", payload:{ bun, ingredients }});
-	}, [ bun, ingredients ]); 
-
+	const { ingredientsConstructor} = useContext(BurgerConstructorContext);
+	const { bun, ingredients, totalPrice } = ingredientsConstructor;
 	const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
+
+	const { 
+		data: order, 
+		loading, 
+		error, 
+		execute: executeOrder
+	} = useFetch(api.postOrder);
 
 	const handleOrderClose = () => {
 		setIsOrderModalOpen(false);
 	}
 	const handleOrderOpen = () => {
+		const ingredientIds = ingredients.map((item) => item._id);
+		executeOrder({ingredients: [ bun._id, ...ingredientIds, bun._id]});
 		setIsOrderModalOpen(true);
 	}
 
@@ -72,7 +59,7 @@ function BurgerConstructor () {
 					ingredients.map((ingredient, i) => {
 						return (
 							<BurgerConstructorItem 
-								key={i}
+								key={ingredient.unique_key_id}
 								ingredient={ingredient}
 								type={null}
 								isLocked={false}
@@ -97,17 +84,24 @@ function BurgerConstructor () {
 				</ul>
 			</section>
 			<section className={styles.order}>
-				<span className="text text_type_digits-medium">{ totalPrice.count }</span>
+				<span className="text text_type_digits-medium">{ totalPrice }</span>
 				<span className="pl-2 pr-10"><CurrencyIcon type="primary" /></span>
-				<Button type="primary" size="medium" onClick={handleOrderOpen}> Оформить заказ </Button>
+				<Button type="primary" size="medium" onClick={handleOrderOpen}>
+					{ loading ? "Загрузка" : "Оформить заказ" }
+				</Button>
 				{
-					isOrderModalOpen &&
+					error && <p>Произошла ошибка при отправке заказа.</p>
+				}
+				<BurgerOrderContext.Provider value={order} >
+				{
+					isOrderModalOpen && !loading &&
 					<Modal 
 						header="" 
 						onClose={handleOrderClose}>
 						<OrderDetails/>
 					</Modal>
 				}
+				</BurgerOrderContext.Provider>
 			</section>
 		</div>
 	);
