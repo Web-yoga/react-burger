@@ -6,6 +6,11 @@ import { ingredientPropTypes } from '../../utils/prop-types';
 import styles from './burger-constructor-item.module.css';
 
 const BurgerConstructorItem = ({ ingredient, type, isLocked, draggable }) => {
+
+	let name = ingredient.name;
+	if(type === 'top')  name += ' (верх)';
+	if(type === 'bottom')  name += ' (низ)';
+
 	return(
 		<li className={styles.container}>
 			{ 
@@ -16,7 +21,7 @@ const BurgerConstructorItem = ({ ingredient, type, isLocked, draggable }) => {
 			<ConstructorElement
 				type={type}
 				isLocked={isLocked}
-				text={ingredient.name}
+				text={name}
 				thumbnail={ingredient.image}
 				price={ingredient.price}
 			/>
