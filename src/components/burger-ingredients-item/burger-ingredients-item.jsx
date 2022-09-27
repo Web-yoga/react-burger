@@ -2,25 +2,38 @@ import { useState } from 'react';
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from './../modal/modal';
 import IngredientDetails from './../ingredient-details/ingredient-details';
+import { useSelector, useDispatch } from 'react-redux';
+import { SET_CURRENT_INGEDIENT, UNSET_CURRENT_INGEDIENT } from '../../services/actions/current-ingredient';
 
 import { ingredientPropTypes } from '../../utils/prop-types';
 
 import styles from './burger-ingredients-item.module.css';
 
-
-
-
 const BurgerIngredientsItem = ({ ingredient }) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
+	const { constructorIngredients } = useSelector(state => ({
+		constructorIngredients: state.constructorIngredients.ingredients
+	}));
 
-	/* TEST DATA */
-	const ingredient_counter = null;
+	const dispatch = useDispatch();
+
+	let ingredientCount = constructorIngredients.filter(item => item._id === ingredient._id).length;
+	if(ingredient.type === 'bun'){
+		ingredientCount = 2 * ingredientCount;
+	}
 
 	const handleModalClose = () => {
 		setIsModalOpen(false);
+		dispatch({
+			type: UNSET_CURRENT_INGEDIENT
+		});
 	}
 
 	const handleModalOpen = () =>{
+		dispatch({
+			type: SET_CURRENT_INGEDIENT,
+			payload: ingredient
+		});
 		setIsModalOpen(true);
 	}
 
@@ -31,8 +44,8 @@ const BurgerIngredientsItem = ({ ingredient }) => {
 			onClick={handleModalOpen}>
 				<div className={styles.counter}>
 					{
-						ingredient_counter && 
-						<Counter count={ingredient_counter} size="default" />
+						ingredientCount > 0 &&
+						<Counter count={ingredientCount} size="default" />
 					}
 				</div>
 				<img src={ingredient.image} alt={ingredient.name} className="ml-4 mr-4 mb-1"/>
@@ -49,7 +62,7 @@ const BurgerIngredientsItem = ({ ingredient }) => {
 				<Modal 
 					header="Детали ингредиента" 
 					onClose={handleModalClose}>
-					<IngredientDetails ingredient={ingredient}/>
+					<IngredientDetails/>
 				</Modal>
 			}
 		</>

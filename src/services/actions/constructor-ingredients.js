@@ -1,0 +1,2 @@
+export const ADD_INGEDIENT = 'ADD_INGEDIENT';
+export const REMOVE_INGEDIENT = 'REMOVE_INGEDIENT';

@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { 
 	Button, 
 	CurrencyIcon
@@ -7,32 +7,38 @@ import Modal from './../modal/modal';
 import OrderDetails from './../order-details/order-details';
 import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item';
 
-import { useFetch } from '../../hooks/use-fetch';
-import api from '../../utils/burger-api';
 
-import { BurgerConstructorContext, BurgerOrderContext } from '../../services/appContext';
+import { useSelector, useDispatch } from 'react-redux';
+import { sendOrder } from '../../services/actions/order';
 
 import styles from './burger-constructor.module.css';
 
 function BurgerConstructor () {
 
-	const { ingredientsConstructor} = useContext(BurgerConstructorContext);
-	const { bun, ingredients, totalPrice } = ingredientsConstructor;
-	const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
-
-	const { 
-		data: order, 
+	const {
+		ingredients, 
+		totalPrice, 
 		loading, 
-		error, 
-		execute: executeOrder
-	} = useFetch(api.postOrder);
+		error
+	} = useSelector(state => ({
+		ingredients: state.constructorIngredients.ingredients,
+		totalPrice: state.constructorIngredients.totalPrice,
+		loading: state.order.loading,
+		error: state.order.error
+	}));
+	const dispatch = useDispatch();
+	const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
+	
+	const bun = ingredients.find(item => item.type === 'bun');
+	const ingredientsNoBun = ingredients.filter(item => item.type !== 'bun');
+
 
 	const handleOrderClose = () => {
 		setIsOrderModalOpen(false);
 	}
 	const handleOrderOpen = () => {
-		const ingredientIds = ingredients.map((item) => item._id);
-		executeOrder({ingredients: [ bun._id, ...ingredientIds, bun._id]});
+		const ingredientIds = ingredientsNoBun.map((item) => item._id);
+		dispatch(sendOrder({ingredients: [ bun._id, ...ingredientIds, bun._id]}));
 		setIsOrderModalOpen(true);
 	}
 
@@ -55,8 +61,8 @@ function BurgerConstructor () {
 			<section className={styles.ingredientsSection}>
 				<ul className={styles.ingredientsList}>
 					{
-					ingredients &&
-					ingredients.map((ingredient, i) => {
+					ingredientsNoBun &&
+					ingredientsNoBun.map((ingredient, i) => {
 						return (
 							<BurgerConstructorItem 
 								key={ingredient.unique_key_id}
@@ -92,7 +98,7 @@ function BurgerConstructor () {
 				{
 					error && <p>Произошла ошибка при отправке заказа.</p>
 				}
-				<BurgerOrderContext.Provider value={order} >
+
 				{
 					isOrderModalOpen && !loading &&
 					<Modal 
@@ -101,7 +107,7 @@ function BurgerConstructor () {
 						<OrderDetails/>
 					</Modal>
 				}
-				</BurgerOrderContext.Provider>
+
 			</section>
 		</div>
 	);

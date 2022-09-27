@@ -1,14 +1,11 @@
 import { useState } from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerIngredientsSection from '../burger-ingredients-section/burger-ingredients-section';
-
-import PropTypes from 'prop-types';
-import { ingredientPropTypes } from '../../utils/prop-types';
+import { useSelector } from 'react-redux';
 
 import styles from './burger-ingredients.module.css';
 
-
-function BurgerIngredients({ ingredients }) {
+function BurgerIngredients() {
 	
 	const INGREDIENT_TYPES = {
 		BUN: 'bun', 
@@ -17,6 +14,8 @@ function BurgerIngredients({ ingredients }) {
 	};
 
 	const [current, setCurrent] = useState(INGREDIENT_TYPES.BUN)
+
+	const {ingredients, loading, error} = useSelector(state => state.ingredients);
 
 	return (
 		<div className={ `${styles.container} mr-10` }>
@@ -42,6 +41,12 @@ function BurgerIngredients({ ingredients }) {
     		  </Tab>
     		</section>
 			<section className={styles.ingredientsList}>
+				{ loading && <p>Loading!</p> }
+				{ error && <p>Error!</p> }
+				{ 
+				ingredients && ingredients.length > 0 
+				&& 
+				<>
 				<BurgerIngredientsSection
 					ingredients = {ingredients}
 					filter={INGREDIENT_TYPES.BUN}
@@ -53,15 +58,14 @@ function BurgerIngredients({ ingredients }) {
 				<BurgerIngredientsSection
 					ingredients = {ingredients}
 					filter={INGREDIENT_TYPES.MAIN}
-					title='Начинки' />
+					title='Начинки' />	
+				</>
+				}
+
 			</section>
 		</div>
 					
 	);
-}
-
-BurgerIngredients.propTypes = {
-	ingredients: PropTypes.arrayOf(ingredientPropTypes).isRequired,
 }
   
 export default BurgerIngredients;
