@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { 
 	Button, 
 	CurrencyIcon
@@ -11,7 +11,7 @@ import { useDrop } from "react-dnd";
 
 import { useSelector, useDispatch } from 'react-redux';
 import { sendOrder } from '../../services/actions/order';
-import { ADD_INGEDIENT } from './../../services/actions/constructor-ingredients';
+import { ADD_INGEDIENT, SORT_INGEDIENT } from './../../services/actions/constructor-ingredients';
 
 import styles from './burger-constructor.module.css';
 
@@ -51,6 +51,16 @@ function BurgerConstructor () {
 		});
 	}
 
+	const handleSortIngredient = useCallback((dragIndex, hoverIndex) => {
+		dispatch({
+			type: SORT_INGEDIENT,
+			payload: {
+				dragIndex,
+				hoverIndex
+			}
+		});
+	}, [dispatch]);
+
 
 	const handleOrderClose = () => {
 		setIsOrderModalOpen(false);
@@ -61,7 +71,7 @@ function BurgerConstructor () {
 		setIsOrderModalOpen(true);
 	}
 
-	const outline = isHover ? "#000 dashed 3px" : 'inherit'
+	const outline = isHover ? "#2f2f37 dashed 3px" : 'inherit'
 
 	return (
 		<div 
@@ -95,9 +105,11 @@ function BurgerConstructor () {
 							<BurgerConstructorItem 
 								key={ingredient.unique_key_id}
 								ingredient={ingredient}
+								index={i}
 								type={null}
 								isLocked={false}
 								draggable={true}
+								handleSortIngredient={handleSortIngredient}
 							/>
 						)
 					} )}

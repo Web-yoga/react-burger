@@ -40,6 +40,9 @@ li{
 .constructor-element{
 	max-width: 536px!important;
 }
+.draggable{
+	cursor:move;
+}
 @media (max-width: 992px) {
 	.constructor-element{
 		max-width: 100%!important;

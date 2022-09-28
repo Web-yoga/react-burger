@@ -1,7 +1,8 @@
 import addUniqueKeyIds from '../../utils/unique-key-generator';
 import { 
 	ADD_INGEDIENT,
-	REMOVE_INGEDIENT
+	REMOVE_INGEDIENT,
+	SORT_INGEDIENT
 } from './../actions/constructor-ingredients';
 
 const initialState = { 
@@ -47,6 +48,19 @@ export const constructorIngredientsReducer = (state = initialState, action) =>{
 				...state,
 				ingredients: newIngredients,
 				totalPrice: countTotalPrice(newIngredients)
+			}
+		}
+
+		case SORT_INGEDIENT: {
+
+			let newIngredients = [ ...state.ingredients];
+			let temp = newIngredients[action.payload.hoverIndex];
+			newIngredients[action.payload.hoverIndex] = newIngredients[action.payload.dragIndex];
+			newIngredients[action.payload.dragIndex] = temp;
+
+			return {
+				...state,
+				ingredients: newIngredients
 			}
 		}
 		
