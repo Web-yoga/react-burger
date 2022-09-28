@@ -6,10 +6,12 @@ import {
 import Modal from './../modal/modal';
 import OrderDetails from './../order-details/order-details';
 import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item';
+import { useDrop } from "react-dnd";
 
 
 import { useSelector, useDispatch } from 'react-redux';
 import { sendOrder } from '../../services/actions/order';
+import { ADD_INGEDIENT } from './../../services/actions/constructor-ingredients';
 
 import styles from './burger-constructor.module.css';
 
@@ -32,6 +34,23 @@ function BurgerConstructor () {
 	const bun = ingredients.find(item => item.type === 'bun');
 	const ingredientsNoBun = ingredients.filter(item => item.type !== 'bun');
 
+	const [{isHover}, dropTarget] = useDrop({
+		accept: 'ingredient',
+		drop(ingredient){
+			handleDrop(ingredient);
+		},
+		collect: monitor => ({
+			isHover: monitor.isOver(),
+		})
+	})
+
+	const handleDrop = (ingredient) => {
+		dispatch({
+			type: ADD_INGEDIENT,
+			payload: ingredient
+		});
+	}
+
 
 	const handleOrderClose = () => {
 		setIsOrderModalOpen(false);
@@ -42,8 +61,14 @@ function BurgerConstructor () {
 		setIsOrderModalOpen(true);
 	}
 
+	const outline = isHover ? "#000 dashed 3px" : 'inherit'
+
 	return (
-		<div className={styles.container}>
+		<div 
+
+		className={styles.container}
+
+		>
 			<section className={styles.ingredientsBlockedTop}>
 				<ul className={styles.ingredientsList}>
 					{
@@ -58,7 +83,10 @@ function BurgerConstructor () {
 					
 				</ul>
 			</section>
-			<section className={styles.ingredientsSection}>
+			<section 
+					ref={dropTarget}
+					style={{outline}}
+			className={styles.ingredientsSection}>
 				<ul className={styles.ingredientsList}>
 					{
 					ingredientsNoBun &&

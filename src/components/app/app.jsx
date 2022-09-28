@@ -1,5 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from 'react';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import AppHeader from '../app-header/app-header';
 import BurgerConstructor from './../burger-constructor/burger-constructor';
@@ -18,28 +20,14 @@ function App() {
 		dispatch(getIngredients());
 	}, [])
 
-
-/*
-	useEffect(()=>{
-		if(ingredients){
-			const bun = addUniqueKeyIds(ingredients.find(item => item.type === 'bun'));
-			const others = addUniqueKeyIds(ingredients.filter(item => item.type !== 'bun'));
-			const total = bun ? bun.price*2 : 0;
-			
-			const totalPrice = ingredients.reduce((prev, curr) => {
-						return { price: prev.price + curr.price}},
-					{price: total})['price'];
-			
-			setIngredientsConstructor({ bun, ingredients:others, totalPrice });
-		}
-	}, [ingredients]);
-*/
 	return (
 		<div className={ styles.app }>
 			<AppHeader/>
 			<main className={ `${styles.content} container` }>
-				<BurgerIngredients/> 
-				<BurgerConstructor/> 
+				<DndProvider backend={HTML5Backend}>
+					<BurgerIngredients/> 
+					<BurgerConstructor/> 
+				</DndProvider>
 			</main>
 		</div>
 	);

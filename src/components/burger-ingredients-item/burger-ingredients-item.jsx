@@ -1,8 +1,10 @@
 import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useDrag } from "react-dnd";
+
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from './../modal/modal';
 import IngredientDetails from './../ingredient-details/ingredient-details';
-import { useSelector, useDispatch } from 'react-redux';
 import { SET_CURRENT_INGEDIENT, UNSET_CURRENT_INGEDIENT } from '../../services/actions/current-ingredient';
 
 import { ingredientPropTypes } from '../../utils/prop-types';
@@ -14,6 +16,13 @@ const BurgerIngredientsItem = ({ ingredient }) => {
 	const { constructorIngredients } = useSelector(state => ({
 		constructorIngredients: state.constructorIngredients.ingredients
 	}));
+	const [ { opacity }, dragRef] = useDrag({
+		type: "ingredient",
+		item: ingredient,
+		collect: (monitor) => ({
+			opacity: monitor.isDragging() ? 0.4 : 1,
+		}),
+	})
 
 	const dispatch = useDispatch();
 
@@ -40,9 +49,11 @@ const BurgerIngredientsItem = ({ ingredient }) => {
 	return(
 		<>
 			<li 
+			ref={dragRef}
+			style={{opacity}}
 			className={styles.container} 
 			onClick={handleModalOpen}>
-				<div className={styles.counter}>
+				<div draggable={false} className={styles.counter}>
 					{
 						ingredientCount > 0 &&
 						<Counter count={ingredientCount} size="default" />
