@@ -75,11 +75,7 @@ function BurgerConstructor () {
 	const outline = isHover ? "#2f2f37 dashed 3px" : 'inherit'
 
 	return (
-		<div 
-
-		className={styles.container}
-
-		>
+		<div className={styles.container}>
 			<section className={styles.ingredientsBlockedTop}>
 				<ul className={styles.ingredientsList}>
 					{
@@ -91,13 +87,12 @@ function BurgerConstructor () {
 							draggable={false}
 						/>
 					}
-					
 				</ul>
 			</section>
 			<section 
-					ref={dropTarget}
-					style={{outline}}
-			className={styles.ingredientsSection}>
+				ref={dropTarget}
+				style={{outline}}
+				className={styles.ingredientsSection}>
 				<ul className={styles.ingredientsList}>
 					{
 					ingredientsNoBun &&
@@ -127,7 +122,6 @@ function BurgerConstructor () {
 						draggable={false}
 					/>
 					}
-					
 				</ul>
 			</section>
 			<section className={styles.order}>

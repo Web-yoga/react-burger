@@ -103,6 +103,7 @@ BurgerConstructorItem.propTypes = {
 	type: PropTypes.string, 
 	isLocked: PropTypes.bool.isRequired, 
 	draggable: PropTypes.bool.isRequired,
+	handleSortIngredient: PropTypes.func,
 }
 
 export default BurgerConstructorItem;
