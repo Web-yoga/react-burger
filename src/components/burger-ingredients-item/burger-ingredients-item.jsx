@@ -6,6 +6,7 @@ import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-c
 import Modal from './../modal/modal';
 import IngredientDetails from './../ingredient-details/ingredient-details';
 import { SET_CURRENT_INGEDIENT, UNSET_CURRENT_INGEDIENT } from '../../services/actions/current-ingredient';
+import { DND_TYPES } from '../../constants';
 
 import { ingredientPropTypes } from '../../utils/prop-types';
 
@@ -17,7 +18,7 @@ const BurgerIngredientsItem = ({ ingredient }) => {
 		constructorIngredients: state.constructorIngredients.ingredients
 	}));
 	const [ { opacity }, dragRef] = useDrag({
-		type: "ingredient",
+		type: DND_TYPES.INGREDIENT,
 		item: ingredient,
 		collect: (monitor) => ({
 			opacity: monitor.isDragging() ? 0.4 : 1,

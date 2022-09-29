@@ -12,6 +12,7 @@ import { useDrop } from "react-dnd";
 import { useSelector, useDispatch } from 'react-redux';
 import { sendOrder } from '../../services/actions/order';
 import { ADD_INGEDIENT, SORT_INGEDIENT } from './../../services/actions/constructor-ingredients';
+import { DND_TYPES } from '../../constants';
 
 import styles from './burger-constructor.module.css';
 
@@ -35,7 +36,7 @@ function BurgerConstructor () {
 	const ingredientsNoBun = ingredients.filter(item => item.type !== 'bun');
 
 	const [{isHover}, dropTarget] = useDrop({
-		accept: 'ingredient',
+		accept: DND_TYPES.INGREDIENT,
 		drop(ingredient){
 			handleDrop(ingredient);
 		},

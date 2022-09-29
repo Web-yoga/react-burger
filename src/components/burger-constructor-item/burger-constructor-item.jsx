@@ -3,6 +3,7 @@ import { useDrag, useDrop } from 'react-dnd';
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useSelector, useDispatch } from 'react-redux';
 import { REMOVE_INGEDIENT } from "../../services/actions/constructor-ingredients";
+import { DND_TYPES } from '../../constants';
 
 import PropTypes from 'prop-types';
 import { ingredientPropTypes } from '../../utils/prop-types';
@@ -17,7 +18,7 @@ const BurgerConstructorItem = ({ ingredient, type, isLocked, draggable, handleSo
 	const dispatch = useDispatch();
 
 	const [{ handlerId }, drop] = useDrop({
-		accept: 'sortIngredient',
+		accept: DND_TYPES.SORT_INGEDIENT,
 		collect(monitor) {
 		  return {
 			handlerId: monitor.getHandlerId(),
@@ -51,7 +52,7 @@ const BurgerConstructorItem = ({ ingredient, type, isLocked, draggable, handleSo
 		});
 
 		const [{ isDragging }, drag] = useDrag({
-			type: 'sortIngredient',
+			type: DND_TYPES.SORT_INGEDIENT,
 			item: () => {
 			  return { ingredient, index }
 			},
