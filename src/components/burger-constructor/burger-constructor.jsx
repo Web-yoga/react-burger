@@ -10,8 +10,12 @@ import { useDrop } from "react-dnd";
 
 
 import { useSelector, useDispatch } from 'react-redux';
-import { sendOrder } from '../../services/actions/order';
-import { ADD_INGEDIENT, SORT_INGEDIENT } from './../../services/actions/constructor-ingredients';
+import { CLOSE_ORDER, sendOrder } from '../../services/actions/order';
+import { 
+	ADD_INGREDIENT, 
+	ADD_BUN, 
+	SORT_INGREDIENT, 
+	COUNT_TOTAL_PRICE } from './../../services/actions/constructor-ingredients';
 import { DND_TYPES } from '../../constants';
 
 import styles from './burger-constructor.module.css';
@@ -19,21 +23,20 @@ import styles from './burger-constructor.module.css';
 function BurgerConstructor () {
 
 	const {
-		ingredients, 
+		ingredients,
+		bun,
 		totalPrice, 
 		loading, 
 		error
 	} = useSelector(state => ({
 		ingredients: state.constructorIngredients.ingredients,
+		bun: state.constructorIngredients.bun,
 		totalPrice: state.constructorIngredients.totalPrice,
 		loading: state.order.loading,
 		error: state.order.error
 	}));
 	const dispatch = useDispatch();
 	const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
-	
-	const bun = ingredients.find(item => item.type === 'bun');
-	const ingredientsNoBun = ingredients.filter(item => item.type !== 'bun');
 
 	const [{isHover}, dropTarget] = useDrop({
 		accept: DND_TYPES.INGREDIENT,
@@ -46,15 +49,25 @@ function BurgerConstructor () {
 	})
 
 	const handleDrop = (ingredient) => {
+		if(ingredient.type === 'bun'){
+			dispatch({
+				type: ADD_BUN,
+				payload: ingredient
+			});
+		}else{
+			dispatch({
+				type: ADD_INGREDIENT,
+				payload: ingredient
+			});
+		}
 		dispatch({
-			type: ADD_INGEDIENT,
-			payload: ingredient
+			type: COUNT_TOTAL_PRICE
 		});
 	}
 
 	const handleSortIngredient = useCallback((dragIndex, hoverIndex) => {
 		dispatch({
-			type: SORT_INGEDIENT,
+			type: SORT_INGREDIENT,
 			payload: {
 				dragIndex,
 				hoverIndex
@@ -65,9 +78,12 @@ function BurgerConstructor () {
 
 	const handleOrderClose = () => {
 		setIsOrderModalOpen(false);
+		dispatch({
+			type: CLOSE_ORDER
+		});
 	}
 	const handleOrderOpen = () => {
-		const ingredientIds = ingredientsNoBun.map((item) => item._id);
+		const ingredientIds = ingredients.map((item) => item._id);
 		dispatch(sendOrder({ingredients: [ bun._id, ...ingredientIds, bun._id]}));
 		setIsOrderModalOpen(true);
 	}
@@ -95,8 +111,8 @@ function BurgerConstructor () {
 				className={styles.ingredientsSection}>
 				<ul className={styles.ingredientsList}>
 					{
-					ingredientsNoBun &&
-					ingredientsNoBun.map((ingredient, i) => {
+					ingredients &&
+					ingredients.map((ingredient, i) => {
 						return (
 							<BurgerConstructorItem 
 								key={ingredient.unique_key_id}
@@ -124,6 +140,7 @@ function BurgerConstructor () {
 					}
 				</ul>
 			</section>
+			{ error && <div className={styles.error}>Произошла ошибка при отправке заказа.</div> }
 			<section className={styles.order}>
 				<span className="text text_type_digits-medium">{ totalPrice }</span>
 				<span className="pl-2 pr-10"><CurrencyIcon type="primary" /></span>
@@ -131,19 +148,14 @@ function BurgerConstructor () {
 					{ loading ? "Загрузка" : "Оформить заказ" }
 				</Button>
 				{
-					error && <p>Произошла ошибка при отправке заказа.</p>
-				}
-
-				{
-					isOrderModalOpen && !loading &&
+					isOrderModalOpen && !loading && !error &&
 					<Modal 
 						header="" 
 						onClose={handleOrderClose}>
 						<OrderDetails/>
 					</Modal>
 				}
-
-			</section>
+			</section>	
 		</div>
 	);
 }

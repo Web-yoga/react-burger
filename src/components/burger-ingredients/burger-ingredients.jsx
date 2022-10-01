@@ -20,7 +20,7 @@ function BurgerIngredients() {
 
 	const {ingredients, loading, error} = useSelector(state => state.ingredients);
 
-	const handleScroll = event => {
+	const handleScroll = () => {
 		const menuTop = ingredientMenuRef.current.getBoundingClientRect().top;
 
 		const bunTop = Math.abs(ref.bun.current.getBoundingClientRect().top - menuTop);
@@ -52,19 +52,19 @@ function BurgerIngredients() {
     		  <Tab 
 			  value={INGREDIENT_TYPES.BUN} 
 			  active={current === INGREDIENT_TYPES.BUN} 
-			  onClick={()=>{onTabClick(INGREDIENT_TYPES.BUN)}}>
+			  onClick={onTabClick}>
     		    Булки
     		  </Tab>
     		  <Tab 
 			  value={INGREDIENT_TYPES.SAUCE} 
 			  active={current === INGREDIENT_TYPES.SAUCE} 
-			  onClick={()=>{onTabClick(INGREDIENT_TYPES.SAUCE)}}>
+			  onClick={onTabClick}>
     		    Соусы
     		  </Tab>
     		  <Tab 
 			  value={INGREDIENT_TYPES.MAIN} 
 			  active={current === INGREDIENT_TYPES.MAIN} 
-			  onClick={()=>{onTabClick(INGREDIENT_TYPES.MAIN)}}>
+			  onClick={onTabClick}>
     		    Начинки
     		  </Tab>
     		</section>
@@ -76,26 +76,25 @@ function BurgerIngredients() {
 				{ error && <p>Error!</p> }
 				{ 
 				ingredients && ingredients.length > 0 
-				&& 
-				<>
-				<BurgerIngredientsSection
-					ref={ref.bun}
-					ingredients = {ingredients}
-					filter={INGREDIENT_TYPES.BUN}
-					title='Булки' />
-				<BurgerIngredientsSection
-					ref={ref.sauce}
-					ingredients = {ingredients}
-					filter={INGREDIENT_TYPES.SAUCE}
-					title='Соусы' />
-				<BurgerIngredientsSection
-					ref={ref.main}
-					ingredients = {ingredients}
-					filter={INGREDIENT_TYPES.MAIN}
-					title='Начинки' />	
-				</>
-				}
-
+				&& (
+					<>
+					<BurgerIngredientsSection
+						ref={ref.bun}
+						ingredients = {ingredients}
+						filter={INGREDIENT_TYPES.BUN}
+						title='Булки' />
+					<BurgerIngredientsSection
+						ref={ref.sauce}
+						ingredients = {ingredients}
+						filter={INGREDIENT_TYPES.SAUCE}
+						title='Соусы' />
+					<BurgerIngredientsSection
+						ref={ref.main}
+						ingredients = {ingredients}
+						filter={INGREDIENT_TYPES.MAIN}
+						title='Начинки' />	
+					</>
+				)}
 			</section>
 		</div>
 					

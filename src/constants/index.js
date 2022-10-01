@@ -5,5 +5,5 @@ export const INGREDIENT_TYPES = {
 };
 export const DND_TYPES = {
 	INGREDIENT: 'ingredient',
-	SORT_INGEDIENT:'sortIngredient'
+	SORT_INGREDIENT:'sortIngredient'
 }

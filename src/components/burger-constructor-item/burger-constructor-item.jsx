@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useSelector, useDispatch } from 'react-redux';
-import { REMOVE_INGEDIENT } from "../../services/actions/constructor-ingredients";
+import { REMOVE_INGREDIENT, COUNT_TOTAL_PRICE } from "../../services/actions/constructor-ingredients";
 import { DND_TYPES } from '../../constants';
 
 import PropTypes from 'prop-types';
@@ -18,7 +18,7 @@ const BurgerConstructorItem = ({ ingredient, type, isLocked, draggable, handleSo
 	const dispatch = useDispatch();
 
 	const [{ handlerId }, drop] = useDrop({
-		accept: DND_TYPES.SORT_INGEDIENT,
+		accept: DND_TYPES.SORT_INGREDIENT,
 		collect(monitor) {
 		  return {
 			handlerId: monitor.getHandlerId(),
@@ -52,7 +52,7 @@ const BurgerConstructorItem = ({ ingredient, type, isLocked, draggable, handleSo
 		});
 
 		const [{ isDragging }, drag] = useDrag({
-			type: DND_TYPES.SORT_INGEDIENT,
+			type: DND_TYPES.SORT_INGREDIENT,
 			item: () => {
 			  return { ingredient, index }
 			},
@@ -65,9 +65,12 @@ const BurgerConstructorItem = ({ ingredient, type, isLocked, draggable, handleSo
 
 	const handleClose = () => {
 		dispatch({
-			type: REMOVE_INGEDIENT,
+			type: REMOVE_INGREDIENT,
 			payload: ingredient.unique_key_id
 		});
+		dispatch({
+			type: COUNT_TOTAL_PRICE
+		})
 	}
 
 	let name = ingredient.name;

@@ -1,12 +1,15 @@
 import addUniqueKeyIds from '../../utils/unique-key-generator';
 import { 
-	ADD_INGEDIENT,
-	REMOVE_INGEDIENT,
-	SORT_INGEDIENT
+	ADD_INGREDIENT,
+	ADD_BUN,
+	COUNT_TOTAL_PRICE,
+	REMOVE_INGREDIENT,
+	SORT_INGREDIENT
 } from './../actions/constructor-ingredients';
 
 const initialState = { 
-	ingredients: [], 
+	ingredients: [],
+	bun: null, 
 	totalPrice: 0 
 }
 
@@ -14,46 +17,47 @@ export const constructorIngredientsReducer = (state = initialState, action) =>{
 
 	let newIngredients = state.ingredients;
 
-	const countTotalPrice = (ingredients) => {
-		return ingredients.reduce((totalPrice, currItem) => {
-			if(currItem.type === 'bun'){
-				return totalPrice + 2*currItem.price
-			}
-			return totalPrice + currItem.price
-		}, 0);
-	
-	}
-
 	switch( action.type ){
 
-		case ADD_INGEDIENT: {
-			if(action.payload.type === 'bun'){
-				const newIngredientsNoBun = newIngredients.filter(item => item.type !== 'bun');
-				const newBun = addUniqueKeyIds(action.payload);
-				newIngredients = [ ...newIngredientsNoBun, newBun ];
-			}else{
-				let newItem = addUniqueKeyIds(action.payload);
-				newIngredients = [ ...newIngredients, newItem ];
-			}
+		case ADD_INGREDIENT: {
+			let newItem = addUniqueKeyIds(action.payload);
+			newIngredients = [ ...newIngredients, newItem ];
 			return {
 				...state,
-				ingredients: newIngredients,
-				totalPrice: countTotalPrice(newIngredients)
+				ingredients: newIngredients
 			}
 		}
 
-		case REMOVE_INGEDIENT: {
+		case ADD_BUN: {
+			return {
+				...state,
+				bun: addUniqueKeyIds(action.payload)
+			}
+		}
+
+		case COUNT_TOTAL_PRICE: {
+			let newTotalPrice = state.ingredients.reduce((price, currItem) => {
+				return price + currItem.price
+			}, 0);
+			if(state.bun){
+				newTotalPrice = newTotalPrice + 2*state.bun.price;
+			}
+			return {
+				...state,
+				totalPrice: newTotalPrice
+			}
+		}
+
+		case REMOVE_INGREDIENT: {
 			newIngredients = state.ingredients.filter((item) => item.unique_key_id !== action.payload)
 			return {
 				...state,
-				ingredients: newIngredients,
-				totalPrice: countTotalPrice(newIngredients)
+				ingredients: newIngredients
 			}
 		}
 
-		case SORT_INGEDIENT: {
+		case SORT_INGREDIENT: {
 
-			let newIngredients = [ ...state.ingredients];
 			let temp = newIngredients[action.payload.hoverIndex];
 			newIngredients[action.payload.hoverIndex] = newIngredients[action.payload.dragIndex];
 			newIngredients[action.payload.dragIndex] = temp;

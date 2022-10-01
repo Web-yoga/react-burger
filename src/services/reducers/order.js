@@ -1,13 +1,14 @@
 import { 
 	SEND_ORDER,
 	SEND_ORDER_FAILED,
-	SEND_ORDER_SUCCESS
+	SEND_ORDER_SUCCESS,
+	CLOSE_ORDER
 } from "../actions/order"
 
 const initialState = {
 	loading: false,
 	error: false,
-	order: null
+	order: {}
 }
 
 export const orderReducer = (state = initialState, action) => {
@@ -33,6 +34,9 @@ export const orderReducer = (state = initialState, action) => {
 				loading: false,
 				error: true
 			}
+		}
+		case CLOSE_ORDER: {
+			return initialState
 		}
 		default: { 
 			return state

@@ -6,19 +6,19 @@ const checkResponse = (res) => {
 
 export function fetchIngredients(){
 	return fetch(`${config.url}/ingredients`)
-	.then(checkResponse)
+		.then(checkResponse)
 }
 
 export function fetchOrder(body){
 	return fetch(`${config.url}/orders`, 
-	{
-		method: 'POST',
-		mode: 'cors',
-		cache: 'no-cache',
-		body: body,
-		headers: {
-			'Content-Type': 'application/json'
-		}
-	})
-	.then(checkResponse)
+		{
+			method: 'POST',
+			mode: 'cors',
+			cache: 'no-cache',
+			body: body,
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		})
+		.then(checkResponse)
 }

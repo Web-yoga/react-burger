@@ -3,6 +3,7 @@ import { fetchOrder } from '../../utils/burger-api';
 export const SEND_ORDER = 'SEND_ORDER';
 export const SEND_ORDER_FAILED = 'SEND_ORDER_FAILED';
 export const SEND_ORDER_SUCCESS = 'SEND_ORDER_SUCCESS';
+export const CLOSE_ORDER = 'CLOSE_ORDER';
 
 export function sendOrder(ingredientsIds){
 

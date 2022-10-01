@@ -5,7 +5,7 @@ import { useDrag } from "react-dnd";
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from './../modal/modal';
 import IngredientDetails from './../ingredient-details/ingredient-details';
-import { SET_CURRENT_INGEDIENT, UNSET_CURRENT_INGEDIENT } from '../../services/actions/current-ingredient';
+import { SET_CURRENT_INGREDIENT, UNSET_CURRENT_INGREDIENT } from '../../services/actions/current-ingredient';
 import { DND_TYPES } from '../../constants';
 
 import { ingredientPropTypes } from '../../utils/prop-types';
@@ -35,13 +35,13 @@ const BurgerIngredientsItem = ({ ingredient }) => {
 	const handleModalClose = () => {
 		setIsModalOpen(false);
 		dispatch({
-			type: UNSET_CURRENT_INGEDIENT
+			type: UNSET_CURRENT_INGREDIENT
 		});
 	}
 
 	const handleModalOpen = () =>{
 		dispatch({
-			type: SET_CURRENT_INGEDIENT,
+			type: SET_CURRENT_INGREDIENT,
 			payload: ingredient
 		});
 		setIsModalOpen(true);

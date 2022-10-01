@@ -1,7 +1,7 @@
 import { 
-	GET_INGEDIENTS,
-	GET_INGEDIENTS_FAILED,
-	GET_INGEDIENTS_SUCCESS
+	GET_INGREDIENTS,
+	GET_INGREDIENTS_FAILED,
+	GET_INGREDIENTS_SUCCESS
 } from "../actions/get-ingredients"
 
 const initialState = {
@@ -13,21 +13,21 @@ const initialState = {
 export const getIngredientsReducer = (state = initialState, action) => {
 
 	switch( action.type ){
-		case GET_INGEDIENTS: {
+		case GET_INGREDIENTS: {
 			return{
 				...state,
 				loading: true,
 				error: false
 			}
 		}
-		case GET_INGEDIENTS_SUCCESS: {
+		case GET_INGREDIENTS_SUCCESS: {
 			return{
 				...state,
 				ingredients: action.ingredients,
 				loading: false
 			}
 		}
-		case GET_INGEDIENTS_FAILED: {
+		case GET_INGREDIENTS_FAILED: {
 			return{
 				...state,
 				loading: false,
