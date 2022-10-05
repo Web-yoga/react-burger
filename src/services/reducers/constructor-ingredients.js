@@ -1,4 +1,3 @@
-import addUniqueKeyIds from '../../utils/unique-key-generator';
 import { 
 	ADD_INGREDIENT,
 	ADD_BUN,
@@ -18,20 +17,18 @@ export const constructorIngredientsReducer = (state = initialState, action) =>{
 	let newIngredients = state.ingredients;
 
 	switch( action.type ){
-
+		
 		case ADD_INGREDIENT: {
-			let newItem = addUniqueKeyIds(action.payload);
-			newIngredients = [ ...newIngredients, newItem ];
 			return {
 				...state,
-				ingredients: newIngredients
+				ingredients: [ ...newIngredients, action.payload ]
 			}
 		}
 
 		case ADD_BUN: {
 			return {
 				...state,
-				bun: addUniqueKeyIds(action.payload)
+				bun: action.payload
 			}
 		}
 

@@ -12,10 +12,10 @@ import { useDrop } from "react-dnd";
 import { useSelector, useDispatch } from 'react-redux';
 import { CLOSE_ORDER, sendOrder } from '../../services/actions/order';
 import { 
-	ADD_INGREDIENT, 
-	ADD_BUN, 
 	SORT_INGREDIENT, 
-	COUNT_TOTAL_PRICE } from './../../services/actions/constructor-ingredients';
+	COUNT_TOTAL_PRICE, 
+	addConstructorIngredient
+} from './../../services/actions/constructor-ingredients';
 import { DND_TYPES } from '../../constants';
 
 import styles from './burger-constructor.module.css';
@@ -49,17 +49,7 @@ function BurgerConstructor () {
 	})
 
 	const handleDrop = (ingredient) => {
-		if(ingredient.type === 'bun'){
-			dispatch({
-				type: ADD_BUN,
-				payload: ingredient
-			});
-		}else{
-			dispatch({
-				type: ADD_INGREDIENT,
-				payload: ingredient
-			});
-		}
+		dispatch(addConstructorIngredient(ingredient));
 		dispatch({
 			type: COUNT_TOTAL_PRICE
 		});
