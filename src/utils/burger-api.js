@@ -1,24 +1,24 @@
 import config from '../config/apiConfig';
 
-const api = {
+const checkResponse = (res) => {
+	return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
+  };
 
-	getIngredients: {
-		url: `${config.url}/ingredients`,
-		options: {}
-	},
+export function fetchIngredients(){
+	return fetch(`${config.url}/ingredients`)
+		.then(checkResponse)
+}
 
-	postOrder: {
-		url: `${config.url}/orders`,
-		options: {
+export function fetchOrder(body){
+	return fetch(`${config.url}/orders`, 
+		{
 			method: 'POST',
 			mode: 'cors',
 			cache: 'no-cache',
+			body: body,
 			headers: {
 				'Content-Type': 'application/json'
-			},
-		}
-	}
-
+			}
+		})
+		.then(checkResponse)
 }
-
-export default api

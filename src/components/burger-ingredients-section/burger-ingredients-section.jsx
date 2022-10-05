@@ -1,3 +1,4 @@
+import { forwardRef } from 'react';
 import BurgerIngredientsItem from './../burger-ingredients-item/burger-ingredients-item';
 
 import PropTypes from 'prop-types';
@@ -5,10 +6,11 @@ import { ingredientPropTypes } from '../../utils/prop-types';
 
 import styles from './burger-ingredients-section.module.css';
 
-const BurgerIngredientsSection = ({ ingredients, filter, title }) => {
+
+const BurgerIngredientsSection = forwardRef(({ ingredients, filter, title }, ref) => {
 	return(
 		<>
-			<h2 className="text text_type_main-medium mb-6">{title}</h2>
+			<h2 ref={ref} className="text text_type_main-medium mb-6">{title}</h2>
 			<ul className={styles.itemsSection}>
 				{ 
 				ingredients
@@ -22,7 +24,7 @@ const BurgerIngredientsSection = ({ ingredients, filter, title }) => {
 			</ul>
 		</>
 	)
-}
+});
 
 BurgerIngredientsSection.propTypes = {
 	ingredients: PropTypes.arrayOf(ingredientPropTypes).isRequired,

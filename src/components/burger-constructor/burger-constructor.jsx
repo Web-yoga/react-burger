@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { 
 	Button, 
 	CurrencyIcon
@@ -6,35 +6,89 @@ import {
 import Modal from './../modal/modal';
 import OrderDetails from './../order-details/order-details';
 import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item';
+import { useDrop } from "react-dnd";
 
-import { useFetch } from '../../hooks/use-fetch';
-import api from '../../utils/burger-api';
 
-import { BurgerConstructorContext, BurgerOrderContext } from '../../services/appContext';
+import { useSelector, useDispatch } from 'react-redux';
+import { CLOSE_ORDER, sendOrder } from '../../services/actions/order';
+import { 
+	ADD_INGREDIENT, 
+	ADD_BUN, 
+	SORT_INGREDIENT, 
+	COUNT_TOTAL_PRICE } from './../../services/actions/constructor-ingredients';
+import { DND_TYPES } from '../../constants';
 
 import styles from './burger-constructor.module.css';
 
 function BurgerConstructor () {
 
-	const { ingredientsConstructor} = useContext(BurgerConstructorContext);
-	const { bun, ingredients, totalPrice } = ingredientsConstructor;
+	const {
+		ingredients,
+		bun,
+		totalPrice, 
+		loading, 
+		error
+	} = useSelector(state => ({
+		ingredients: state.constructorIngredients.ingredients,
+		bun: state.constructorIngredients.bun,
+		totalPrice: state.constructorIngredients.totalPrice,
+		loading: state.order.loading,
+		error: state.order.error
+	}));
+	const dispatch = useDispatch();
 	const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
 
-	const { 
-		data: order, 
-		loading, 
-		error, 
-		execute: executeOrder
-	} = useFetch(api.postOrder);
+	const [{isHover}, dropTarget] = useDrop({
+		accept: DND_TYPES.INGREDIENT,
+		drop(ingredient){
+			handleDrop(ingredient);
+		},
+		collect: monitor => ({
+			isHover: monitor.isOver(),
+		})
+	})
+
+	const handleDrop = (ingredient) => {
+		if(ingredient.type === 'bun'){
+			dispatch({
+				type: ADD_BUN,
+				payload: ingredient
+			});
+		}else{
+			dispatch({
+				type: ADD_INGREDIENT,
+				payload: ingredient
+			});
+		}
+		dispatch({
+			type: COUNT_TOTAL_PRICE
+		});
+	}
+
+	const handleSortIngredient = useCallback((dragIndex, hoverIndex) => {
+		dispatch({
+			type: SORT_INGREDIENT,
+			payload: {
+				dragIndex,
+				hoverIndex
+			}
+		});
+	}, [dispatch]);
+
 
 	const handleOrderClose = () => {
 		setIsOrderModalOpen(false);
+		dispatch({
+			type: CLOSE_ORDER
+		});
 	}
 	const handleOrderOpen = () => {
 		const ingredientIds = ingredients.map((item) => item._id);
-		executeOrder({ingredients: [ bun._id, ...ingredientIds, bun._id]});
+		dispatch(sendOrder({ingredients: [ bun._id, ...ingredientIds, bun._id]}));
 		setIsOrderModalOpen(true);
 	}
+
+	const outline = isHover ? "#2f2f37 dashed 3px" : 'inherit'
 
 	return (
 		<div className={styles.container}>
@@ -49,10 +103,12 @@ function BurgerConstructor () {
 							draggable={false}
 						/>
 					}
-					
 				</ul>
 			</section>
-			<section className={styles.ingredientsSection}>
+			<section 
+				ref={dropTarget}
+				style={{outline}}
+				className={styles.ingredientsSection}>
 				<ul className={styles.ingredientsList}>
 					{
 					ingredients &&
@@ -61,9 +117,11 @@ function BurgerConstructor () {
 							<BurgerConstructorItem 
 								key={ingredient.unique_key_id}
 								ingredient={ingredient}
+								index={i}
 								type={null}
 								isLocked={false}
 								draggable={true}
+								handleSortIngredient={handleSortIngredient}
 							/>
 						)
 					} )}
@@ -80,9 +138,9 @@ function BurgerConstructor () {
 						draggable={false}
 					/>
 					}
-					
 				</ul>
 			</section>
+			{ error && <div className={styles.error}>Произошла ошибка при отправке заказа.</div> }
 			<section className={styles.order}>
 				<span className="text text_type_digits-medium">{ totalPrice }</span>
 				<span className="pl-2 pr-10"><CurrencyIcon type="primary" /></span>
@@ -90,19 +148,14 @@ function BurgerConstructor () {
 					{ loading ? "Загрузка" : "Оформить заказ" }
 				</Button>
 				{
-					error && <p>Произошла ошибка при отправке заказа.</p>
-				}
-				<BurgerOrderContext.Provider value={order} >
-				{
-					isOrderModalOpen && !loading &&
+					isOrderModalOpen && !loading && !error &&
 					<Modal 
 						header="" 
 						onClose={handleOrderClose}>
 						<OrderDetails/>
 					</Modal>
 				}
-				</BurgerOrderContext.Provider>
-			</section>
+			</section>	
 		</div>
 	);
 }

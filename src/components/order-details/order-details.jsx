@@ -1,12 +1,9 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { useContext } from 'react';
-import { BurgerOrderContext } from '../../services/appContext';
-
 import styles from './order-details.module.css';
 import doneImg from '../../images/done.svg';
+import { useSelector } from 'react-redux';
 
 function OrderDetails(){
-	const  { order }  = useContext(BurgerOrderContext);
+	const { order } = useSelector(state => state.order.order);
 	return(
 		<section className={styles.container}>
 			{

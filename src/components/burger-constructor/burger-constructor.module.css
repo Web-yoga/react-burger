@@ -46,6 +46,11 @@
 	width: 34px;
 	height: 34px;
 }
+.error{
+	width: 100%;
+	text-align: center;
+	color: red;
+}
 @media (max-width: 992px) {
 	.container{
 		padding: 50px 15px;
