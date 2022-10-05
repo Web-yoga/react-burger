@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useDrag } from "react-dnd";
 
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -12,11 +12,9 @@ import { ingredientPropTypes } from '../../utils/prop-types';
 
 import styles from './burger-ingredients-item.module.css';
 
-const BurgerIngredientsItem = ({ ingredient }) => {
+const BurgerIngredientsItem = ({ ingredient, count }) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
-	const { constructorIngredients } = useSelector(state => ({
-		constructorIngredients: state.constructorIngredients.ingredients
-	}));
+
 	const [ { opacity }, dragRef] = useDrag({
 		type: DND_TYPES.INGREDIENT,
 		item: ingredient,
@@ -26,11 +24,6 @@ const BurgerIngredientsItem = ({ ingredient }) => {
 	})
 
 	const dispatch = useDispatch();
-
-	let ingredientCount = constructorIngredients.filter(item => item._id === ingredient._id).length;
-	if(ingredient.type === 'bun'){
-		ingredientCount = 2 * ingredientCount;
-	}
 
 	const handleModalClose = () => {
 		setIsModalOpen(false);
@@ -56,8 +49,8 @@ const BurgerIngredientsItem = ({ ingredient }) => {
 			onClick={handleModalOpen}>
 				<div draggable={false} className={styles.counter}>
 					{
-						ingredientCount > 0 &&
-						<Counter count={ingredientCount} size="default" />
+						count > 0 &&
+						<Counter count={count} size="default" />
 					}
 				</div>
 				<img src={ingredient.image} alt={ingredient.name} className="ml-4 mr-4 mb-1"/>
