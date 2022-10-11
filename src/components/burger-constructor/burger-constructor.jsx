@@ -134,7 +134,7 @@ function BurgerConstructor () {
 			<section className={styles.order}>
 				<span className="text text_type_digits-medium">{ totalPrice }</span>
 				<span className="pl-2 pr-10"><CurrencyIcon type="primary" /></span>
-				<Button type="primary" size="medium" onClick={handleOrderOpen}>
+				<Button type="primary" size="medium" onClick={handleOrderOpen} htmlType="button">
 					{ loading ? "Загрузка" : "Оформить заказ" }
 				</Button>
 				{
