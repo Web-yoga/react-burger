@@ -6,7 +6,7 @@ import thunk from 'redux-thunk';
 import { rootReducer } from './services/reducers';
 import './index.css';
 
-import App from './components/app/app';
+import App from './app';
 
 declare global {
 	interface Window {
