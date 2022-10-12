@@ -21,7 +21,7 @@ export function BurgerConstructorPage() {
 	}, [])
 
 	return (
-		<div className={ styles.app }>
+		<div className='app'>
 			<AppHeader/>
 			<main className={ `${styles.content} container` }>
 				<DndProvider backend={HTML5Backend}>

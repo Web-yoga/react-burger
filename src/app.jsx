@@ -1,5 +1,13 @@
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { BurgerConstructorPage, NotFound404 } from './pages';
+import { 
+	BurgerConstructorPage, 
+	LoginPage, 
+	RegisterPage, 
+	ForgotPasswordPage, 
+	ResetPasswordPage, 
+	ProfilePage, 
+	IngredientsPage, 
+	NotFound404 } from './pages';
 
 function App() {
 	return (
@@ -9,22 +17,22 @@ function App() {
           			<BurgerConstructorPage />
         		</Route>
 				<Route path="/login" exact={true}>
-          			<BurgerConstructorPage />
+          			<LoginPage />
         		</Route>
 				<Route path="/register" exact={true}>
-          			<BurgerConstructorPage />
+          			<RegisterPage />
         		</Route>
 				<Route path="/forgot-password" exact={true}>
-          			<BurgerConstructorPage />
+          			<ForgotPasswordPage />
         		</Route>
 				<Route path="/reset-password" exact={true}>
-          			<BurgerConstructorPage />
+          			<ResetPasswordPage />
         		</Route>
 				<Route path="/profile" exact={true}>
-          			<BurgerConstructorPage />
+          			<ProfilePage />
         		</Route>
 				<Route path="/ingredients/:id" exact={true}>
-          			<BurgerConstructorPage />
+          			<IngredientsPage />
         		</Route>
 				<Route>
             		<NotFound404 />
