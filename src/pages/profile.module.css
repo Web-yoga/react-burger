@@ -1,0 +1,14 @@
+.wrapper{
+	display: flex;
+}
+.menu{
+	display: flex;
+	flex-direction: column;
+	width: 320px;
+}
+.menu a{
+	color: var(--secondary-text);
+}
+a.activeLink{
+	color: var(--primary-light);
+}
