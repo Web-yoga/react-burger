@@ -41,7 +41,6 @@ export function ProfilePage() {
 							name={'name'}
 							size={'default'}
 							icon={'EditIcon'}
-							
 						/>
 					</div>
 					<div className="ml-15 mb-6">
