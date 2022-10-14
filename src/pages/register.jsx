@@ -1,6 +1,8 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Input, PasswordInput, EmailInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import { useDispatch, useSelector } from 'react-redux';
+import { getRegister } from '../services/actions/auth';
 
 import AppHeader from './../components/app-header/app-header';
 
@@ -8,10 +10,17 @@ export function RegisterPage() {
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-	const nameRef = useRef(null);
+	const {loading, error, message} = useSelector(state => state.auth);
 
-	const onRegister = useCallback(() => {
-	}, []);
+	const dispatch = useDispatch();
+
+	const onRegister = () => {
+		dispatch(getRegister({
+			email, 
+			password, 
+			name 
+		}));
+	};
 
 	return(
 		<div className='app'>
@@ -25,7 +34,6 @@ export function RegisterPage() {
 						onChange={e => setName(e.target.value)}
 						value={name}
 						name={'name'}
-						ref={nameRef}
 						size={'default'}
 					/>
 				</div>
@@ -45,8 +53,10 @@ export function RegisterPage() {
 				</div>
 				<div className="mb-20">
 					<Button type="primary" size="medium" onClick={onRegister} htmlType="button">
-						Зарегистрироваться
+						{loading ? 'Загрузка...' : 'Зарегистрироваться'}
 					</Button>
+					{ error && <p className="text text_type_main-small pl-8">Произошла ошибка!</p>}
+					{ message && <p className="text text_type_main-small text_color_inactive pl-8">{message}</p>}
 				</div>
 				<p className="text text_type_main-default text_color_inactive mb-4">
 					Уже зарегистрированы? 

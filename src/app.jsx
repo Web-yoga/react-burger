@@ -8,6 +8,8 @@ import {
 	ProfilePage, 
 	IngredientsPage, 
 	NotFound404 } from './pages';
+import { ProtectedRoute } from './components/protected-route/protected-route';
+import { PublicRoute } from './components/public-route/public-route';
 
 function App() {
 	return (
@@ -16,9 +18,9 @@ function App() {
 				<Route path="/" exact={true}>
           			<BurgerConstructorPage />
         		</Route>
-				<Route path="/login" exact={true}>
+				<PublicRoute path="/login" exact={true} redirectTo="/">
           			<LoginPage />
-        		</Route>
+        		</PublicRoute>
 				<Route path="/register" exact={true}>
           			<RegisterPage />
         		</Route>
@@ -28,9 +30,9 @@ function App() {
 				<Route path="/reset-password" exact={true}>
           			<ResetPasswordPage />
         		</Route>
-				<Route path="/profile" exact={true}>
+				<ProtectedRoute path="/profile" exact={true} redirectTo="/login">
           			<ProfilePage />
-        		</Route>
+        		</ProtectedRoute>
 				<Route path="/ingredients/:id" exact={true}>
           			<IngredientsPage />
         		</Route>
