@@ -1,19 +1,14 @@
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { useDrag } from "react-dnd";
+import { useHistory, useLocation } from 'react-router';
 
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
-import Modal from './../modal/modal';
-import IngredientDetails from './../ingredient-details/ingredient-details';
-import { SET_CURRENT_INGREDIENT, UNSET_CURRENT_INGREDIENT } from '../../services/actions/current-ingredient';
 import { DND_TYPES } from '../../constants';
-
 import { ingredientPropTypes } from '../../utils/prop-types';
 
 import styles from './burger-ingredients-item.module.css';
 
+
 const BurgerIngredientsItem = ({ ingredient, count }) => {
-	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	const [ { opacity }, dragRef] = useDrag({
 		type: DND_TYPES.INGREDIENT,
@@ -23,26 +18,15 @@ const BurgerIngredientsItem = ({ ingredient, count }) => {
 		}),
 	})
 
-	const dispatch = useDispatch();
-
-	const handleModalClose = () => {
-		setIsModalOpen(false);
-		dispatch({
-			type: UNSET_CURRENT_INGREDIENT
-		});
-	}
+	const history = useHistory();
+	const location = useLocation();
 
 	const handleModalOpen = () =>{
-		dispatch({
-			type: SET_CURRENT_INGREDIENT,
-			payload: ingredient
-		});
-		setIsModalOpen(true);
+		history.push(`ingredients/${ingredient._id}`, {background: location});
 	}
 
 	return(
-		<>
-			<li 
+		<li 
 			ref={dragRef}
 			style={{opacity}}
 			className={styles.container} 
@@ -61,16 +45,7 @@ const BurgerIngredientsItem = ({ ingredient, count }) => {
 				<p className="text text_type_main-small">
 					{ingredient.name}
 				</p>
-			</li>
-			{
-				isModalOpen &&
-				<Modal 
-					header="Детали ингредиента" 
-					onClose={handleModalClose}>
-					<IngredientDetails/>
-				</Modal>
-			}
-		</>
+		</li>
 	);
 }
 

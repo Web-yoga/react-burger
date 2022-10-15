@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, useHistory, useLocation } from 'react-router-dom';
 import { 
 	BurgerConstructorPage, 
 	LoginPage, 
@@ -10,11 +10,25 @@ import {
 	NotFound404 } from './pages';
 import { ProtectedRoute } from './components/protected-route/protected-route';
 import { PublicRoute } from './components/public-route/public-route';
+import Modal from './components/modal/modal';
+import IngredientDetails from './components/ingredient-details/ingredient-details';
 
 function App() {
 	return (
 		<Router>
-			<Switch>
+			<SwitchWithModal/>
+		</Router>
+	);
+}
+
+function SwitchWithModal() {
+	const history = useHistory();
+	const location = useLocation();
+	const background = location.state && location.state.background;
+
+	return (
+		<div>
+			<Switch location={background || location}>
 				<Route path="/" exact={true}>
           			<BurgerConstructorPage />
         		</Route>
@@ -40,7 +54,17 @@ function App() {
             		<NotFound404 />
           		</Route>
 			</Switch>
-		</Router>
+
+			{ background &&
+			<Route path="/ingredients/:id">
+				<Modal
+					header="Детали ингредиента" 
+					onClose={()=>{history.goBack(background.pathname)}}>
+					<IngredientDetails/>
+				</Modal>
+			</Route>
+			}
+		</div>
 	);
 }
 
