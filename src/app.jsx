@@ -44,7 +44,7 @@ function SwitchWithModal() {
 				<PublicRoute path="/reset-password" exact={true} redirectTo="/">
           			<ResetPasswordPage />
         		</PublicRoute>
-				<ProtectedRoute path="/profile" exact={true} redirectTo="/login">
+				<ProtectedRoute path="/profile" redirectTo="/login">
           			<ProfilePage />
         		</ProtectedRoute>
 				<Route path="/ingredients/:id" exact={true}>

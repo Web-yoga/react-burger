@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useState, useEffect } from 'react';
-import { NavLink, Redirect } from 'react-router-dom';
+import { NavLink, Redirect, Route } from 'react-router-dom';
 import { Input, PasswordInput, EmailInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -67,6 +67,7 @@ export function ProfilePage() {
 					{message && 
 					<p className="text text_type_main-default">{message}</p>}
 				</section>
+				<Route path="/profile" exact={true} >
 				<section className={styles.content}>
 					<div className="ml-15 mb-6">
 						<Input 
@@ -96,7 +97,12 @@ export function ProfilePage() {
 						/>
 					</div>
 				</section>
-				
+				</Route>
+				<Route path="/profile/orders" exact={true} >
+					<section className={styles.content}>
+						<p className="text text_type_main-default">В разработке...</p>
+					</section>
+				</Route>
 			</main>
 		</div>
 	)

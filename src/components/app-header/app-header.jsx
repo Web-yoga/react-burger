@@ -22,8 +22,7 @@ function AppHeader() {
 						<span className='pl-2'>Конструктор</span>
 				</NavLink>
 				<NavLink 
-					to="/order-list" 
-					exact 
+					to="/order-list"  
 					className={`${styles.btn} p-5`}
 					activeClassName={styles.active}>
 						<ListIcon type={ path === "/order-list" ? "primary" : "secondary" } />
@@ -31,8 +30,7 @@ function AppHeader() {
 				</NavLink>
 				<Logo />
 				<NavLink 
-					to="/profile" 
-					exact 
+					to="/profile"  
 					className={`${styles.btn} p-5`}
 					activeClassName={styles.active}>
 						<ProfileIcon type={ path === "/profile" ? "primary" : "secondary" } />
