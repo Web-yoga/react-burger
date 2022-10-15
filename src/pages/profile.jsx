@@ -1,28 +1,34 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useState, useEffect } from 'react';
 import { NavLink, Redirect, Route } from 'react-router-dom';
-import { Input, PasswordInput, EmailInput } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Input, PasswordInput, EmailInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useSelector, useDispatch } from 'react-redux';
 
 import AppHeader from './../components/app-header/app-header';
-import { getUser, getToken, getLogout } from '../services/actions/auth';
+import { getUser, getToken, getLogout, updateUser } from '../services/actions/auth';
 import { isLogin } from '../utils/login';
 
 import styles from './profile.module.css';
 
 export function ProfilePage() {
-	const [name, setName] = useState('');
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
-
+	const [formData, setFormData] = useState({ name:'', email:'', password:''});
+	const [isFormChanged, setIsFormChanged] = useState(false);
 	const {message, user, accessToken} = useSelector(state => state.auth);
 	const dispatch = useDispatch();
 
-	useEffect(()=>{
+	const setFormDataFromState = () => {
 		if(user.name && user.email){
-			setName(user.name);
-			setEmail(user.email);
+			setFormData((prev) =>({
+				...prev,
+				name: user.name,
+				email: user.email,
+				password: ''
+			}))
 		}
+	}
+
+	useEffect(()=>{
+		setFormDataFromState();
 	},[user])
 
 	useEffect(() => {
@@ -44,6 +50,31 @@ export function ProfilePage() {
 		return(
 			<Redirect to="/login"/>
 		)
+	}
+	const handleFormChange = (e) => {
+		const newFormData = {
+			...formData,
+			[e.target.name]: e.target.value
+		}
+		setFormData(newFormData);
+		if(newFormData.name !== user.name
+			|| newFormData.email !== user.email
+			|| newFormData.password 
+			){
+			setIsFormChanged(true);
+		}else{
+			setIsFormChanged(false);
+		}
+	}
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		dispatch(updateUser(formData, accessToken));
+	}
+
+	const handleReset = (e) => {
+		e.preventDefault();
+		setFormDataFromState();
 	}
 
 	return(
@@ -68,35 +99,58 @@ export function ProfilePage() {
 					<p className="text text_type_main-default">{message}</p>}
 				</section>
 				<Route path="/profile" exact={true} >
-				<section className={styles.content}>
-					<div className="ml-15 mb-6">
-						<Input 
-							type={'text'}
-							placeholder={'Имя'}
-							onChange={e => setName(e.target.value)}
-							value={name}
-							name={'name'}
-							size={'default'}
-							icon={'EditIcon'}
-						/>
-					</div>
-					<div className="ml-15 mb-6">
-						<EmailInput 
-							onChange={e => setEmail(e.target.value)} 
-							value={email} 
-							name={'email'}
-							icon={'EditIcon'}
-						/>
-					</div>
-					<div className="ml-15 mb-6">
-						<PasswordInput 
-							onChange={e => {setPassword(e.target.value)}}
-							value={password} 
-							name={'password'} 
-							icon={'EditIcon'}
-						/>
-					</div>
-				</section>
+					<section className={styles.content}>
+						<form 
+							onSubmit={handleSubmit} 
+							onReset={handleReset}>
+							<div className="ml-15 mb-6">
+								<Input 
+									type={'text'}
+									placeholder={'Имя'}
+									onChange={handleFormChange}
+									value={formData.name}
+									name={'name'}
+									size={'default'}
+									icon={'EditIcon'}
+								/>
+							</div>
+							<div className="ml-15 mb-6">
+								<EmailInput 
+									onChange={handleFormChange} 
+									value={formData.email} 
+									name={'email'}
+									icon={'EditIcon'}
+								/>
+							</div>
+							<div className="ml-15 mb-6">
+								<PasswordInput 
+									onChange={handleFormChange}
+									value={formData.password} 
+									name={'password'} 
+									icon={'EditIcon'}
+								/>
+							</div>
+							{
+								isFormChanged && (
+									<div className="ml-15 mb-6">
+										<Button 
+										htmlType="submit"
+										type="primary" 
+										size="medium" 
+										onClick={handleSubmit}
+										>Сохранить</Button>
+										<Button 
+										htmlType="reset"
+										type="secondary" 
+										size="medium" 
+										onClick={handleReset}
+										>Отмена</Button>
+									</div>
+								)
+							}
+						</form>
+
+					</section>
 				</Route>
 				<Route path="/profile/orders" exact={true} >
 					<section className={styles.content}>

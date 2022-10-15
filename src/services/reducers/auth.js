@@ -13,7 +13,10 @@ import {
 	LOGOUT_FAILED,
 	LOAD_USER,
 	LOAD_USER_SUCCESS,
-	LOAD_USER_FAILED
+	LOAD_USER_FAILED,
+	UPDATE_USER,
+	UPDATE_USER_SUCCESS,
+	UPDATE_USER_FAILED
 } from "../actions/auth"
 
 const initialState = {
@@ -31,7 +34,8 @@ export const authReducer = (state = initialState, action) => {
 			return{
 				...state,
 				loading: true,
-				error: false
+				error: false,
+				message: null
 			}
 		}
 		case REGISTER_SUCCESS: {
@@ -54,7 +58,8 @@ export const authReducer = (state = initialState, action) => {
 			return{
 				...state,
 				loading: true,
-				error: false
+				error: false,
+				message: null
 			}
 		}
 		case LOGIN_SUCCESS: {
@@ -77,7 +82,8 @@ export const authReducer = (state = initialState, action) => {
 			return{
 				...state,
 				loading: true,
-				error: false
+				error: false,
+				message: null
 			}
 		}
 		case TOKEN_SUCCESS: {
@@ -98,7 +104,8 @@ export const authReducer = (state = initialState, action) => {
 			return{
 				...state,
 				loading: true,
-				error: false
+				error: false,
+				message: null
 			}
 		}
 		case LOGOUT_SUCCESS: {
@@ -117,18 +124,42 @@ export const authReducer = (state = initialState, action) => {
 			return{
 				...state,
 				loading: true,
-				error: false
+				error: false,
+				message: null
 			}
 		}
 		case LOAD_USER_SUCCESS: {
 			return{
 				...state,
 				user: action.payload.user,
-				message: null,
 				loading: false
 			}
 		}
 		case LOAD_USER_FAILED: {
+			return{
+				...state,
+				loading: false,
+				error: true,
+				message: action.payload
+			}
+		}
+		case UPDATE_USER: {
+			return{
+				...state,
+				loading: true,
+				error: false,
+				message: null
+			}
+		}
+		case UPDATE_USER_SUCCESS: {
+			return{
+				...state,
+				user: action.payload.user,
+				message: 'Обновление данных прошло успешно!',
+				loading: false
+			}
+		}
+		case UPDATE_USER_FAILED: {
 			return{
 				...state,
 				loading: false,

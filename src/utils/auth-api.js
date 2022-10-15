@@ -79,7 +79,8 @@ export function fetchUser(token){
 		.then(checkResponse)
 }
 
-export function updateUser(body){
+export function fetchUpdateUser(formData, token){
+	const body = JSON.stringify(formData);
 	return fetch(`${config.url}/auth/user`, 
 		{
 			method: 'PATCH',
@@ -88,7 +89,7 @@ export function updateUser(body){
 			body: body,
 			headers: {
 				'Content-Type': 'application/json',
-				'Authorization': getCookie('token')
+				'Authorization': token
 			}
 		})
 		.then(checkResponse)
