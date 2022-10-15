@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, Redirect, useHistory, useLocation } from 'react-router-dom';
 import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { passwordReset } from '../utils/auth-api';
 
@@ -10,6 +10,7 @@ export function ResetPasswordPage() {
 	const [code, setCode] = useState('');
 
 	const history = useHistory();
+	const location = useLocation();
 
 	const onPasswordReset = async () => {
 		const res = await passwordReset(JSON.stringify({
@@ -17,9 +18,15 @@ export function ResetPasswordPage() {
 			token: code
 		}));
 		if(res && res.success){
-			history.replace({ pathname: '/'});
+			history.replace({ pathname: '/login'});
 		}
 	};
+
+	if( !(location.state && location.state.from === 'forgot-password') ){
+		return(
+			<Redirect to="/forgot-password"/>
+		)
+	}
 
 	return(
 		<div className='app'>

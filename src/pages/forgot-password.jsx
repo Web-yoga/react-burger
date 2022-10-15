@@ -15,7 +15,7 @@ export function ForgotPasswordPage() {
 			email: email
 		}));
 		if(res && res.success){
-			history.replace({ pathname: '/reset-password'});
+			history.replace({ pathname: '/reset-password' }, { from: 'forgot-password' } );
 		}
 	};
 
