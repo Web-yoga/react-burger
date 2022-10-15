@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, Redirect, useLocation } from 'react-router-dom';
 import { PasswordInput, EmailInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { getLogin } from '../services/actions/auth';
+import { isLogin } from '../utils/login';
 
 import AppHeader from './../components/app-header/app-header';
 
@@ -12,15 +13,21 @@ export function LoginPage() {
 	const {loading, error, message} = useSelector(state => state.auth);
 
 	const dispatch = useDispatch();
-	const history = useHistory();
+	const location = useLocation();
+	let from = location.state && location.state.from; 
 
 	const onLogin = () => {
 		dispatch(getLogin({
 			email, 
 			password 
 		}));
-		history.replace({ pathname: '/'});
 	};
+
+	if(isLogin()){
+		return (
+			<Redirect to={from || '/'} />
+		)
+	}
 
 	return(
 		<div className='app'>
