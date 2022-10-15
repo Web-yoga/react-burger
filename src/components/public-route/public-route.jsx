@@ -1,5 +1,6 @@
 import { Route, Redirect } from 'react-router-dom';
 import { isLogin } from '../../utils/login';
+import PropTypes from 'prop-types';
 
 export function PublicRoute({redirectTo, ...props}){
 	if(!isLogin()){
@@ -10,4 +11,8 @@ export function PublicRoute({redirectTo, ...props}){
 			state: { from: props.path }
 		}}/>
 	}
+}
+
+PublicRoute.propTypes = {
+	redirectTo: PropTypes.string.isRequired
 }

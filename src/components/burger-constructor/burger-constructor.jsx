@@ -7,6 +7,7 @@ import Modal from './../modal/modal';
 import OrderDetails from './../order-details/order-details';
 import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item';
 import { useDrop } from "react-dnd";
+import { useHistory } from 'react-router';
 
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -17,6 +18,7 @@ import {
 	addConstructorIngredient
 } from './../../services/actions/constructor-ingredients';
 import { DND_TYPES } from '../../constants';
+import { isLogin } from '../../utils/login';
 
 import styles from './burger-constructor.module.css';
 
@@ -37,6 +39,7 @@ function BurgerConstructor () {
 	}));
 	const dispatch = useDispatch();
 	const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
+	const history = useHistory();
 
 	const [{isHover}, dropTarget] = useDrop({
 		accept: DND_TYPES.INGREDIENT,
@@ -73,9 +76,16 @@ function BurgerConstructor () {
 		});
 	}
 	const handleOrderOpen = () => {
-		const ingredientIds = ingredients.map((item) => item._id);
-		dispatch(sendOrder({ingredients: [ bun._id, ...ingredientIds, bun._id]}));
-		setIsOrderModalOpen(true);
+		if(ingredients.length > 0 && bun ){
+			if(isLogin()){
+				const ingredientIds = ingredients.map((item) => item._id);
+				dispatch(sendOrder({ingredients: [ bun._id, ...ingredientIds, bun._id]}));
+				setIsOrderModalOpen(true);
+			}else{
+				history.replace({pathname: '/login'});
+			}
+
+		}
 	}
 
 	const outline = isHover ? "#2f2f37 dashed 3px" : 'inherit'
