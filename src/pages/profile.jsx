@@ -1,13 +1,14 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useState, useEffect } from 'react';
-import { NavLink, useHistory } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 import { Input, PasswordInput, EmailInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useSelector, useDispatch } from 'react-redux';
 
 import AppHeader from './../components/app-header/app-header';
+import { getUser, getToken, getLogout } from '../services/actions/auth';
+import { isLogin } from '../utils/login';
 
 import styles from './profile.module.css';
-import { getUser, getToken, getLogout } from '../services/actions/auth';
 
 export function ProfilePage() {
 	const [name, setName] = useState('');
@@ -16,7 +17,6 @@ export function ProfilePage() {
 
 	const {message, user, accessToken} = useSelector(state => state.auth);
 	const dispatch = useDispatch();
-	const history = useHistory();
 
 	useEffect(()=>{
 		if(user.name && user.email){
@@ -26,16 +26,24 @@ export function ProfilePage() {
 	},[user])
 
 	useEffect(() => {
-		if(!accessToken){
-			dispatch(getToken());
-		}else{
-			dispatch(getUser(accessToken));
+		if(isLogin()){
+			if(!accessToken){
+				dispatch(getToken());
+			}else{
+				dispatch(getUser(accessToken));
+			}
 		}
 	}, [accessToken, dispatch])
 
-	const loguot = () => {
+	const loguot = (e) => {
+		e.preventDefault();
 		dispatch(getLogout());
-		history.replace({ pathname: '/'});
+	}
+
+	if(!isLogin()){
+		return(
+			<Redirect to="/login"/>
+		)
 	}
 
 	return(

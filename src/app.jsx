@@ -35,15 +35,15 @@ function SwitchWithModal() {
 				<PublicRoute path="/login" exact={true} redirectTo="/">
           			<LoginPage />
         		</PublicRoute>
-				<Route path="/register" exact={true}>
+				<PublicRoute path="/register" exact={true} redirectTo="/">
           			<RegisterPage />
-        		</Route>
-				<Route path="/forgot-password" exact={true}>
+        		</PublicRoute>
+				<PublicRoute path="/forgot-password" exact={true} redirectTo="/">
           			<ForgotPasswordPage />
-        		</Route>
-				<Route path="/reset-password" exact={true}>
+        		</PublicRoute>
+				<PublicRoute path="/reset-password" exact={true} redirectTo="/">
           			<ResetPasswordPage />
-        		</Route>
+        		</PublicRoute>
 				<ProtectedRoute path="/profile" exact={true} redirectTo="/login">
           			<ProfilePage />
         		</ProtectedRoute>
