@@ -5,7 +5,7 @@ import { Input, PasswordInput, EmailInput, Button } from '@ya.praktikum/react-de
 import { useSelector, useDispatch } from 'react-redux';
 
 import AppHeader from './../components/app-header/app-header';
-import { getUser, getToken, getLogout, updateUser } from '../services/actions/auth';
+import { getUser, getLogout, updateUser } from '../services/actions/auth';
 import { isLogin } from '../utils/login';
 
 import styles from './profile.module.css';
@@ -13,7 +13,7 @@ import styles from './profile.module.css';
 export function ProfilePage() {
 	const [formData, setFormData] = useState({ name:'', email:'', password:''});
 	const [isFormChanged, setIsFormChanged] = useState(false);
-	const {message, user, accessToken} = useSelector(state => state.auth);
+	const {message, user} = useSelector(state => state.auth);
 	const dispatch = useDispatch();
 
 	const setFormDataFromState = () => {
@@ -33,13 +33,9 @@ export function ProfilePage() {
 
 	useEffect(() => {
 		if(isLogin()){
-			if(!accessToken){
-				dispatch(getToken());
-			}else{
-				dispatch(getUser(accessToken));
-			}
+			dispatch(getUser());
 		}
-	}, [accessToken, dispatch])
+	}, [dispatch])
 
 	const loguot = (e) => {
 		e.preventDefault();
@@ -69,7 +65,7 @@ export function ProfilePage() {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		dispatch(updateUser(formData, accessToken));
+		dispatch(updateUser(formData));
 	}
 
 	const handleReset = (e) => {

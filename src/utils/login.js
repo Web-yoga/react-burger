@@ -1,11 +1,13 @@
 import { setCookie, getCookie } from "./cookie";
 
-export const login = (refreshToken) => {
+export const login = (refreshToken, accessToken) => {
     setCookie('token', refreshToken);
+	setCookie('access_token', accessToken);
 }
 
 export const logout = () => {
 	setCookie('token', null, {expires: -1});
+	setCookie('access_token', null, {expires: -1});
 }
 
 export const isLogin = () => {

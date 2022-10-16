@@ -35,13 +35,10 @@ export function getRegister(data){
 		fetchRegister(JSON.stringify(data))
 		.then(res => {
 			if(res && res.success){
-				if(res.refreshToken){
-					login(res.refreshToken);
-				}
+				login(res.refreshToken, res.accessToken);
 				dispatch({
 					type: REGISTER_SUCCESS,
-					user: res.user,
-					accessToken: res.accessToken
+					user: res.user
 				})
 			}else{
 				dispatch({
@@ -65,13 +62,10 @@ export function getLogin(data){
 		fetchLogin(JSON.stringify(data))
 		.then(res => {
 			if(res && res.success){
-				if(res.refreshToken){
-					login(res.refreshToken);
-				}
+				login(res.refreshToken, res.accessToken);
 				dispatch({
 					type: LOGIN_SUCCESS,
-					user: res.user,
-					accessToken: res.accessToken
+					user: res.user
 				})
 			}else{
 				dispatch({
@@ -95,12 +89,9 @@ export function getToken(){
 		fetchToken()
 		.then(res => {
 			if(res && res.success){
-				if(res.refreshToken){
-					login(res.refreshToken);
-				}
+				login(res.refreshToken, res.accessToken);
 				dispatch({
-					type: TOKEN_SUCCESS,
-					accessToken: res.accessToken
+					type: TOKEN_SUCCESS
 				})
 			}else{
 				dispatch({
@@ -140,24 +131,27 @@ export function getLogout(data){
 	}
 }
 
-export function getUser(token){
+export function getUser(){
 	return function (dispatch){
 		dispatch({
 			type: LOAD_USER
 		})
-		fetchUser(token)
+		fetchUser()
 		.then(res => {
 			if(res && res.success){
+				console.log('token success');
 				dispatch({
 					type: LOAD_USER_SUCCESS,
 					payload: res
 				})
 			}else{
+				console.log('token fale');
 				dispatch({
 					type: LOAD_USER_FAILED
 				})
 			}
 		}).catch( err =>{
+			console.log('token error');
 			dispatch({
 				type: LOAD_USER_FAILED,
 				payload: err.message
@@ -166,12 +160,12 @@ export function getUser(token){
 	}
 }
 
-export function updateUser(formData, token){
+export function updateUser(formData){
 	return function (dispatch){
 		dispatch({
 			type: UPDATE_USER
 		})
-		fetchUpdateUser(formData, token)
+		fetchUpdateUser(formData)
 		.then(res => {
 			if(res && res.success){
 				dispatch({

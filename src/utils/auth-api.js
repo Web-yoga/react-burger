@@ -67,7 +67,8 @@ export function fetchToken(){
 		.then(checkResponse)
 }
 
-export function fetchUser(token){
+export function fetchUser(){
+	const token = getCookie('access_token');
 	return fetch(`${config.url}/auth/user`, 
 		{
 			method: 'GET',
@@ -79,7 +80,8 @@ export function fetchUser(token){
 		.then(checkResponse)
 }
 
-export function fetchUpdateUser(formData, token){
+export function fetchUpdateUser(formData){
+	const token = getCookie('access_token');
 	const body = JSON.stringify(formData);
 	return fetch(`${config.url}/auth/user`, 
 		{

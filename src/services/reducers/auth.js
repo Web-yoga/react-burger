@@ -23,8 +23,7 @@ const initialState = {
 	loading: false,
 	error: false,
 	message: null,
-	user: {},
-	accessToken: null
+	user: {}
 }
 
 export const authReducer = (state = initialState, action) => {
@@ -42,7 +41,6 @@ export const authReducer = (state = initialState, action) => {
 			return{
 				...state,
 				user: action.user,
-				accessToken: action.accessToken,
 				loading: false
 			}
 		}
@@ -66,7 +64,6 @@ export const authReducer = (state = initialState, action) => {
 			return{
 				...state,
 				user: action.user,
-				accessToken: action.accessToken,
 				loading: false
 			}
 		}
@@ -89,7 +86,6 @@ export const authReducer = (state = initialState, action) => {
 		case TOKEN_SUCCESS: {
 			return{
 				...state,
-				accessToken: action.accessToken,
 				loading: false
 			}
 		}
