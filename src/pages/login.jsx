@@ -10,7 +10,7 @@ import AppHeader from './../components/app-header/app-header';
 export function LoginPage() {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-	const {loading} = useSelector(state => state.auth);
+	const {loading, message} = useSelector(state => state.auth);
 
 	const dispatch = useDispatch();
 	const location = useLocation();
@@ -48,11 +48,14 @@ export function LoginPage() {
 						name={'password'} 
 					/>
 				</div>
+				{message && 
+					<p className="text text_type_main-default">{message}</p>}
 				<div className="mb-20">
 					<Button type="primary" size="medium" onClick={onLogin} htmlType="button">
 						{loading ? 'Загрузка...' : 'Войти' }
 					</Button>
 				</div>
+
 				<p className="text text_type_main-default text_color_inactive mb-4">
 					Вы — новый пользователь? 
 					<Link to='/register' className="ml-2">Зарегистрироваться</Link>
