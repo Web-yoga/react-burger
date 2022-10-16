@@ -2,7 +2,7 @@ import { setCookie, getCookie } from "./cookie";
 
 export const login = (refreshToken, accessToken) => {
     setCookie('token', refreshToken);
-	setCookie('access_token', accessToken);
+	setCookie('access_token', accessToken, {'max-age': 1500});
 }
 
 export const logout = () => {

@@ -139,23 +139,48 @@ export function getUser(){
 		fetchUser()
 		.then(res => {
 			if(res && res.success){
-				console.log('token success');
 				dispatch({
 					type: LOAD_USER_SUCCESS,
 					payload: res
 				})
 			}else{
-				console.log('token fale');
 				dispatch({
 					type: LOAD_USER_FAILED
 				})
 			}
 		}).catch( err =>{
-			console.log('token error');
-			dispatch({
-				type: LOAD_USER_FAILED,
-				payload: err.message
+			fetchToken().then(res =>{
+				if(res && res.success){
+					login(res.refreshToken, res.accessToken);
+					fetchUser().then(res => {
+						if(res && res.success){
+							dispatch({
+								type: LOAD_USER_SUCCESS,
+								payload: res
+							})
+						}else{
+							dispatch({
+								type: LOAD_USER_FAILED
+							})
+						}
+					}).catch( err =>{
+						dispatch({
+							type: LOAD_USER_FAILED,
+							payload: err.message
+						})
+					})
+				}else{
+					dispatch({
+						type: LOAD_USER_FAILED
+					})
+				}
+			}).catch( err =>{
+				dispatch({
+					type: LOAD_USER_FAILED,
+					payload: err.message
+				})
 			})
+			
 		})
 	}
 }
