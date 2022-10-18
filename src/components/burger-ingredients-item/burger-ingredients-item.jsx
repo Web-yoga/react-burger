@@ -1,22 +1,15 @@
-import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { useDrag } from "react-dnd";
+import { useHistory, useLocation } from 'react-router';
 
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
-import Modal from './../modal/modal';
-import IngredientDetails from './../ingredient-details/ingredient-details';
-import { SET_CURRENT_INGREDIENT, UNSET_CURRENT_INGREDIENT } from '../../services/actions/current-ingredient';
 import { DND_TYPES } from '../../constants';
-
 import { ingredientPropTypes } from '../../utils/prop-types';
 
 import styles from './burger-ingredients-item.module.css';
 
-const BurgerIngredientsItem = ({ ingredient }) => {
-	const [isModalOpen, setIsModalOpen] = useState(false);
-	const { constructorIngredients } = useSelector(state => ({
-		constructorIngredients: state.constructorIngredients.ingredients
-	}));
+
+const BurgerIngredientsItem = ({ ingredient, count }) => {
+
 	const [ { opacity }, dragRef] = useDrag({
 		type: DND_TYPES.INGREDIENT,
 		item: ingredient,
@@ -25,39 +18,23 @@ const BurgerIngredientsItem = ({ ingredient }) => {
 		}),
 	})
 
-	const dispatch = useDispatch();
-
-	let ingredientCount = constructorIngredients.filter(item => item._id === ingredient._id).length;
-	if(ingredient.type === 'bun'){
-		ingredientCount = 2 * ingredientCount;
-	}
-
-	const handleModalClose = () => {
-		setIsModalOpen(false);
-		dispatch({
-			type: UNSET_CURRENT_INGREDIENT
-		});
-	}
+	const history = useHistory();
+	const location = useLocation();
 
 	const handleModalOpen = () =>{
-		dispatch({
-			type: SET_CURRENT_INGREDIENT,
-			payload: ingredient
-		});
-		setIsModalOpen(true);
+		history.push(`ingredients/${ingredient._id}`, {background: location});
 	}
 
 	return(
-		<>
-			<li 
+		<li 
 			ref={dragRef}
 			style={{opacity}}
 			className={styles.container} 
 			onClick={handleModalOpen}>
 				<div draggable={false} className={styles.counter}>
 					{
-						ingredientCount > 0 &&
-						<Counter count={ingredientCount} size="default" />
+						count > 0 &&
+						<Counter count={count} size="default" />
 					}
 				</div>
 				<img src={ingredient.image} alt={ingredient.name} className="ml-4 mr-4 mb-1"/>
@@ -68,16 +45,7 @@ const BurgerIngredientsItem = ({ ingredient }) => {
 				<p className="text text_type_main-small">
 					{ingredient.name}
 				</p>
-			</li>
-			{
-				isModalOpen &&
-				<Modal 
-					header="Детали ингредиента" 
-					onClose={handleModalClose}>
-					<IngredientDetails/>
-				</Modal>
-			}
-		</>
+		</li>
 	);
 }
 

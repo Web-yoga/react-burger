@@ -3,16 +3,16 @@ import { useEffect } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
-import AppHeader from '../app-header/app-header';
-import BurgerConstructor from './../burger-constructor/burger-constructor';
-import BurgerIngredients from '../burger-ingredients/burger-ingredients';
+import AppHeader from '../components/app-header/app-header';
+import BurgerConstructor from '../components/burger-constructor/burger-constructor';
+import BurgerIngredients from '../components/burger-ingredients/burger-ingredients';
 
 import { useDispatch } from 'react-redux';
-import { getIngredients } from '../../services/actions/get-ingredients';
+import { getIngredients } from '../services/actions/get-ingredients';
 
-import styles from './app.module.css';
+import styles from './burger-constructor.module.css';
 
-function App() {
+export function BurgerConstructorPage() {
 
 	const dispatch = useDispatch();
 
@@ -21,7 +21,7 @@ function App() {
 	}, [])
 
 	return (
-		<div className={ styles.app }>
+		<div className='app'>
 			<AppHeader/>
 			<main className={ `${styles.content} container` }>
 				<DndProvider backend={HTML5Backend}>
@@ -32,5 +32,3 @@ function App() {
 		</div>
 	);
 }
-
-export default App;
