@@ -121,6 +121,8 @@ export function ProfilePage() {
 									onChange={handleFormChange} 
 									value={formData.email} 
 									name={'email'}
+									// @ts-ignore
+									icon={'EditIcon'}
 								/>
 							</div>
 							<div className="ml-15 mb-6">
