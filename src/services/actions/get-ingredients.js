@@ -7,7 +7,6 @@ export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
 export function getIngredients(){
 
 	return function (dispatch){
-
 		dispatch({
 			type: GET_INGREDIENTS
 		})

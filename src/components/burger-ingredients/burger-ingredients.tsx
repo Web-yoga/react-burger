@@ -1,45 +1,57 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, RefObject } from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerIngredientsSection from '../burger-ingredients-section/burger-ingredients-section';
 import { useSelector } from 'react-redux';
 import { INGREDIENT_TYPES } from '../../constants';
+import { TUniqueIngredient } from '../../types/ingredients';
 
 import styles from './burger-ingredients.module.css';
 
 function BurgerIngredients() {
 
-	const ingredientMenuRef = useRef(null);
+	type TState = {
+		ingredients: Array<TUniqueIngredient>;
+		loading: boolean; 
+		error: boolean;
+	};
 
-	const ref = {
-		bun: useRef(null),
-		sauce: useRef(null),
-		main: useRef(null),
+	const ingredientMenuRef = useRef<HTMLDivElement>(null);
+
+	const ref: Record< string, RefObject<HTMLDivElement> > = {
+		bun: useRef<HTMLDivElement>(null),
+		sauce: useRef<HTMLDivElement>(null),
+		main: useRef<HTMLDivElement>(null),
 	}
 	
 	const [current, setCurrent] = useState(INGREDIENT_TYPES.BUN)
 
-	const {ingredients, loading, error} = useSelector(state => state.ingredients);
+	const {ingredients, loading, error}: TState = useSelector(
+		// @ts-ignore
+		state => state.ingredients);
 
 	const handleScroll = () => {
-		const menuTop = ingredientMenuRef.current.getBoundingClientRect().top;
-
-		const bunTop = Math.abs(ref.bun.current.getBoundingClientRect().top - menuTop);
-		const sauceTop = Math.abs(ref.sauce.current.getBoundingClientRect().top - menuTop);
-		const mainTop = Math.abs(ref.main.current.getBoundingClientRect().top - menuTop);
+		if(ingredientMenuRef.current && ref.bun.current && ref.sauce.current && ref.main.current){
+			const menuTop = ingredientMenuRef.current.getBoundingClientRect().top;
+			const bunTop = Math.abs(ref.bun.current.getBoundingClientRect().top - menuTop);
+			const sauceTop = Math.abs(ref.sauce.current.getBoundingClientRect().top - menuTop);
+			const mainTop = Math.abs(ref.main.current.getBoundingClientRect().top - menuTop);
 	
-		if(bunTop < sauceTop){
-			setCurrent(INGREDIENT_TYPES.BUN);
-		}else if(sauceTop < mainTop){
-			setCurrent(INGREDIENT_TYPES.SAUCE);
-		}else{
-			setCurrent(INGREDIENT_TYPES.MAIN);
+			if(bunTop < sauceTop){
+				setCurrent(INGREDIENT_TYPES.BUN);
+			}else if(sauceTop < mainTop){
+				setCurrent(INGREDIENT_TYPES.SAUCE);
+			}else{
+				setCurrent(INGREDIENT_TYPES.MAIN);
+			}
 		}
-
 	}
 
-	const onTabClick = (type) => {
+	const onTabClick = (type: string): void => {
 		setCurrent(type);
-		ref[type].current.scrollIntoView({behavior:'smooth'});
+		const refCurrent = ref[type].current;
+		if(refCurrent){
+			refCurrent.scrollIntoView({behavior:'smooth'});
+		}
 	}
 
 	return (

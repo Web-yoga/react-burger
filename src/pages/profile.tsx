@@ -1,10 +1,10 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { useState, useEffect } from 'react';
+import { useState, useEffect, SyntheticEvent } from 'react';
 import { NavLink, Redirect, Route } from 'react-router-dom';
 import { Input, PasswordInput, EmailInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useSelector, useDispatch } from 'react-redux';
 
-import AppHeader from './../components/app-header/app-header';
+import AppHeader from '../components/app-header/app-header';
 import { getUser, getLogout, updateUser } from '../services/actions/auth';
 import { isLogin } from '../utils/login';
 
@@ -13,7 +13,9 @@ import styles from './profile.module.css';
 export function ProfilePage() {
 	const [formData, setFormData] = useState({ name:'', email:'', password:''});
 	const [isFormChanged, setIsFormChanged] = useState(false);
-	const {message, user} = useSelector(state => state.auth);
+	const {message, user} = useSelector(
+		// @ts-ignore
+		state => state.auth);
 	const dispatch = useDispatch();
 
 	const setFormDataFromState = () => {
@@ -37,7 +39,7 @@ export function ProfilePage() {
 		}
 	}, [dispatch])
 
-	const loguot = (e) => {
+	const loguot = (e: SyntheticEvent) => {
 		e.preventDefault();
 		dispatch(getLogout());
 	}
@@ -47,10 +49,14 @@ export function ProfilePage() {
 			<Redirect to="/login"/>
 		)
 	}
-	const handleFormChange = (e) => {
+	const handleFormChange = (e: SyntheticEvent<HTMLInputElement>) => {
+		const target = e.target as typeof e.target & {
+					name: string;
+					value: string;
+			  };
 		const newFormData = {
 			...formData,
-			[e.target.name]: e.target.value
+			[target.name]: target.value
 		}
 		setFormData(newFormData);
 		if(newFormData.name !== user.name
@@ -63,12 +69,12 @@ export function ProfilePage() {
 		}
 	}
 
-	const handleSubmit = (e) => {
+	const handleSubmit = (e: SyntheticEvent) => {
 		e.preventDefault();
 		dispatch(updateUser(formData));
 	}
 
-	const handleReset = (e) => {
+	const handleReset = (e: SyntheticEvent) => {
 		e.preventDefault();
 		setFormDataFromState();
 	}
@@ -115,7 +121,6 @@ export function ProfilePage() {
 									onChange={handleFormChange} 
 									value={formData.email} 
 									name={'email'}
-									icon={'EditIcon'}
 								/>
 							</div>
 							<div className="ml-15 mb-6">

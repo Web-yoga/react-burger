@@ -1,14 +1,19 @@
+import { FC } from 'react';
 import { useDrag } from "react-dnd";
 import { useHistory, useLocation } from 'react-router';
 
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import { DND_TYPES } from '../../constants';
-import { ingredientPropTypes } from '../../utils/prop-types';
+import { TUniqueIngredient } from '../../types/ingredients';
 
 import styles from './burger-ingredients-item.module.css';
 
+type TBurgerIngredientsItemProps = {
+	ingredient: TUniqueIngredient;
+	count: number;
+}
 
-const BurgerIngredientsItem = ({ ingredient, count }) => {
+const BurgerIngredientsItem: FC<TBurgerIngredientsItemProps> = ({ ingredient, count }) => {
 
 	const [ { opacity }, dragRef] = useDrag({
 		type: DND_TYPES.INGREDIENT,
@@ -47,10 +52,6 @@ const BurgerIngredientsItem = ({ ingredient, count }) => {
 				</p>
 		</li>
 	);
-}
-
-BurgerIngredientsItem.propTypes = {
-	ingredient: ingredientPropTypes.isRequired
 }
 
 export default BurgerIngredientsItem;

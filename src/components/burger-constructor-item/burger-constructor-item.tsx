@@ -1,18 +1,27 @@
-import { useRef } from 'react';
+import { useRef, FC } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useSelector, useDispatch } from 'react-redux';
 import { REMOVE_INGREDIENT, COUNT_TOTAL_PRICE } from "../../services/actions/constructor-ingredients";
 import { DND_TYPES } from '../../constants';
-
-import PropTypes from 'prop-types';
-import { ingredientPropTypes } from '../../utils/prop-types';
+import { TUniqueIngredient } from '../../types/ingredients';
 
 import styles from './burger-constructor-item.module.css';
 
-const BurgerConstructorItem = ({ ingredient, type, isLocked, draggable, handleSortIngredient }) => {
-	const ref = useRef(null);
-	const ingredients = useSelector(state => state.constructorIngredients.ingredients);
+type TBurgerConstructorItem = {
+	ingredient:  TUniqueIngredient;
+	type: "top"| "bottom" | undefined; 
+	isLocked: boolean; 
+	draggable: boolean; 
+	handleSortIngredient?: (dragIndex: string, hoverIndex: number) => void;
+};
+
+const BurgerConstructorItem: FC<TBurgerConstructorItem> = ({ ingredient, type, isLocked, draggable, handleSortIngredient }) => {
+	const ref = useRef<HTMLLIElement>(null);
+	const ingredients: Array<TUniqueIngredient> = useSelector(
+		state => 
+		// @ts-ignore 
+		state.constructorIngredients.ingredients);
 	const index = ingredients.findIndex(item => item.unique_key_id === ingredient.unique_key_id);
 
 	const dispatch = useDispatch();
@@ -24,7 +33,7 @@ const BurgerConstructorItem = ({ ingredient, type, isLocked, draggable, handleSo
 			handlerId: monitor.getHandlerId(),
 		  }
 		},
-		hover(item, monitor) {
+		hover(item: any, monitor: any) {
 			if (!ref.current) {
 			  return
 			}
@@ -46,7 +55,9 @@ const BurgerConstructorItem = ({ ingredient, type, isLocked, draggable, handleSo
 			if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
 			  return
 			}
-			handleSortIngredient(dragIndex, hoverIndex)
+			if(handleSortIngredient){
+				handleSortIngredient(dragIndex, hoverIndex);
+			}
 			item.index = hoverIndex
 		  },
 		});
@@ -99,14 +110,6 @@ const BurgerConstructorItem = ({ ingredient, type, isLocked, draggable, handleSo
 			/>
 		</li>
 	);
-}
-
-BurgerConstructorItem.propTypes = {
-	ingredient: ingredientPropTypes.isRequired,
-	type: PropTypes.string, 
-	isLocked: PropTypes.bool.isRequired, 
-	draggable: PropTypes.bool.isRequired,
-	handleSortIngredient: PropTypes.func,
 }
 
 export default BurgerConstructorItem;

@@ -36,7 +36,6 @@ function SwitchWithModal() {
 	const location = useLocation<TLocationState>();
 	const background = location.state && location.state.background;
 
-	console.log(background);
 	return (
 		<div>
 			<Switch location={background || location}>

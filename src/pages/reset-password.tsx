@@ -5,12 +5,16 @@ import { passwordReset } from '../utils/auth-api';
 
 import AppHeader from './../components/app-header/app-header';
 
+type TLocationState = {
+	from: string;
+};
+
 export function ResetPasswordPage() {
 	const [password, setPassword] = useState('');
 	const [code, setCode] = useState('');
 
 	const history = useHistory();
-	const location = useLocation();
+	const location = useLocation<TLocationState>();
 
 	const onPasswordReset = async () => {
 		const res = await passwordReset(JSON.stringify({

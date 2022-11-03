@@ -1,11 +1,12 @@
 import config from '../config/apiConfig';
 import { getCookie } from './cookie';
+import { CustomResponse } from './../types/ingredients';
 
-const checkResponse = (res) => {
+const checkResponse = (res: CustomResponse<{success: string; data: string}>) => {
 	return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 };
 
-export function fetchLogin(body){
+export function fetchLogin(body: string){
 	return fetch(`${config.url}/auth/login`, 
 		{
 			method: 'POST',
@@ -19,7 +20,7 @@ export function fetchLogin(body){
 		.then(checkResponse)
 }
 
-export function fetchRegister(body){
+export function fetchRegister(body: string){
 	return fetch(`${config.url}/auth/register`, 
 		{
 			method: 'POST',
@@ -69,7 +70,8 @@ export function fetchToken(){
 
 export function fetchUser(){
 	const token = getCookie('access_token');
-	return fetch(`${config.url}/auth/user`, 
+	if(token){
+		return fetch(`${config.url}/auth/user`, 
 		{
 			method: 'GET',
 			headers: {
@@ -78,26 +80,34 @@ export function fetchUser(){
 			},
 		})
 		.then(checkResponse)
+	}else{
+		return Promise.reject('cant access cookie');
+	}
+
 }
 
-export function fetchUpdateUser(formData){
+export function fetchUpdateUser(formData: any){
 	const token = getCookie('access_token');
 	const body = JSON.stringify(formData);
-	return fetch(`${config.url}/auth/user`, 
-		{
-			method: 'PATCH',
-			mode: 'cors',
-			cache: 'no-cache',
-			body: body,
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': token
-			}
-		})
-		.then(checkResponse)
+	if(token){
+		return fetch(`${config.url}/auth/user`, 
+			{
+				method: 'PATCH',
+				mode: 'cors',
+				cache: 'no-cache',
+				body: body,
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': token
+				}
+			})
+			.then(checkResponse)
+	}else{
+		return Promise.reject('cant access cookie');
+	}
 }
 
-export function sendResetEmail(body){
+export function sendResetEmail(body: string){
 	return fetch(`${config.url}/password-reset`, 
 		{
 			method: 'POST',
@@ -111,7 +121,7 @@ export function sendResetEmail(body){
 		.then(checkResponse)
 }
 
-export function passwordReset(body){
+export function passwordReset(body: string){
 	return fetch(`${config.url}/password-reset/reset`, 
 		{
 			method: 'POST',
