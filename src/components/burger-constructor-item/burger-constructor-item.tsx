@@ -1,5 +1,6 @@
 import { useRef, FC } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
+import type { Identifier } from 'dnd-core';
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useSelector, useDispatch } from 'react-redux';
 import { REMOVE_INGREDIENT, COUNT_TOTAL_PRICE } from "../../services/actions/constructor-ingredients";
@@ -13,8 +14,14 @@ type TBurgerConstructorItem = {
 	type: "top"| "bottom" | undefined; 
 	isLocked: boolean; 
 	draggable: boolean; 
-	handleSortIngredient?: (dragIndex: string, hoverIndex: number) => void;
+	handleSortIngredient?: (dragIndex: number, hoverIndex: number) => void;
 };
+
+interface DragItem {
+	index: number
+	id: string
+	type: string
+  }
 
 const BurgerConstructorItem: FC<TBurgerConstructorItem> = ({ ingredient, type, isLocked, draggable, handleSortIngredient }) => {
 	const ref = useRef<HTMLLIElement>(null);
@@ -26,14 +33,14 @@ const BurgerConstructorItem: FC<TBurgerConstructorItem> = ({ ingredient, type, i
 
 	const dispatch = useDispatch();
 
-	const [{ handlerId }, drop] = useDrop({
+	const [{ handlerId }, drop] = useDrop< DragItem, void, { handlerId: Identifier | null } >({
 		accept: DND_TYPES.SORT_INGREDIENT,
 		collect(monitor) {
 		  return {
 			handlerId: monitor.getHandlerId(),
 		  }
 		},
-		hover(item: any, monitor: any) {
+		hover(item: DragItem, monitor) {
 			if (!ref.current) {
 			  return
 			}
@@ -44,10 +51,10 @@ const BurgerConstructorItem: FC<TBurgerConstructorItem> = ({ ingredient, type, i
 			  return
 			}
 			const hoverBoundingRect = ref.current.getBoundingClientRect()
-			const hoverMiddleY =
-			  (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
+			const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
 			const clientOffset = monitor.getClientOffset()
-			const hoverClientY = clientOffset.y - hoverBoundingRect.top
+			const clientOffsetY = clientOffset && clientOffset.y ? clientOffset.y : 0
+			const hoverClientY = clientOffsetY - hoverBoundingRect.top
 
 			if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
 			  return

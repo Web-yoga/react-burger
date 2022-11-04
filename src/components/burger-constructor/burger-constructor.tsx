@@ -74,7 +74,7 @@ function BurgerConstructor() {
 		});
 	}
 
-	const handleSortIngredient = useCallback((dragIndex: string, hoverIndex: number): void => {
+	const handleSortIngredient = useCallback((dragIndex: number, hoverIndex: number): void => {
 		dispatch({
 			type: SORT_INGREDIENT,
 			payload: {
@@ -94,7 +94,7 @@ function BurgerConstructor() {
 	const handleOrderOpen = () => {
 		if(ingredients.length > 0 && bun ){
 			if(isLogin()){
-				const ingredientIds = ingredients.map((item: any) => item._id);
+				const ingredientIds = ingredients.map((item: TUniqueIngredient) => item._id);
 				dispatch(sendOrder({ingredients: [ bun._id, ...ingredientIds, bun._id]}));
 				setIsOrderModalOpen(true);
 			}else{

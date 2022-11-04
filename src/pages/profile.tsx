@@ -3,6 +3,7 @@ import { useState, useEffect, SyntheticEvent } from 'react';
 import { NavLink, Redirect, Route } from 'react-router-dom';
 import { Input, PasswordInput, EmailInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useSelector, useDispatch } from 'react-redux';
+import { TFormUpdateUser } from '../types/form';
 
 import AppHeader from '../components/app-header/app-header';
 import { getUser, getLogout, updateUser } from '../services/actions/auth';
@@ -11,7 +12,7 @@ import { isLogin } from '../utils/login';
 import styles from './profile.module.css';
 
 export function ProfilePage() {
-	const [formData, setFormData] = useState({ name:'', email:'', password:''});
+	const [formData, setFormData] = useState<TFormUpdateUser>({ name:'', email:'', password:''});
 	const [isFormChanged, setIsFormChanged] = useState(false);
 	const {message, user} = useSelector(
 		// @ts-ignore

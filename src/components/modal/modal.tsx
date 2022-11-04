@@ -16,7 +16,7 @@ const modalRoot = document.getElementById('app-modal');
 
 const Modal: FC<TModal> = ({children, header, onClose}) => {
 
-	const exitByEscape = (e: any): void => {
+	const exitByEscape = (e: KeyboardEvent): void => {
 		if (e.key === config.ESC_KEY) {
 			onClose();
 		}

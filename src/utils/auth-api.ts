@@ -1,10 +1,7 @@
 import config from '../config/apiConfig';
 import { getCookie } from './cookie';
-import { CustomResponse } from './../types/ingredients';
-
-const checkResponse = (res: CustomResponse<{success: string; data: string}>) => {
-	return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
-};
+import { checkResponse } from './check-response';
+import { TFormUpdateUser } from '../types/form';
 
 export function fetchLogin(body: string){
 	return fetch(`${config.url}/auth/login`, 
@@ -86,7 +83,7 @@ export function fetchUser(){
 
 }
 
-export function fetchUpdateUser(formData: any){
+export function fetchUpdateUser(formData: TFormUpdateUser){
 	const token = getCookie('access_token');
 	const body = JSON.stringify(formData);
 	if(token){
