@@ -14,8 +14,8 @@ import { TUniqueIngredient } from '../../types/ingredients';
 import { useSelector, useDispatch } from 'react-redux';
 import { orderSendCloseAction, sendOrder } from '../../services/actions/order';
 import { 
-	SORT_INGREDIENT, 
-	COUNT_TOTAL_PRICE, 
+	constructorSortIngredientAction, 
+	constructorCountTotalPriceAction, 
 	addConstructorIngredient
 } from './../../services/actions/constructor-ingredients';
 import { DND_TYPES } from '../../constants';
@@ -59,22 +59,27 @@ function BurgerConstructor() {
 
 	const [{isHover}, dropTarget] = useDrop({
 		accept: DND_TYPES.INGREDIENT,
-		drop(ingredient){
-			handleDrop(ingredient);
+		drop(ingredient: TUniqueIngredient){
+			if(ingredient){
+				handleDrop(ingredient);
+			}
 		},
 		collect: monitor => ({
 			isHover: monitor.isOver(),
 		})
 	})
 
-	const handleDrop = (ingredient: TUniqueIngredient | unknown): void => {
+	const handleDrop = (ingredient: TUniqueIngredient): void => {
 		dispatch(addConstructorIngredient(ingredient));
-		dispatch({
-			type: COUNT_TOTAL_PRICE
-		});
+		dispatch(constructorCountTotalPriceAction());
 	}
 
 	const handleSortIngredient = useCallback((dragIndex: number, hoverIndex: number): void => {
+		dispatch(constructorSortIngredientAction({
+			dragIndex,
+			hoverIndex
+		}));
+		/*
 		dispatch({
 			type: SORT_INGREDIENT,
 			payload: {
@@ -82,6 +87,7 @@ function BurgerConstructor() {
 				hoverIndex
 			}
 		});
+		*/
 	}, [dispatch]);
 
 

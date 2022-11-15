@@ -3,7 +3,7 @@ import { useDrag, useDrop } from 'react-dnd';
 import type { Identifier } from 'dnd-core';
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useSelector, useDispatch } from 'react-redux';
-import { REMOVE_INGREDIENT, COUNT_TOTAL_PRICE } from "../../services/actions/constructor-ingredients";
+import { constructorRemoveIngredientAction, constructorCountTotalPriceAction } from "../../services/actions/constructor-ingredients";
 import { DND_TYPES } from '../../constants';
 import { TUniqueIngredient } from '../../types/ingredients';
 
@@ -82,13 +82,8 @@ const BurgerConstructorItem: FC<TBurgerConstructorItem> = ({ ingredient, type, i
 		  drag(drop(ref))
 
 	const handleClose = () => {
-		dispatch({
-			type: REMOVE_INGREDIENT,
-			payload: ingredient.unique_key_id
-		});
-		dispatch({
-			type: COUNT_TOTAL_PRICE
-		})
+		dispatch(constructorRemoveIngredientAction(ingredient.unique_key_id));
+		dispatch(constructorCountTotalPriceAction())
 	}
 
 	let name = ingredient.name;
