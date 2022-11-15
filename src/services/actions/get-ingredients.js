@@ -1,4 +1,5 @@
 import { fetchIngredients } from '../../utils/burger-api';
+//import { TIngredient } from '../../types/ingredients';
 
 export const GET_INGREDIENTS = 'GET_INGREDIENTS';
 export const GET_INGREDIENTS_FAILED = 'GET_INGREDIENTS_FAILED';
