@@ -12,7 +12,7 @@ import { TUniqueIngredient } from '../../types/ingredients';
 
 
 import { useSelector, useDispatch } from 'react-redux';
-import { CLOSE_ORDER, sendOrder } from '../../services/actions/order';
+import { orderSendCloseAction, sendOrder } from '../../services/actions/order';
 import { 
 	SORT_INGREDIENT, 
 	COUNT_TOTAL_PRICE, 
@@ -87,9 +87,7 @@ function BurgerConstructor() {
 
 	const handleOrderClose = () => {
 		setIsOrderModalOpen(false);
-		dispatch({
-			type: CLOSE_ORDER
-		});
+		dispatch(orderSendCloseAction());
 	}
 	const handleOrderOpen = () => {
 		if(ingredients.length > 0 && bun ){
@@ -127,7 +125,7 @@ function BurgerConstructor() {
 				<ul className={styles.ingredientsList}>
 					{
 					ingredients &&
-					ingredients.map((ingredient: any): JSX.Element => {
+					ingredients.map((ingredient: TUniqueIngredient): JSX.Element => {
 						return (
 							<BurgerConstructorItem 
 								key={ingredient.unique_key_id}
