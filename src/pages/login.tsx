@@ -5,15 +5,21 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getLogin } from '../services/actions/auth';
 import { isLogin } from '../utils/login';
 
-import AppHeader from './../components/app-header/app-header';
+import AppHeader from '../components/app-header/app-header';
+
+type TLocationState = {
+	from: string;
+};
 
 export function LoginPage() {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-	const {loading, message} = useSelector(state => state.auth);
+	const {loading, message} = useSelector(
+		// @ts-ignore
+		state => state.auth);
 
 	const dispatch = useDispatch();
-	const location = useLocation();
+	const location = useLocation<TLocationState>();
 	let from = location.state && location.state.from; 
 
 	const onLogin = () => {

@@ -2,8 +2,13 @@ import styles from './order-details.module.css';
 import doneImg from '../../images/done.svg';
 import { useSelector } from 'react-redux';
 
-function OrderDetails(){
-	const { order } = useSelector(state => state.order.order);
+type TState = {
+	order: {number: number};
+}
+const OrderDetails = () => {
+	const { order }: TState = useSelector(
+		// @ts-ignore
+		state => state.order.order);
 	return(
 		<section className={styles.container}>
 			{

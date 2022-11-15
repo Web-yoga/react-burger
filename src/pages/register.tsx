@@ -10,7 +10,9 @@ export function RegisterPage() {
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-	const {loading, error, message} = useSelector(state => state.auth);
+	const {loading, error, message} = useSelector(
+		// @ts-ignore
+		state => state.auth);
 
 	const dispatch = useDispatch();
 

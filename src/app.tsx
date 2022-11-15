@@ -13,6 +13,16 @@ import { PublicRoute } from './components/public-route/public-route';
 import Modal from './components/modal/modal';
 import IngredientDetails from './components/ingredient-details/ingredient-details';
 
+type TLocationState = {
+	background: {
+		hash: string;
+		key: string; 
+		pathname: string; 
+		search: string; 
+		state: string;
+	}
+};
+
 function App() {
 	return (
 		<Router>
@@ -23,7 +33,7 @@ function App() {
 
 function SwitchWithModal() {
 	const history = useHistory();
-	const location = useLocation();
+	const location = useLocation<TLocationState>();
 	const background = location.state && location.state.background;
 
 	return (
@@ -59,7 +69,7 @@ function SwitchWithModal() {
 			<Route path="/ingredients/:id">
 				<Modal
 					header="Детали ингредиента" 
-					onClose={()=>{history.goBack(background.pathname)}}>
+					onClose={()=>{history.goBack()}}>
 					<IngredientDetails/>
 				</Modal>
 			</Route>

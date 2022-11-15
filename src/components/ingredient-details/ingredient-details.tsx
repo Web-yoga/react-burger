@@ -1,11 +1,22 @@
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router';
+import { TUniqueIngredient } from '../../types/ingredients';
 
 import styles from './ingredient-details.module.css';
 
+type TIngredientId = {id: string};
+
+type TState = {
+	ingredients: Array<TUniqueIngredient>;
+	loading: boolean; 
+	error: boolean;
+};
+
 function IngredientDetails(){
-	const { id } = useParams();
-	const { loading, error, ingredients } = useSelector(state => state.ingredients);
+	const { id }: TIngredientId = useParams();
+	const { loading, error, ingredients }: TState = useSelector(
+		// @ts-ignore
+		state => state.ingredients);
 	const ingredient = ingredients.find(item => item._id === id);
 
 	return(

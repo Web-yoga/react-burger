@@ -8,6 +8,7 @@ import OrderDetails from './../order-details/order-details';
 import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item';
 import { useDrop } from "react-dnd";
 import { useHistory } from 'react-router';
+import { TUniqueIngredient } from '../../types/ingredients';
 
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -22,7 +23,15 @@ import { isLogin } from '../../utils/login';
 
 import styles from './burger-constructor.module.css';
 
-function BurgerConstructor () {
+type TState = {
+	ingredients: Array<TUniqueIngredient>;
+	bun: TUniqueIngredient;
+	totalPrice: number;
+	loading: boolean; 
+	error: boolean;
+};
+
+function BurgerConstructor() {
 
 	const {
 		ingredients,
@@ -30,13 +39,20 @@ function BurgerConstructor () {
 		totalPrice, 
 		loading, 
 		error
-	} = useSelector(state => ({
+	}: TState = useSelector(
+		state => ({
+		// @ts-ignore
 		ingredients: state.constructorIngredients.ingredients,
+		// @ts-ignore
 		bun: state.constructorIngredients.bun,
+		// @ts-ignore
 		totalPrice: state.constructorIngredients.totalPrice,
+		// @ts-ignore
 		loading: state.order.loading,
+		// @ts-ignore
 		error: state.order.error
 	}));
+
 	const dispatch = useDispatch();
 	const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
 	const history = useHistory();
@@ -51,14 +67,14 @@ function BurgerConstructor () {
 		})
 	})
 
-	const handleDrop = (ingredient) => {
+	const handleDrop = (ingredient: TUniqueIngredient | unknown): void => {
 		dispatch(addConstructorIngredient(ingredient));
 		dispatch({
 			type: COUNT_TOTAL_PRICE
 		});
 	}
 
-	const handleSortIngredient = useCallback((dragIndex, hoverIndex) => {
+	const handleSortIngredient = useCallback((dragIndex: number, hoverIndex: number): void => {
 		dispatch({
 			type: SORT_INGREDIENT,
 			payload: {
@@ -78,13 +94,12 @@ function BurgerConstructor () {
 	const handleOrderOpen = () => {
 		if(ingredients.length > 0 && bun ){
 			if(isLogin()){
-				const ingredientIds = ingredients.map((item) => item._id);
+				const ingredientIds = ingredients.map((item: TUniqueIngredient) => item._id);
 				dispatch(sendOrder({ingredients: [ bun._id, ...ingredientIds, bun._id]}));
 				setIsOrderModalOpen(true);
 			}else{
 				history.replace({pathname: '/login'});
 			}
-
 		}
 	}
 
@@ -112,13 +127,12 @@ function BurgerConstructor () {
 				<ul className={styles.ingredientsList}>
 					{
 					ingredients &&
-					ingredients.map((ingredient, i) => {
+					ingredients.map((ingredient: any): JSX.Element => {
 						return (
 							<BurgerConstructorItem 
 								key={ingredient.unique_key_id}
 								ingredient={ingredient}
-								index={i}
-								type={null}
+								type={undefined}
 								isLocked={false}
 								draggable={true}
 								handleSortIngredient={handleSortIngredient}

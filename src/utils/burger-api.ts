@@ -1,15 +1,12 @@
 import config from '../config/apiConfig';
-
-const checkResponse = (res) => {
-	return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
-  };
+import { checkResponse } from './check-response';
 
 export function fetchIngredients(){
 	return fetch(`${config.url}/ingredients`)
 		.then(checkResponse)
 }
 
-export function fetchOrder(body){
+export function fetchOrder(body: string){
 	return fetch(`${config.url}/orders`, 
 		{
 			method: 'POST',

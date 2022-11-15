@@ -1,20 +1,22 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect } from "react";
+import { useEffect, FC } from "react";
 import { createPortal } from "react-dom";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import ModalOverlay from "../modal-overlay/modal-overlay";
 import config from '../../config/modalConfig';
 
-import PropTypes from 'prop-types';
-
 import styles from './modal.module.css';
 
+type TModal = {
+	header: string; 
+	onClose: () => void;
+};
 
 const modalRoot = document.getElementById('app-modal');
 
-function Modal({children, header, onClose}){
+const Modal: FC<TModal> = ({children, header, onClose}) => {
 
-	const exitByEscape = (e) => {
+	const exitByEscape = (e: KeyboardEvent): void => {
 		if (e.key === config.ESC_KEY) {
 			onClose();
 		}
@@ -27,7 +29,8 @@ function Modal({children, header, onClose}){
 		}
 	}, []);
 
-	return (
+	return modalRoot
+	? (
 		createPortal(
 			<div className={styles.root}>
 				<div className={styles.modal}>
@@ -45,12 +48,7 @@ function Modal({children, header, onClose}){
 			modalRoot
 		)
 	)
-}
-
-Modal.propTypes = {
-	children: PropTypes.element,
-	header: PropTypes.string, 
-	onClose: PropTypes.func.isRequired,
+	: null;
 }
 
 export default Modal

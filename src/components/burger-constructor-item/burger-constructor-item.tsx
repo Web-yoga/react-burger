@@ -1,30 +1,46 @@
-import { useRef } from 'react';
+import { useRef, FC } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
+import type { Identifier } from 'dnd-core';
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useSelector, useDispatch } from 'react-redux';
 import { REMOVE_INGREDIENT, COUNT_TOTAL_PRICE } from "../../services/actions/constructor-ingredients";
 import { DND_TYPES } from '../../constants';
-
-import PropTypes from 'prop-types';
-import { ingredientPropTypes } from '../../utils/prop-types';
+import { TUniqueIngredient } from '../../types/ingredients';
 
 import styles from './burger-constructor-item.module.css';
 
-const BurgerConstructorItem = ({ ingredient, type, isLocked, draggable, handleSortIngredient }) => {
-	const ref = useRef(null);
-	const ingredients = useSelector(state => state.constructorIngredients.ingredients);
+type TBurgerConstructorItem = {
+	ingredient:  TUniqueIngredient;
+	type: "top"| "bottom" | undefined; 
+	isLocked: boolean; 
+	draggable: boolean; 
+	handleSortIngredient?: (dragIndex: number, hoverIndex: number) => void;
+};
+
+interface DragItem {
+	index: number
+	id: string
+	type: string
+  }
+
+const BurgerConstructorItem: FC<TBurgerConstructorItem> = ({ ingredient, type, isLocked, draggable, handleSortIngredient }) => {
+	const ref = useRef<HTMLLIElement>(null);
+	const ingredients: Array<TUniqueIngredient> = useSelector(
+		state => 
+		// @ts-ignore 
+		state.constructorIngredients.ingredients);
 	const index = ingredients.findIndex(item => item.unique_key_id === ingredient.unique_key_id);
 
 	const dispatch = useDispatch();
 
-	const [{ handlerId }, drop] = useDrop({
+	const [{ handlerId }, drop] = useDrop< DragItem, void, { handlerId: Identifier | null } >({
 		accept: DND_TYPES.SORT_INGREDIENT,
 		collect(monitor) {
 		  return {
 			handlerId: monitor.getHandlerId(),
 		  }
 		},
-		hover(item, monitor) {
+		hover(item: DragItem, monitor) {
 			if (!ref.current) {
 			  return
 			}
@@ -35,10 +51,10 @@ const BurgerConstructorItem = ({ ingredient, type, isLocked, draggable, handleSo
 			  return
 			}
 			const hoverBoundingRect = ref.current.getBoundingClientRect()
-			const hoverMiddleY =
-			  (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
+			const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
 			const clientOffset = monitor.getClientOffset()
-			const hoverClientY = clientOffset.y - hoverBoundingRect.top
+			const clientOffsetY = clientOffset && clientOffset.y ? clientOffset.y : 0
+			const hoverClientY = clientOffsetY - hoverBoundingRect.top
 
 			if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
 			  return
@@ -46,7 +62,9 @@ const BurgerConstructorItem = ({ ingredient, type, isLocked, draggable, handleSo
 			if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
 			  return
 			}
-			handleSortIngredient(dragIndex, hoverIndex)
+			if(handleSortIngredient){
+				handleSortIngredient(dragIndex, hoverIndex);
+			}
 			item.index = hoverIndex
 		  },
 		});
@@ -99,14 +117,6 @@ const BurgerConstructorItem = ({ ingredient, type, isLocked, draggable, handleSo
 			/>
 		</li>
 	);
-}
-
-BurgerConstructorItem.propTypes = {
-	ingredient: ingredientPropTypes.isRequired,
-	type: PropTypes.string, 
-	isLocked: PropTypes.bool.isRequired, 
-	draggable: PropTypes.bool.isRequired,
-	handleSortIngredient: PropTypes.func,
 }
 
 export default BurgerConstructorItem;
