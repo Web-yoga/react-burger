@@ -1,19 +1,12 @@
 import { useRef, useState, RefObject } from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerIngredientsSection from '../burger-ingredients-section/burger-ingredients-section';
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../services/hooks';
 import { INGREDIENT_TYPES } from '../../constants';
-import { TUniqueIngredient } from '../../types/ingredients';
 
 import styles from './burger-ingredients.module.css';
 
 function BurgerIngredients() {
-
-	type TState = {
-		ingredients: Array<TUniqueIngredient>;
-		loading: boolean; 
-		error: boolean;
-	};
 
 	const ingredientMenuRef = useRef<HTMLDivElement>(null);
 
@@ -25,8 +18,7 @@ function BurgerIngredients() {
 	
 	const [current, setCurrent] = useState(INGREDIENT_TYPES.BUN)
 
-	const {ingredients, loading, error}: TState = useSelector(
-		// @ts-ignore
+	const {ingredients, loading, error} = useSelector(
 		state => state.ingredients);
 
 	const handleScroll = () => {

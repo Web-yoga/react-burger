@@ -2,7 +2,7 @@ import { useRef, FC } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import type { Identifier } from 'dnd-core';
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from '../../services/hooks';
 import { constructorRemoveIngredientAction, constructorCountTotalPriceAction } from "../../services/actions/constructor-ingredients";
 import { DND_TYPES } from '../../constants';
 import { TUniqueIngredient } from '../../types/ingredients';
@@ -27,7 +27,6 @@ const BurgerConstructorItem: FC<TBurgerConstructorItem> = ({ ingredient, type, i
 	const ref = useRef<HTMLLIElement>(null);
 	const ingredients: Array<TUniqueIngredient> = useSelector(
 		state => 
-		// @ts-ignore 
 		state.constructorIngredients.ingredients);
 	const index = ingredients.findIndex(item => item.unique_key_id === ingredient.unique_key_id);
 

@@ -1,5 +1,5 @@
 import { fetchIngredients } from '../../utils/burger-api';
-import { TIngredient } from '../../types/ingredients';
+import { TIngredient} from '../../types/ingredients';
 import { AppDispatch, AppThunk } from '../../types';
 
 import{

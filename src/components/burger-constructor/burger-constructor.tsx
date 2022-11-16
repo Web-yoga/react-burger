@@ -11,7 +11,7 @@ import { useHistory } from 'react-router';
 import { TUniqueIngredient } from '../../types/ingredients';
 
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from '../../services/hooks';
 import { orderSendCloseAction, sendOrder } from '../../services/actions/order';
 import { 
 	constructorSortIngredientAction, 
@@ -23,14 +23,6 @@ import { isLogin } from '../../utils/login';
 
 import styles from './burger-constructor.module.css';
 
-type TState = {
-	ingredients: Array<TUniqueIngredient>;
-	bun: TUniqueIngredient;
-	totalPrice: number;
-	loading: boolean; 
-	error: boolean;
-};
-
 function BurgerConstructor() {
 
 	const {
@@ -39,17 +31,12 @@ function BurgerConstructor() {
 		totalPrice, 
 		loading, 
 		error
-	}: TState = useSelector(
+	} = useSelector(
 		state => ({
-		// @ts-ignore
 		ingredients: state.constructorIngredients.ingredients,
-		// @ts-ignore
 		bun: state.constructorIngredients.bun,
-		// @ts-ignore
 		totalPrice: state.constructorIngredients.totalPrice,
-		// @ts-ignore
 		loading: state.order.loading,
-		// @ts-ignore
 		error: state.order.error
 	}));
 

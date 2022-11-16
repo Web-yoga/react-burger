@@ -1,4 +1,5 @@
 import { IAuthActions } from "../actions/auth";
+import { TFormRegisterUser } from "../../types/form";
 import{
 	AUTH_REGISTER,
 	AUTH_REGISTER_SUCCESS,
@@ -24,14 +25,14 @@ type TAuthState = {
 	loading: boolean,
 	error: boolean,
 	message?: string | null,
-	user: {}
+	user: TFormRegisterUser | null
 }
 
 const initialState: TAuthState = {
 	loading: false,
 	error: false,
 	message: null,
-	user: {}
+	user: null
 }
 
 export const authReducer = (state = initialState, action: IAuthActions): TAuthState => {

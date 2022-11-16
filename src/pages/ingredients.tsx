@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '../services/hooks';
 
 import AppHeader from './../components/app-header/app-header';
 import IngredientDetails from './../components/ingredient-details/ingredient-details';

@@ -1,4 +1,4 @@
-import { TIngredient } from '../../types/ingredients';
+import { TIngredient} from '../../types/ingredients';
 import { TGetIngredientsActions } from "../actions/get-ingredients"
 import{
 	GET_INGREDIENTS,

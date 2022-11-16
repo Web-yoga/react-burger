@@ -9,7 +9,7 @@ import {
 import { login, logout } from '../../utils/login';
 import { AppDispatch, AppThunk } from '../../types';
 import { TAuthResponse } from '../../types/responses';
-import { TFormUpdateUser, TFormLoginUser } from '../../types/form';
+import { TFormRegisterUser, TFormLoginUser } from '../../types/form';
 
 import{
 	AUTH_REGISTER,
@@ -212,7 +212,7 @@ export const authUpdateFailedAction = (payload?: string): IAuthUpdateFailedActio
 	payload
 });
 
-export const getRegister: AppThunk = (data: TFormUpdateUser) => (dispatch: AppDispatch) => {
+export const getRegister: AppThunk = (data: TFormRegisterUser) => (dispatch: AppDispatch) => {
 		dispatch(authRegisterAction())
 		fetchRegister(JSON.stringify(data))
 		.then(res => {
@@ -304,7 +304,7 @@ export const getUser: AppThunk = () => (dispatch: AppDispatch) => {
 	})
 }
 
-export const updateUser: AppThunk = (formData: TFormUpdateUser) => (dispatch: AppDispatch) => {
+export const updateUser: AppThunk = (formData: TFormRegisterUser) => (dispatch: AppDispatch) => {
 	dispatch(authUpdateAction())
 	fetchUpdateUser(formData)
 	.then(res => {

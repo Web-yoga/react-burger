@@ -7,7 +7,7 @@ import AppHeader from '../components/app-header/app-header';
 import BurgerConstructor from '../components/burger-constructor/burger-constructor';
 import BurgerIngredients from '../components/burger-ingredients/burger-ingredients';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '../services/hooks';
 import { getIngredients } from '../services/actions/get-ingredients';
 
 import styles from './burger-constructor.module.css';

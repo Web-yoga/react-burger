@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Input, PasswordInput, EmailInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../services/hooks';
 import { getRegister } from '../services/actions/auth';
 
 import AppHeader from './../components/app-header/app-header';
@@ -10,9 +10,7 @@ export function RegisterPage() {
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-	const {loading, error, message} = useSelector(
-		// @ts-ignore
-		state => state.auth);
+	const {loading, error, message} = useSelector( state => state.auth );
 
 	const dispatch = useDispatch();
 

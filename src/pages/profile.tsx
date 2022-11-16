@@ -2,8 +2,8 @@
 import { useState, useEffect, SyntheticEvent } from 'react';
 import { NavLink, Redirect, Route } from 'react-router-dom';
 import { Input, PasswordInput, EmailInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useSelector, useDispatch } from 'react-redux';
-import { TFormUpdateUser } from '../types/form';
+import { useSelector, useDispatch} from '../services/hooks';
+import { TFormRegisterUser } from '../types/form';
 
 import AppHeader from '../components/app-header/app-header';
 import { getUser, getLogout, updateUser } from '../services/actions/auth';
@@ -12,16 +12,14 @@ import { isLogin } from '../utils/login';
 import styles from './profile.module.css';
 
 export function ProfilePage() {
-	const [formData, setFormData] = useState<TFormUpdateUser>({ name:'', email:'', password:''});
+	const [formData, setFormData] = useState<TFormRegisterUser>({ name:'', email:'', password:''});
 	const [isFormChanged, setIsFormChanged] = useState(false);
-	const {message, user} = useSelector(
-		// @ts-ignore
-		state => state.auth);
+	const {message, user} = useSelector( state => state.auth );
 	const dispatch = useDispatch();
 
 	const setFormDataFromState = () => {
-		if(user.name && user.email){
-			setFormData((prev) =>({
+		if(user && user.name && user.email){
+			setFormData((prev) => ({
 				...prev,
 				name: user.name,
 				email: user.email,
@@ -32,6 +30,7 @@ export function ProfilePage() {
 
 	useEffect(()=>{
 		setFormDataFromState();
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	},[user])
 
 	useEffect(() => {
@@ -60,13 +59,15 @@ export function ProfilePage() {
 			[target.name]: target.value
 		}
 		setFormData(newFormData);
-		if(newFormData.name !== user.name
-			|| newFormData.email !== user.email
-			|| newFormData.password 
-			){
-			setIsFormChanged(true);
-		}else{
-			setIsFormChanged(false);
+		if(user){
+			if(newFormData.name !== user.name
+				|| newFormData.email !== user.email
+				|| newFormData.password 
+				){
+				setIsFormChanged(true);
+			}else{
+				setIsFormChanged(false);
+			}
 		}
 	}
 
@@ -129,7 +130,7 @@ export function ProfilePage() {
 							<div className="ml-15 mb-6">
 								<PasswordInput 
 									onChange={handleFormChange}
-									value={formData.password} 
+									value={formData.password || ''} 
 									name={'password'} 
 									icon={'EditIcon'}
 								/>

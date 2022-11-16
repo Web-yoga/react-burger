@@ -1,20 +1,17 @@
 import styles from './order-details.module.css';
 import doneImg from '../../images/done.svg';
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../services/hooks';
 
-type TState = {
-	order: {number: number};
-}
 const OrderDetails = () => {
-	const { order }: TState = useSelector(
-		// @ts-ignore
-		state => state.order.order);
+	
+	const { order } = useSelector( state => state.order );
+
 	return(
 		<section className={styles.container}>
 			{
 				order &&
 				<>
-					<p className="text text_type_digits-large">{order.number}</p>
+					<p className="text text_type_digits-large">{order.order.number}</p>
 					<p className="text text_type_main-medium mt-8">идентификатор заказа</p>
 					<img src={doneImg} alt="order" className="mb-15 mt-15"/>
 					<p className="text text_type_main-default">

@@ -2,7 +2,7 @@ import config from '../config/apiConfig';
 import { getCookie } from './cookie';
 import { checkResponse } from './check-response';
 import { TAuthResponse } from '../types/responses';
-import { TFormUpdateUser } from '../types/form';
+import { TFormRegisterUser } from '../types/form';
 
 export function fetchLogin(body: string){
 	return fetch(`${config.url}/auth/login`, 
@@ -84,7 +84,7 @@ export function fetchUser(){
 
 }
 
-export function fetchUpdateUser(formData: TFormUpdateUser){
+export function fetchUpdateUser(formData: TFormRegisterUser){
 	const token = getCookie('access_token');
 	const body = JSON.stringify(formData);
 	if(token){

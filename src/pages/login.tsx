@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, Redirect, useLocation } from 'react-router-dom';
 import { PasswordInput, EmailInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from '../services/hooks';
 import { getLogin } from '../services/actions/auth';
 import { isLogin } from '../utils/login';
 
@@ -14,9 +14,7 @@ type TLocationState = {
 export function LoginPage() {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-	const {loading, message} = useSelector(
-		// @ts-ignore
-		state => state.auth);
+	const {loading, message} = useSelector(	state => state.auth );
 
 	const dispatch = useDispatch();
 	const location = useLocation<TLocationState>();
