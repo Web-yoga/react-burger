@@ -1,5 +1,5 @@
 import { TOrderSendActions } from "../actions/order";
-import { TOrder } from "../../types/order";
+import { TOrderResponse } from '../../types/responses';
 import{
 	ORDER_SEND,
 	ORDER_SEND_SUCCESS,
@@ -10,7 +10,7 @@ import{
 type TOrderSendState = {
 	loading: boolean;
 	error: boolean;
-	order: null | TOrder
+	order: null | TOrderResponse
 }
 
 const initialState: TOrderSendState = {

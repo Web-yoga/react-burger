@@ -79,15 +79,6 @@ function BurgerConstructor() {
 			dragIndex,
 			hoverIndex
 		}));
-		/*
-		dispatch({
-			type: SORT_INGREDIENT,
-			payload: {
-				dragIndex,
-				hoverIndex
-			}
-		});
-		*/
 	}, [dispatch]);
 
 

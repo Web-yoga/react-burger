@@ -3,3 +3,8 @@ export type TFormUpdateUser = {
 	readonly email: string;
 	readonly password: string;
 }
+
+export type TFormLoginUser = {
+	readonly email: string;
+	readonly password: string;
+}

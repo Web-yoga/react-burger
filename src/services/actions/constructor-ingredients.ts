@@ -77,6 +77,4 @@ export const addConstructorIngredient = (ingredient: TUniqueIngredient) => {
 			payload: addUniqueKeyIds(ingredient)
 		}
 	}
-
-
-}
+};

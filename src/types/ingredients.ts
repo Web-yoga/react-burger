@@ -16,17 +16,3 @@ export type TIngredient = {
 export type TUniqueIngredient = TIngredient & {
 	readonly unique_key_id: string;
 }
-
-export interface CustomResponse<T> extends Body {
-	readonly headers: Headers;
-	readonly ok: boolean;
-	readonly redirected: boolean;
-	readonly status: number;
-	readonly statusText: string;
-	readonly trailer?: Promise<Headers>;
-	readonly type: ResponseType;
-	readonly url: string;
-	clone(): Response;
-	json(): Promise<T>;
-}
-

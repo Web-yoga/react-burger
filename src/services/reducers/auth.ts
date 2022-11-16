@@ -1,35 +1,43 @@
-import { 
-	REGISTER,
-	REGISTER_SUCCESS,
-	REGISTER_FAILED,
-	LOGIN,
-	LOGIN_SUCCESS,
-	LOGIN_FAILED,
-	TOKEN,
-	TOKEN_SUCCESS,
-	TOKEN_FAILED,
-	LOGOUT,
-	LOGOUT_SUCCESS,
-	LOGOUT_FAILED,
-	LOAD_USER,
-	LOAD_USER_SUCCESS,
-	LOAD_USER_FAILED,
-	UPDATE_USER,
-	UPDATE_USER_SUCCESS,
-	UPDATE_USER_FAILED
-} from "../actions/auth"
+import { IAuthActions } from "../actions/auth";
+import{
+	AUTH_REGISTER,
+	AUTH_REGISTER_SUCCESS,
+	AUTH_REGISTER_FAILED,
+	AUTH_LOGIN,
+	AUTH_LOGIN_SUCCESS,
+	AUTH_LOGIN_FAILED,
+	AUTH_TOKEN,
+	AUTH_TOKEN_SUCCESS,
+	AUTH_TOKEN_FAILED,
+	AUTH_LOGOUT,
+	AUTH_LOGOUT_SUCCESS,
+	AUTH_LOGOUT_FAILED,
+	AUTH_LOAD_USER,
+	AUTH_LOAD_USER_SUCCESS,
+	AUTH_LOAD_USER_FAILED,
+	AUTH_UPDATE_USER,
+	AUTH_UPDATE_USER_SUCCESS,
+	AUTH_UPDATE_USER_FAILED
+} from '../constants';
 
-const initialState = {
+type TAuthState = {
+	loading: boolean,
+	error: boolean,
+	message?: string | null,
+	user: {}
+}
+
+const initialState: TAuthState = {
 	loading: false,
 	error: false,
 	message: null,
 	user: {}
 }
 
-export const authReducer = (state = initialState, action) => {
+export const authReducer = (state = initialState, action: IAuthActions): TAuthState => {
 
 	switch( action.type ){
-		case REGISTER: {
+		case AUTH_REGISTER: {
 			return{
 				...state,
 				loading: true,
@@ -37,14 +45,14 @@ export const authReducer = (state = initialState, action) => {
 				message: null
 			}
 		}
-		case REGISTER_SUCCESS: {
+		case AUTH_REGISTER_SUCCESS: {
 			return{
 				...state,
-				user: action.user,
+				user: action.user.user,
 				loading: false
 			}
 		}
-		case REGISTER_FAILED: {
+		case AUTH_REGISTER_FAILED: {
 			return{
 				...state,
 				loading: false,
@@ -52,7 +60,7 @@ export const authReducer = (state = initialState, action) => {
 				message: action.message
 			}
 		}
-		case LOGIN: {
+		case AUTH_LOGIN: {
 			return{
 				...state,
 				loading: true,
@@ -60,14 +68,14 @@ export const authReducer = (state = initialState, action) => {
 				message: null
 			}
 		}
-		case LOGIN_SUCCESS: {
+		case AUTH_LOGIN_SUCCESS: {
 			return{
 				...state,
-				user: action.user,
+				user: action.user.user,
 				loading: false
 			}
 		}
-		case LOGIN_FAILED: {
+		case AUTH_LOGIN_FAILED: {
 			return{
 				...state,
 				loading: false,
@@ -75,7 +83,7 @@ export const authReducer = (state = initialState, action) => {
 				message: action.message
 			}
 		}
-		case TOKEN: {
+		case AUTH_TOKEN: {
 			return{
 				...state,
 				loading: true,
@@ -83,20 +91,20 @@ export const authReducer = (state = initialState, action) => {
 				message: null
 			}
 		}
-		case TOKEN_SUCCESS: {
+		case AUTH_TOKEN_SUCCESS: {
 			return{
 				...state,
 				loading: false
 			}
 		}
-		case TOKEN_FAILED: {
+		case AUTH_TOKEN_FAILED: {
 			return{
 				...state,
 				loading: false,
 				error: true
 			}
 		}
-		case LOGOUT: {
+		case AUTH_LOGOUT: {
 			return{
 				...state,
 				loading: true,
@@ -104,19 +112,19 @@ export const authReducer = (state = initialState, action) => {
 				message: null
 			}
 		}
-		case LOGOUT_SUCCESS: {
+		case AUTH_LOGOUT_SUCCESS: {
 			return{
 				...initialState
 			}
 		}
-		case LOGOUT_FAILED: {
+		case AUTH_LOGOUT_FAILED: {
 			return{
 				...state,
 				loading: false,
 				error: true
 			}
 		}
-		case LOAD_USER: {
+		case AUTH_LOAD_USER: {
 			return{
 				...state,
 				loading: true,
@@ -124,14 +132,14 @@ export const authReducer = (state = initialState, action) => {
 				message: null
 			}
 		}
-		case LOAD_USER_SUCCESS: {
+		case AUTH_LOAD_USER_SUCCESS: {
 			return{
 				...state,
 				user: action.payload.user,
 				loading: false
 			}
 		}
-		case LOAD_USER_FAILED: {
+		case AUTH_LOAD_USER_FAILED: {
 			return{
 				...state,
 				loading: false,
@@ -139,7 +147,7 @@ export const authReducer = (state = initialState, action) => {
 				message: action.payload
 			}
 		}
-		case UPDATE_USER: {
+		case AUTH_UPDATE_USER: {
 			return{
 				...state,
 				loading: true,
@@ -147,7 +155,7 @@ export const authReducer = (state = initialState, action) => {
 				message: null
 			}
 		}
-		case UPDATE_USER_SUCCESS: {
+		case AUTH_UPDATE_USER_SUCCESS: {
 			return{
 				...state,
 				user: action.payload.user,
@@ -155,7 +163,7 @@ export const authReducer = (state = initialState, action) => {
 				loading: false
 			}
 		}
-		case UPDATE_USER_FAILED: {
+		case AUTH_UPDATE_USER_FAILED: {
 			return{
 				...state,
 				loading: false,

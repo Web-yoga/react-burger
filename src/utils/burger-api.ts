@@ -1,9 +1,10 @@
 import config from '../config/apiConfig';
+import { TIngredientsResponse, TOrderResponse } from '../types/responses';
 import { checkResponse } from './check-response';
 
 export function fetchIngredients(){
 	return fetch(`${config.url}/ingredients`)
-		.then(checkResponse)
+		.then(res => checkResponse<TIngredientsResponse>(res))
 }
 
 export function fetchOrder(body: string){
@@ -17,5 +18,5 @@ export function fetchOrder(body: string){
 				'Content-Type': 'application/json'
 			}
 		})
-		.then(checkResponse)
+		.then(res => checkResponse<TOrderResponse>(res))
 }

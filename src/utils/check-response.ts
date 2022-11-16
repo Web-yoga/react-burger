@@ -1,5 +1,5 @@
-import { CustomResponse, TIngredient } from './../types/ingredients';
+import { CustomResponse } from '../types/responses';
 
-export const checkResponse = (res: CustomResponse<{success: string; data: ReadonlyArray<TIngredient>}>) => {
+export const checkResponse = <TResponse>(res: CustomResponse<TResponse>) => {
 	return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 };

@@ -1,6 +1,6 @@
 import { fetchOrder } from '../../utils/burger-api';
 import { AppDispatch, AppThunk } from '../../types';
-import { TOrder } from '../../types/order';
+import { TOrderResponse } from '../../types/responses';
 
 import{
 	ORDER_SEND,
@@ -15,7 +15,7 @@ export interface IOrderSendAction {
 
 export interface IOrderSendSuccessAction {
 	readonly type: typeof ORDER_SEND_SUCCESS;
-	readonly payload: TOrder;
+	readonly payload: TOrderResponse;
 }
 
 export interface IOrderSendFailedAction {
@@ -36,7 +36,7 @@ export const orderSendAction = (): IOrderSendAction => ({
 	type: ORDER_SEND
 });
 
-export const orderSendSuccessAction = (payload: TOrder): IOrderSendSuccessAction => ({
+export const orderSendSuccessAction = (payload: TOrderResponse): IOrderSendSuccessAction => ({
 	type: ORDER_SEND_SUCCESS,
 	payload
 });
@@ -51,26 +51,26 @@ export const orderSendCloseAction = (): IOrderSendCloseAction => ({
 
 export const sendOrder: AppThunk = (ingredientsIds: ReadonlyArray<number>) => (dispatch: AppDispatch) => {
 
-		dispatch({
-			type: ORDER_SEND
-		})
+	dispatch({
+		type: ORDER_SEND
+	})
 
-		fetchOrder(JSON.stringify(ingredientsIds))
-		.then(res => {
-			if(res && res.success){
-				dispatch({
-					type: ORDER_SEND_SUCCESS,
-					payload: res
-				})
-			}else{
-				dispatch({
-					type: ORDER_SEND_FAILED
-				})
-			}
-		}).catch( err =>{
+	fetchOrder(JSON.stringify(ingredientsIds))
+	.then(res => {
+		if(res && res.success){
+			dispatch({
+				type: ORDER_SEND_SUCCESS,
+				payload: res
+			})
+		}else{
 			dispatch({
 				type: ORDER_SEND_FAILED
 			})
+		}
+	}).catch( err =>{
+		dispatch({
+			type: ORDER_SEND_FAILED
 		})
+	})
 
 };
