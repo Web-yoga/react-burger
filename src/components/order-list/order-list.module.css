@@ -1,0 +1,29 @@
+.container{
+	flex: 1 0 600px;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: stretch;
+}
+.orderList{
+	flex: 1 0 100px;
+	overflow-y: auto;
+}
+.orderList::-webkit-scrollbar-track{
+    margin-bottom: 50px;
+}
+.itemsSection{
+	display: flex;
+	flex-wrap: wrap;
+}
+@media (max-width: 1270px) {
+	.container{
+		flex: 0 0 300px;
+	}
+}
+@media (max-width: 992px) {
+	.container{
+		margin-right: 0!important;
+		padding: 0 15px;
+	}
+}

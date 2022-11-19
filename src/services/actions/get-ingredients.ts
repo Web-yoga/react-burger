@@ -21,8 +21,7 @@ export interface IGetIngredientsFailedAction {
 	readonly type: typeof GET_INGREDIENTS_FAILED;
 }
 
-export type TGetIngredientsActions = 
-	| IGetIngredientsAction
+export type TGetIngredientsActions = IGetIngredientsAction
 	| IGetIngredientsSuccessAction
 	| IGetIngredientsFailedAction;
 

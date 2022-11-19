@@ -22,10 +22,10 @@ function AppHeader() {
 						<span className='pl-2'>Конструктор</span>
 				</NavLink>
 				<NavLink 
-					to="/order-list"  
+					to="/feed"  
 					className={`${styles.btn} p-5`}
 					activeClassName={styles.active}>
-						<ListIcon type={ path === "/order-list" ? "primary" : "secondary" } />
+						<ListIcon type={ path === "/feed" ? "primary" : "secondary" } />
 						<span className='pl-2'>Лента заказов</span>
 				</NavLink>
 				<Logo />

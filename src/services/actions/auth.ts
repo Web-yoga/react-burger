@@ -112,8 +112,7 @@ export interface IAuthUpdateFailedAction {
 	readonly payload?: string;
 }
 
-export type IAuthActions = 
-	| IAuthRegisterAction
+export type IAuthActions = IAuthRegisterAction
 	| IAuthRegisterSuccessAction
 	| IAuthRegisterFailedAction
 	| IAuthLoginAction

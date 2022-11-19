@@ -1,0 +1,30 @@
+.info{
+	display: flex;
+	flex-direction: column;
+	flex: 0 0 580px;
+}
+.process{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: stretch;
+	
+	padding-top: 95px;
+}
+.ready{
+	color: var(--order-ready-color);
+}
+.ordersNumbers{
+	display: flex;
+	align-items: stretch;
+	flex-direction: row;
+	justify-content: flex-start;
+}
+.ordersNumbersColumn{
+	flex: 1 1 100px;
+	display: flex;
+	flex-direction: column;
+}
+.done{
+	width: 100%;
+}

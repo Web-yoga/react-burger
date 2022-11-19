@@ -45,6 +45,9 @@ li{
 	justify-content: center;
 	align-items: center;
 }
+.text--shadow{
+	text-shadow: 0 0 16px var(--accent-color-opacity25),0 0 8px var(--accent-color-opacity25),0 4px 32px var(--accent-color-opacity50);
+}
 ::-webkit-scrollbar {
     width: 8px;
 }

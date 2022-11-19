@@ -33,8 +33,7 @@ export interface IConstructorSortIngredientAction {
 	payload: {dragIndex: number, hoverIndex: number};
 }
 
-export type TConstructorActions = 
-	| IConstructorAddIngredientAction
+export type TConstructorActions = IConstructorAddIngredientAction
 	| IConstructorAddBunAction
 	| IConstructorCountTotalPriceAction
 	| IConstructorRemoveIngredientAction

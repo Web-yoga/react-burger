@@ -26,8 +26,7 @@ export interface IOrderSendCloseAction {
 	readonly type: typeof ORDER_SEND_CLOSE;
 }
 
-export type TOrderSendActions = 
-	| IOrderSendAction
+export type TOrderSendActions = IOrderSendAction
 	| IOrderSendSuccessAction
 	| IOrderSendFailedAction
 	| IOrderSendCloseAction;
