@@ -29,7 +29,7 @@ export function fetchRegister(body: string){
 				'Content-Type': 'application/json'
 			}
 		})
-		.then(res => checkResponse<any>(res))
+		.then(res => checkResponse<TAuthResponse>(res))
 }
 
 export function fetchLogout(){
@@ -46,7 +46,7 @@ export function fetchLogout(){
 				'Content-Type': 'application/json'
 			}
 		})
-		.then(res => checkResponse<any>(res))
+		.then(res => checkResponse<TAuthResponse>(res))
 }
 
 export function fetchToken(){
@@ -63,7 +63,11 @@ export function fetchToken(){
 				'Content-Type': 'application/json'
 			}
 		})
-		.then(res => checkResponse<any>(res))
+		.then(res => checkResponse<{
+			success: string;
+			accessToken: string;
+			refreshToken: string;
+		  }>(res))
 }
 
 export function fetchUser(){
@@ -77,7 +81,7 @@ export function fetchUser(){
 				'Authorization': token
 			},
 		})
-		.then(res => checkResponse<any>(res))
+		.then(res => checkResponse<TAuthResponse>(res))
 	}else{
 		return Promise.reject('cant access cookie');
 	}
@@ -99,7 +103,7 @@ export function fetchUpdateUser(formData: TFormRegisterUser){
 					'Authorization': token
 				}
 			})
-			.then(res => checkResponse<any>(res))
+			.then(res => checkResponse<TAuthResponse>(res))
 	}else{
 		return Promise.reject('cant access cookie');
 	}
@@ -116,7 +120,10 @@ export function sendResetEmail(body: string){
 				'Content-Type': 'application/json'
 			}
 		})
-		.then(res => checkResponse<any>(res))
+		.then(res => checkResponse<{
+			readonly success: string;
+			readonly message: string;
+		}>(res))
 }
 
 export function passwordReset(body: string){
@@ -130,5 +137,8 @@ export function passwordReset(body: string){
 				'Content-Type': 'application/json'
 			}
 		})
-		.then(res => checkResponse<any>(res))
+		.then(res => checkResponse<{
+			readonly success: string;
+			readonly message: string;
+		}>(res))
 }

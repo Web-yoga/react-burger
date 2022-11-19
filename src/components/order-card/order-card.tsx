@@ -1,6 +1,7 @@
 import { FC, useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { ORDER_STATUS_TRANSLATION } from '../../constants';
 
 import styles from './order-card.module.css';
 
@@ -42,14 +43,16 @@ const orderInfo = useMemo(() => {
 	const ingredientsVisible = ingredientsInfo.slice(0, maxIngredients);
 
 	const rest = ingredientsInfo.length > maxIngredients ? ingredientsInfo.length - maxIngredients : 0;
-
 	const date = formatDate(order.createdAt);
+	const readyClassName = order.status === 'done' ? 'ready' : '';
+
 	return {
 		...order,
 		ingredientsInfo,
 		ingredientsVisible,
 		rest,
 		total,
+		ready: readyClassName,
 		date
 	};
 
@@ -76,12 +79,14 @@ if (!orderInfo) return null;
 		</div>
 		<h4 className="pt-6 text text_type_main-medium"> {orderInfo.name} </h4>
 		{location.pathname === "/profile/orders" && (
-			<p>{orderInfo.status}</p>
+			<p className={`pt-2 text text_type_main-small ${orderInfo.ready ? styles.ready : ''}`} >
+				{ORDER_STATUS_TRANSLATION[orderInfo.status]}
+			</p>
 		)}
 	
 			<div className={`pt-6 ${styles.ingredientsContent}`}>
 				<ul className={styles.ingredients}>
-					{orderInfo.ingredientsVisible.map((ingredient: any, index: number) => {
+					{orderInfo.ingredientsVisible.map((ingredient: TIngredient, index: number) => {
 						let zIndex = maxIngredients - index;
 						let right = 20 * index;
 

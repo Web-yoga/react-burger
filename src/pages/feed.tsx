@@ -24,7 +24,10 @@ export function FeedPage() {
 		<div className='app'>
 			<AppHeader/>
 			<main className={ `${styles.content} container` }>
-				<OrderList />
+				<div className={ `${styles.container} mr-10` }>
+					<h1 className='text text_type_main-large mt-10 mb-5'>Лента заказов</h1>
+					<OrderList />
+				</div>
 				<OrderListInfo />
 			</main>
 		</div>

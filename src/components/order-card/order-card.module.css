@@ -48,3 +48,6 @@
 	align-items: center;
 	height: 64px;
 }
+.ready{
+	color: var(--order-ready-color);
+}

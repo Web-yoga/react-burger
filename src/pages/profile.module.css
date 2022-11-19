@@ -1,14 +1,29 @@
 .wrapper{
 	display: flex;
+	justify-content: flex-start;
+	align-items: stretch;
+	flex: 1 1 900px;
 }
 .menu{
 	display: flex;
 	flex-direction: column;
-	width: 320px;
+	flex: 0 0 320px;
 }
 .menu a{
 	color: var(--secondary-text);
 }
 a.activeLink{
 	color: var(--primary-light);
+}
+.content{
+	flex: 1 1 916px;
+	display: flex;
+	flex-direction: column;
+}
+.orderList{
+	display: flex;
+	flex-direction: column;
+	justify-content:flex-start;
+	align-items: stretch;
+	flex: 1 0 200px;
 }

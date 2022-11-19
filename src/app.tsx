@@ -8,7 +8,6 @@ import {
 	ProfilePage, 
 	IngredientsPage, 
 	FeedPage,
-	OrdersPage,
 	OrderInfoPage,
 	NotFound404 } from './pages';
 import { ProtectedRoute } from './components/protected-route/protected-route';
@@ -61,6 +60,12 @@ function SwitchWithModal() {
 				<ProtectedRoute path="/profile" exact={true} redirectTo="/login">
           			<ProfilePage />
         		</ProtectedRoute>
+				<ProtectedRoute path="/profile/orders" exact={true} redirectTo="/login">
+					<ProfilePage />
+        		</ProtectedRoute>
+				<ProtectedRoute path="/profile/orders/:id" exact={true} redirectTo="/login">
+					<OrderInfoPage />
+        		</ProtectedRoute>
 				<Route path="/ingredients/:id" exact={true}>
           			<IngredientsPage />
         		</Route>
@@ -70,9 +75,6 @@ function SwitchWithModal() {
 				<Route path="/feed/:id" exact={true}>
           			<OrderInfoPage />
         		</Route>
-				<ProtectedRoute path="/profile/orders" redirectTo="/login">
-          			<OrdersPage />
-        		</ProtectedRoute>
 				<Route>
             		<NotFound404 />
           		</Route>
@@ -89,6 +91,15 @@ function SwitchWithModal() {
 
 			{ background &&
 			<Route path="/feed/:id">
+				<Modal
+					onClose={()=>{history.goBack()}}>
+					<OrderInfo/>
+				</Modal>
+			</Route>
+			}
+
+			{ background &&
+			<Route path="/profile/orders/:id">
 				<Modal
 					onClose={()=>{history.goBack()}}>
 					<OrderInfo/>

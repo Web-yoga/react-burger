@@ -1,4 +1,5 @@
 export const ORDER_LIST_SERVER_URL: 'wss://norma.nomoreparties.space/orders/all' = 'wss://norma.nomoreparties.space/orders/all';
+export const ORDER_LIST_AUTH_SERVER_URL: 'wss://norma.nomoreparties.space/orders' = 'wss://norma.nomoreparties.space/orders';
 
 export const AUTH_REGISTER: 'AUTH_REGISTER' = 'AUTH_REGISTER';
 export const AUTH_REGISTER_SUCCESS: 'AUTH_REGISTER_SUCCESS' = 'AUTH_REGISTER_SUCCESS';

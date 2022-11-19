@@ -4,6 +4,7 @@ import { useSelector } from "../../services/hooks";
 import { formatDate } from "../../utils/format-date";
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { TIngredient } from "../../types/ingredients";
+import { ORDER_STATUS_TRANSLATION } from "../../constants";
 
 import styles from "./order-info.module.css";
 
@@ -18,11 +19,6 @@ export default function OrderInfo(){
 	const { ingredients } = useSelector(state => state.ingredients);
 
 	const params: {id: string} = useParams();
-	const status = {
-		created: "Создан",
-		pending: "В работе",
-		done: "Выполнен",
-	};
 
 	const orderInfo = useMemo(() => {
 
@@ -68,7 +64,7 @@ export default function OrderInfo(){
 				<span className="pt-5 text text_type_digits-default">#{orderInfo.number}</span>
 				<span className="pt-10 pb-3 text text_type_main-medium">{orderInfo.name}</span>
 				<span className={`pb-15 text text_type_main-small ${styles.status}`}>
-					{status[orderInfo.status]}
+					{ORDER_STATUS_TRANSLATION[orderInfo.status]}
 				</span>
 				<span className="pb-6 text text_type_main-medium">Состав:</span>
 				<ul className={`pb-10 ${styles.ingredients}`}>
