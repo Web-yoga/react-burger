@@ -5,7 +5,7 @@ import store from './services/store';
 
 import './index.css';
 
-import App from './app';
+import App from './components/app/app';
 
 ReactDOM.render(
 	<React.StrictMode>

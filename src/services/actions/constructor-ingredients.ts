@@ -6,7 +6,8 @@ import{
 	CONSTRUCTOR_ADD_BUN,
 	CONSTRUCTOR_COUNT_TOTAL_PRICE,
 	CONSTRUCTOR_REMOVE_INGREDIENT,
-	CONSTRUCTOR_SORT_INGREDIENT
+	CONSTRUCTOR_SORT_INGREDIENT,
+	CONSTRUCTOR_RESET
 } from '../constants';
 
 export interface IConstructorAddIngredientAction {
@@ -33,11 +34,16 @@ export interface IConstructorSortIngredientAction {
 	payload: {dragIndex: number, hoverIndex: number};
 }
 
+export interface IConstructorResetAction {
+	readonly type: typeof CONSTRUCTOR_RESET;
+}
+
 export type TConstructorActions = IConstructorAddIngredientAction
 	| IConstructorAddBunAction
 	| IConstructorCountTotalPriceAction
 	| IConstructorRemoveIngredientAction
-	| IConstructorSortIngredientAction;
+	| IConstructorSortIngredientAction
+	| IConstructorResetAction;
 
 export const constructorAddIngredientAction = (payload: TUniqueIngredient): IConstructorAddIngredientAction => ({
 	type: CONSTRUCTOR_ADD_INGREDIENT,
@@ -61,6 +67,10 @@ export const constructorRemoveIngredientAction = (payload: string): IConstructor
 export const constructorSortIngredientAction = (payload: {dragIndex: number, hoverIndex: number}): IConstructorSortIngredientAction => ({
 	type: CONSTRUCTOR_SORT_INGREDIENT,
 	payload
+});
+
+export const constructorResetAction = (): IConstructorResetAction => ({
+	type: CONSTRUCTOR_RESET
 });
 
 export const addConstructorIngredient = (ingredient: TUniqueIngredient) => {

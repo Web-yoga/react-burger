@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Switch, Route, useHistory, useLocation } from 'react-router-dom';
+import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
 import { 
 	BurgerConstructorPage, 
 	LoginPage, 
@@ -9,12 +9,14 @@ import {
 	IngredientsPage, 
 	FeedPage,
 	OrderInfoPage,
-	NotFound404 } from './pages';
-import { ProtectedRoute } from './components/protected-route/protected-route';
-import { PublicRoute } from './components/public-route/public-route';
-import Modal from './components/modal/modal';
-import IngredientDetails from './components/ingredient-details/ingredient-details';
-import OrderInfo from './components/order-info/order-info';
+	NotFound404 } from '../../pages';
+import { ProtectedRoute } from '../../components/protected-route/protected-route';
+import { PublicRoute } from '../../components/public-route/public-route';
+import Modal from '../../components/modal/modal';
+import IngredientDetails from '../../components/ingredient-details/ingredient-details';
+import OrderInfo from '../../components/order-info/order-info';
+
+import styles from './switch-with-modal.module.css';
 
 type TLocationState = {
 	background: {
@@ -26,21 +28,13 @@ type TLocationState = {
 	}
 };
 
-function App() {
-	return (
-		<Router>
-			<SwitchWithModal/>
-		</Router>
-	);
-}
-
 function SwitchWithModal() {
 	const history = useHistory();
 	const location = useLocation<TLocationState>();
 	const background = location.state && location.state.background;
 
 	return (
-		<div>
+		<div className={styles.wrapContainer}>
 			<Switch location={background || location}>
 				<Route path="/" exact={true}>
           			<BurgerConstructorPage />
@@ -110,4 +104,4 @@ function SwitchWithModal() {
 	);
 }
 
-export default App;
+export default SwitchWithModal;

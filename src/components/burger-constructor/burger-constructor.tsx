@@ -13,6 +13,7 @@ import { TUniqueIngredient } from '../../types/ingredients';
 
 import { useSelector, useDispatch } from '../../services/hooks';
 import { orderSendCloseAction, sendOrder } from '../../services/actions/order';
+import { constructorResetAction } from './../../services/actions/constructor-ingredients';
 import { 
 	constructorSortIngredientAction, 
 	constructorCountTotalPriceAction, 
@@ -72,6 +73,7 @@ function BurgerConstructor() {
 	const handleOrderClose = () => {
 		setIsOrderModalOpen(false);
 		dispatch(orderSendCloseAction());
+		dispatch(constructorResetAction());
 	}
 	const handleOrderOpen = () => {
 		if(ingredients.length > 0 && bun ){

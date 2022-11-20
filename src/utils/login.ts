@@ -1,4 +1,4 @@
-import { setCookie, getCookie } from "./cookie";
+import { setCookie, getCookie, deleteCookie } from "./cookie";
 
 export const login = (refreshToken: string, accessToken: string): void => {
     setCookie('token', refreshToken);
@@ -6,8 +6,8 @@ export const login = (refreshToken: string, accessToken: string): void => {
 }
 
 export const logout = (): void => {
-	setCookie('token', null, {expires: -1});
-	setCookie('access_token', null, {expires: -1});
+	deleteCookie('token');
+	deleteCookie('access_token');
 }
 
 export const isLogin = (): boolean => {

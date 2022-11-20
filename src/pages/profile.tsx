@@ -2,10 +2,8 @@
 import { useState, useEffect, SyntheticEvent } from 'react';
 import { NavLink, Redirect, Route } from 'react-router-dom';
 import OrderList from '../components/order-list/order-list';
-import AppHeader from '../components/app-header/app-header';
 import { getUser, getLogout, updateUser } from '../services/actions/auth';
 import { isLogin } from '../utils/login';
-import { getIngredients } from '../services/actions/get-ingredients';
 import { ORDER_LIST_CONNECT, ORDER_LIST_DISCONNECT, ORDER_LIST_AUTH_SERVER_URL } from './../services/constants/index';
 import { getCookie } from '../utils/cookie';
 
@@ -31,7 +29,6 @@ export function ProfilePage() {
 			const url = ORDER_LIST_AUTH_SERVER_URL + '?token=' + token;
 			dispatch({type: ORDER_LIST_CONNECT, payload: url});
 		}
-		dispatch(getIngredients());
 		
 		return () => {
 			dispatch({type: ORDER_LIST_DISCONNECT});
@@ -103,89 +100,83 @@ export function ProfilePage() {
 	}
 
 	return(
-		<div className='app'>
-			<AppHeader/>
-			<main className={`container ${styles.wrapper}`}>
-				<section className={`mr-15 mt-30 ${styles.menu}`}>
-					<NavLink to="/profile" exact activeClassName={styles.activeLink} className="pt-3 pb-3">
-						<p className="text text_type_main-medium">Профиль</p>
-					</NavLink>
-					<NavLink to="/profile/orders" activeClassName={styles.activeLink} className="pt-3 pb-3">
-						<p className="text text_type_main-medium">История заказов</p>
-					</NavLink>
-					<a href="#" className="pt-3 pb-3" onClick={loguot}>
-						<p className="text text_type_main-medium">Выход</p>
-					</a>
-					<p className="text text_type_main-default text_color_inactive mt-20">
-						В этом разделе вы можете
-						изменить свои персональные данные
-					</p>
-					{message && 
-					<p className="text text_type_main-default">{message}</p>}
-				</section>
-				<Route path="/profile" exact={true} >
-					<section className={`mt-30 ${styles.content}`}>
-						<form 
-							onSubmit={handleSubmit} 
-							onReset={handleReset}>
-							<div className="ml-15 mb-6">
-								<Input 
-									type={'text'}
-									placeholder={'Имя'}
-									onChange={handleFormChange}
-									value={formData.name}
-									name={'name'}
-									size={'default'}
-									icon={'EditIcon'}
-								/>
-							</div>
-							<div className="ml-15 mb-6">
-								<EmailInput 
-									onChange={handleFormChange} 
-									value={formData.email} 
-									name={'email'}
-									// @ts-ignore
-									icon={'EditIcon'}
-								/>
-							</div>
-							<div className="ml-15 mb-6">
-								<PasswordInput 
-									onChange={handleFormChange}
-									value={formData.password || ''} 
-									name={'password'} 
-									icon={'EditIcon'}
-								/>
-							</div>
-							{
-								isFormChanged && (
-									<div className="ml-15 mb-6">
-										<Button 
-										htmlType="submit"
-										type="primary" 
-										size="medium" 
-										onClick={handleSubmit}
-										>Сохранить</Button>
-										<Button 
-										htmlType="reset"
-										type="secondary" 
-										size="medium" 
-										onClick={handleReset}
-										>Отмена</Button>
-									</div>
-								)
-							}
-						</form>
-
-					</section>
-				</Route>
-				<Route path="/profile/orders" exact={true} >
-					<section className={`mt-10 ${styles.content}`}>
-						<div className={styles.orderList}>
-							<OrderList />
+		<main className={`container ${styles.wrapper}`}>
+			<section className={`mr-15 mt-30 ${styles.menu}`}>
+				<NavLink to="/profile" exact activeClassName={styles.activeLink} className="pt-3 pb-3">
+					<p className="text text_type_main-medium">Профиль</p>
+				</NavLink>
+				<NavLink to="/profile/orders" activeClassName={styles.activeLink} className="pt-3 pb-3">
+					<p className="text text_type_main-medium">История заказов</p>
+				</NavLink>
+				<a href="#" className="pt-3 pb-3" onClick={loguot}>
+					<p className="text text_type_main-medium">Выход</p>
+				</a>
+				<p className="text text_type_main-default text_color_inactive mt-20">
+					В этом разделе вы можете
+					изменить свои персональные данные
+				</p>
+				{message && 
+				<p className="text text_type_main-default">{message}</p>}
+			</section>
+			<Route path="/profile" exact={true} >
+				<section className={`mt-30 ${styles.content}`}>
+					<form 
+						onSubmit={handleSubmit} 
+						onReset={handleReset}>
+						<div className="ml-15 mb-6">
+							<Input 
+								type={'text'}
+								placeholder={'Имя'}
+								onChange={handleFormChange}
+								value={formData.name}
+								name={'name'}
+								size={'default'}
+								icon={'EditIcon'}
+							/>
 						</div>
-					</section>
-				</Route>
-			</main>
-		</div>
+						<div className="ml-15 mb-6">
+							<EmailInput 
+								onChange={handleFormChange} 
+								value={formData.email} 
+								name={'email'}
+								// @ts-ignore
+								icon={'EditIcon'}
+							/>
+						</div>
+						<div className="ml-15 mb-6">
+							<PasswordInput 
+								onChange={handleFormChange}
+								value={formData.password || ''} 
+								name={'password'} 
+								icon={'EditIcon'}
+							/>
+						</div>
+						{
+							isFormChanged && (
+								<div className="ml-15 mb-6">
+									<Button 
+									htmlType="submit"
+									type="primary" 
+									size="medium"
+									>Сохранить</Button>
+									<Button 
+									htmlType="reset"
+									type="secondary" 
+									size="medium"
+									>Отмена</Button>
+								</div>
+							)
+						}
+					</form>
+				</section>
+			</Route>
+			<Route path="/profile/orders" exact={true} >
+				<section className={`mt-10 ${styles.content}`}>
+					<div className={styles.orderList}>
+						<OrderList />
+					</div>
+				</section>
+			</Route>
+		</main>
 	)
 }

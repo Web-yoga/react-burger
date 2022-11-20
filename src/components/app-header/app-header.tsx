@@ -11,7 +11,7 @@ import styles from './app-header.module.css';
 function AppHeader() {
 	const { path } = useRouteMatch();
 	return (
-		<header className= { `${styles.header} p-4` } >
+		<header className={ `${styles.header} p-4` } >
 			<menu className={ `${styles.menu} container` }>
 				<NavLink 
 					to="/"
@@ -28,7 +28,11 @@ function AppHeader() {
 						<ListIcon type={ path === "/feed" ? "primary" : "secondary" } />
 						<span className='pl-2'>Лента заказов</span>
 				</NavLink>
-				<Logo />
+				<NavLink 
+					to="/"
+					className={`${styles.logo}`}>
+					<Logo />
+				</NavLink>
 				<NavLink 
 					to="/profile"  
 					className={`${styles.btn} p-5`}

@@ -5,7 +5,8 @@ import{
 	CONSTRUCTOR_ADD_BUN,
 	CONSTRUCTOR_COUNT_TOTAL_PRICE,
 	CONSTRUCTOR_REMOVE_INGREDIENT,
-	CONSTRUCTOR_SORT_INGREDIENT
+	CONSTRUCTOR_SORT_INGREDIENT,
+	CONSTRUCTOR_RESET
 } from '../constants';
 
 type TConstructorState = {
@@ -71,6 +72,10 @@ export const constructorIngredientsReducer = (state = initialState, action: TCon
 				...state,
 				ingredients: newIngredients
 			}
+		}
+
+		case CONSTRUCTOR_RESET: {
+			return initialState;
 		}
 		
 		default: { 

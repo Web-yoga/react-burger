@@ -10,19 +10,19 @@ import{
 } from '../constants';
 
 export type OrderListState = {
-	wsConnected: boolean;
 	orders: null | TWSOrder[];
 	total: number | null;
 	totalToday: number | null;
+	loading: boolean;
 	error: string;
 };
 
 const initialState: OrderListState = {
-	wsConnected: false,
 	orders: [],
 	total: null,
 	totalToday: null,
-	error: '',
+	loading: false,
+	error: ''
 };
 
 export const orderListReducer = ( state = initialState, action: TOrderListActions): OrderListState => {
@@ -30,19 +30,20 @@ export const orderListReducer = ( state = initialState, action: TOrderListAction
 		case ORDER_LIST_CONNECT: {
 			return {
 				...state,
-				wsConnected: true
+				loading: true,
+				error: ''
 			}
 		}
 		case ORDER_LIST_DISCONNECT: {
 			return {
 				...state,
-				wsConnected: false
+				loading: false
 			}
 		}
 		case ORDER_LIST_WS_SUCCESS: {
 			return {
 				...state,
-				wsConnected: true
+				error: '',
 			}
 		}
 		case ORDER_LIST_WS_CLOSE: {
@@ -51,6 +52,7 @@ export const orderListReducer = ( state = initialState, action: TOrderListAction
 		case ORDER_LIST_WS_MESSAGE: {
 			return {
 				...state,
+				loading: false,
 				orders: action.payload.orders,
 				total: action.payload.total,
 				totalToday: action.payload.totalToday
@@ -59,8 +61,8 @@ export const orderListReducer = ( state = initialState, action: TOrderListAction
 		case ORDER_LIST_WS_ERROR: {
 			return {
 				...state,
-				wsConnected: false,
-				error: action.payload
+				loading: false,
+				error: action.payload,
 			}
 		}
 		default: return state;

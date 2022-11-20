@@ -2,7 +2,7 @@
 	display: flex;
 	justify-content: flex-start;
 	align-items: stretch;
-	flex: 1 1 900px;
+	flex: 1 1 100px;
 }
 .menu{
 	display: flex;

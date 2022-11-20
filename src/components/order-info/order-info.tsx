@@ -15,7 +15,7 @@ type TOrderIngredient = {
 };
 
 export default function OrderInfo(){
-	const { orders, error } = useSelector(state => state.orderList);
+	const { loading, orders, error } = useSelector(state => state.orderList);
 	const { ingredients } = useSelector(state => state.ingredients);
 
 	const params: {id: string} = useParams();
@@ -57,9 +57,11 @@ export default function OrderInfo(){
 
 	return(
 		<section className={styles.content}>
+			{ loading && <p className="text text_type_main-medium mt-20">Соединение с сервером...</p> }
 			{ error && <p className="text text_type_main-medium mt-20">Произошла ошибка!</p> }
-			{ orderInfo 
-			? (
+			{ !orderInfo && !loading && !error && <p className="text text_type_main-medium mt-20">Данные о заказе отсутствуют!</p> }
+			{ orderInfo &&
+				(
 				<>
 				<span className="pt-5 text text_type_digits-default">#{orderInfo.number}</span>
 				<span className="pt-10 pb-3 text text_type_main-medium">{orderInfo.name}</span>
@@ -105,8 +107,7 @@ export default function OrderInfo(){
 				</div>
 				</>
 			)
-			: (<p className="text text_type_main-medium mt-20">Данные о заказе отсутствуют!</p>)
-			}
+		}
 		</section>
 	);
 }
