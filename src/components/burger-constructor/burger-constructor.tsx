@@ -11,25 +11,18 @@ import { useHistory } from 'react-router';
 import { TUniqueIngredient } from '../../types/ingredients';
 
 
-import { useSelector, useDispatch } from 'react-redux';
-import { CLOSE_ORDER, sendOrder } from '../../services/actions/order';
+import { useSelector, useDispatch } from '../../services/hooks';
+import { orderSendCloseAction, sendOrder } from '../../services/actions/order';
+import { constructorResetAction } from './../../services/actions/constructor-ingredients';
 import { 
-	SORT_INGREDIENT, 
-	COUNT_TOTAL_PRICE, 
+	constructorSortIngredientAction, 
+	constructorCountTotalPriceAction, 
 	addConstructorIngredient
 } from './../../services/actions/constructor-ingredients';
 import { DND_TYPES } from '../../constants';
 import { isLogin } from '../../utils/login';
 
 import styles from './burger-constructor.module.css';
-
-type TState = {
-	ingredients: Array<TUniqueIngredient>;
-	bun: TUniqueIngredient;
-	totalPrice: number;
-	loading: boolean; 
-	error: boolean;
-};
 
 function BurgerConstructor() {
 
@@ -39,17 +32,12 @@ function BurgerConstructor() {
 		totalPrice, 
 		loading, 
 		error
-	}: TState = useSelector(
+	} = useSelector(
 		state => ({
-		// @ts-ignore
 		ingredients: state.constructorIngredients.ingredients,
-		// @ts-ignore
 		bun: state.constructorIngredients.bun,
-		// @ts-ignore
 		totalPrice: state.constructorIngredients.totalPrice,
-		// @ts-ignore
 		loading: state.order.loading,
-		// @ts-ignore
 		error: state.order.error
 	}));
 
@@ -59,37 +47,33 @@ function BurgerConstructor() {
 
 	const [{isHover}, dropTarget] = useDrop({
 		accept: DND_TYPES.INGREDIENT,
-		drop(ingredient){
-			handleDrop(ingredient);
+		drop(ingredient: TUniqueIngredient){
+			if(ingredient){
+				handleDrop(ingredient);
+			}
 		},
 		collect: monitor => ({
 			isHover: monitor.isOver(),
 		})
 	})
 
-	const handleDrop = (ingredient: TUniqueIngredient | unknown): void => {
+	const handleDrop = (ingredient: TUniqueIngredient): void => {
 		dispatch(addConstructorIngredient(ingredient));
-		dispatch({
-			type: COUNT_TOTAL_PRICE
-		});
+		dispatch(constructorCountTotalPriceAction());
 	}
 
 	const handleSortIngredient = useCallback((dragIndex: number, hoverIndex: number): void => {
-		dispatch({
-			type: SORT_INGREDIENT,
-			payload: {
-				dragIndex,
-				hoverIndex
-			}
-		});
+		dispatch(constructorSortIngredientAction({
+			dragIndex,
+			hoverIndex
+		}));
 	}, [dispatch]);
 
 
 	const handleOrderClose = () => {
 		setIsOrderModalOpen(false);
-		dispatch({
-			type: CLOSE_ORDER
-		});
+		dispatch(orderSendCloseAction());
+		dispatch(constructorResetAction());
 	}
 	const handleOrderOpen = () => {
 		if(ingredients.length > 0 && bun ){
@@ -127,7 +111,7 @@ function BurgerConstructor() {
 				<ul className={styles.ingredientsList}>
 					{
 					ingredients &&
-					ingredients.map((ingredient: any): JSX.Element => {
+					ingredients.map((ingredient: TUniqueIngredient): JSX.Element => {
 						return (
 							<BurgerConstructorItem 
 								key={ingredient.unique_key_id}

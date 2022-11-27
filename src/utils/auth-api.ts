@@ -1,10 +1,10 @@
 import config from '../config/apiConfig';
 import { getCookie } from './cookie';
-import { checkResponse } from './check-response';
-import { TFormUpdateUser } from '../types/form';
+import { request } from './check-response';
+import { TFormRegisterUser } from '../types/form';
 
 export function fetchLogin(body: string){
-	return fetch(`${config.url}/auth/login`, 
+	return request(`${config.url}/auth/login`, 
 		{
 			method: 'POST',
 			mode: 'cors',
@@ -13,12 +13,12 @@ export function fetchLogin(body: string){
 			headers: {
 				'Content-Type': 'application/json'
 			}
-		})
-		.then(checkResponse)
+		}
+	)
 }
 
 export function fetchRegister(body: string){
-	return fetch(`${config.url}/auth/register`, 
+	return request(`${config.url}/auth/register`, 
 		{
 			method: 'POST',
 			mode: 'cors',
@@ -27,15 +27,15 @@ export function fetchRegister(body: string){
 			headers: {
 				'Content-Type': 'application/json'
 			}
-		})
-		.then(checkResponse)
+		}
+	)
 }
 
 export function fetchLogout(){
 	const body = JSON.stringify({
 		token: getCookie('token')
 	});
-	return fetch(`${config.url}/auth/logout`, 
+	return request(`${config.url}/auth/logout`, 
 		{
 			method: 'POST',
 			mode: 'cors',
@@ -44,15 +44,15 @@ export function fetchLogout(){
 			headers: {
 				'Content-Type': 'application/json'
 			}
-		})
-		.then(checkResponse)
+		}
+	)
 }
 
 export function fetchToken(){
 	const body = JSON.stringify({
 		token: getCookie('token')
 	});
-	return fetch(`${config.url}/auth/token`, 
+	return request(`${config.url}/auth/token`, 
 		{
 			method: 'POST',
 			mode: 'cors',
@@ -61,33 +61,33 @@ export function fetchToken(){
 			headers: {
 				'Content-Type': 'application/json'
 			}
-		})
-		.then(checkResponse)
+		}
+	)
 }
 
 export function fetchUser(){
 	const token = getCookie('access_token');
 	if(token){
-		return fetch(`${config.url}/auth/user`, 
-		{
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': token
-			},
-		})
-		.then(checkResponse)
+		return request(`${config.url}/auth/user`, 
+			{
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': token
+				}
+			}
+		)
 	}else{
 		return Promise.reject('cant access cookie');
 	}
 
 }
 
-export function fetchUpdateUser(formData: TFormUpdateUser){
+export function fetchUpdateUser(formData: TFormRegisterUser){
 	const token = getCookie('access_token');
 	const body = JSON.stringify(formData);
 	if(token){
-		return fetch(`${config.url}/auth/user`, 
+		return request(`${config.url}/auth/user`, 
 			{
 				method: 'PATCH',
 				mode: 'cors',
@@ -97,15 +97,15 @@ export function fetchUpdateUser(formData: TFormUpdateUser){
 					'Content-Type': 'application/json',
 					'Authorization': token
 				}
-			})
-			.then(checkResponse)
+			}
+		)
 	}else{
 		return Promise.reject('cant access cookie');
 	}
 }
 
 export function sendResetEmail(body: string){
-	return fetch(`${config.url}/password-reset`, 
+	return request(`${config.url}/password-reset`, 
 		{
 			method: 'POST',
 			mode: 'cors',
@@ -114,12 +114,12 @@ export function sendResetEmail(body: string){
 			headers: {
 				'Content-Type': 'application/json'
 			}
-		})
-		.then(checkResponse)
+		}
+	)
 }
 
 export function passwordReset(body: string){
-	return fetch(`${config.url}/password-reset/reset`, 
+	return request(`${config.url}/password-reset/reset`, 
 		{
 			method: 'POST',
 			mode: 'cors',
@@ -128,6 +128,6 @@ export function passwordReset(body: string){
 			headers: {
 				'Content-Type': 'application/json'
 			}
-		})
-		.then(checkResponse)
+		}
+	)
 }

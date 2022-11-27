@@ -8,7 +8,7 @@ import config from '../../config/modalConfig';
 import styles from './modal.module.css';
 
 type TModal = {
-	header: string; 
+	header?: string; 
 	onClose: () => void;
 };
 

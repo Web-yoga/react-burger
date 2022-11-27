@@ -5,6 +5,7 @@
 	right: 0;
 	top: 0;
 	bottom: 0;
+	z-index: 2000;
 }
 .modal{
 	position: relative;
@@ -19,13 +20,12 @@
 	z-index: 2000;
 }
 .close{
+	display: block;
+	position: absolute;
+	top: 50px;
+	right: 40px;
 	width: 24px;
 	height: 24px;
 	cursor: pointer;
-}
-.header{
-	position: relative;
-	display:flex;
-	justify-content: space-between;
-	align-items: center;
+	z-index: 2000;
 }

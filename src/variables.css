@@ -6,4 +6,7 @@
 	--accent-color: #4C4CFF;
 	--input-color: #2F2F37;
 	--link-hover: #801AB3;
+	--order-ready-color: #00CCCC;
+	--accent-color-opacity50: rgba(76, 76, 255, 0.5);
+	--accent-color-opacity25: rgba(76, 76, 255, 0.25);
   }

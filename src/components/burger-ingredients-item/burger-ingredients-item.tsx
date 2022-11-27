@@ -4,12 +4,12 @@ import { useHistory, useLocation } from 'react-router';
 
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import { DND_TYPES } from '../../constants';
-import { TUniqueIngredient } from '../../types/ingredients';
+import { TIngredient } from '../../types/ingredients';
 
 import styles from './burger-ingredients-item.module.css';
 
 type TBurgerIngredientsItemProps = {
-	ingredient: TUniqueIngredient;
+	ingredient: TIngredient;
 	count: number;
 }
 

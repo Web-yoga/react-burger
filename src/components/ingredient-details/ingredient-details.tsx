@@ -1,21 +1,13 @@
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../services/hooks';
 import { useParams } from 'react-router';
-import { TUniqueIngredient } from '../../types/ingredients';
 
 import styles from './ingredient-details.module.css';
 
 type TIngredientId = {id: string};
 
-type TState = {
-	ingredients: Array<TUniqueIngredient>;
-	loading: boolean; 
-	error: boolean;
-};
-
 function IngredientDetails(){
 	const { id }: TIngredientId = useParams();
-	const { loading, error, ingredients }: TState = useSelector(
-		// @ts-ignore
+	const { loading, error, ingredients } = useSelector(
 		state => state.ingredients);
 	const ingredient = ingredients.find(item => item._id === id);
 
@@ -27,6 +19,7 @@ function IngredientDetails(){
 			ingredient
 			? ( 
 			<>
+				<span className="text text_type_main-large">Детали ингредиента</span>
 				<img src={ingredient.image_large} alt={ingredient.name} className="mb-4"/>
 				<p className="text text_type_main-medium mb-8">{ingredient.name}</p>
 				<section className={styles.composition}>

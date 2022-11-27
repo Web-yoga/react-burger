@@ -1,38 +1,47 @@
-import { 
-	ADD_INGREDIENT,
-	ADD_BUN,
-	COUNT_TOTAL_PRICE,
-	REMOVE_INGREDIENT,
-	SORT_INGREDIENT
-} from './../actions/constructor-ingredients';
+import { TUniqueIngredient } from '../../types/ingredients';
+import { TConstructorActions } from '../actions/constructor-ingredients';
+import{
+	CONSTRUCTOR_ADD_INGREDIENT,
+	CONSTRUCTOR_ADD_BUN,
+	CONSTRUCTOR_COUNT_TOTAL_PRICE,
+	CONSTRUCTOR_REMOVE_INGREDIENT,
+	CONSTRUCTOR_SORT_INGREDIENT,
+	CONSTRUCTOR_RESET
+} from '../constants';
 
-const initialState = { 
+type TConstructorState = {
+	ingredients: TUniqueIngredient[];
+	bun: null | TUniqueIngredient; 
+	totalPrice: number;
+}
+
+const initialState: TConstructorState = { 
 	ingredients: [],
 	bun: null, 
 	totalPrice: 0 
 }
 
-export const constructorIngredientsReducer = (state = initialState, action) =>{
+export const constructorIngredientsReducer = (state = initialState, action: TConstructorActions): TConstructorState => {
 
 	let newIngredients = state.ingredients;
 
 	switch( action.type ){
 		
-		case ADD_INGREDIENT: {
+		case CONSTRUCTOR_ADD_INGREDIENT: {
 			return {
 				...state,
 				ingredients: [ ...newIngredients, action.payload ]
 			}
 		}
 
-		case ADD_BUN: {
+		case CONSTRUCTOR_ADD_BUN: {
 			return {
 				...state,
 				bun: action.payload
 			}
 		}
 
-		case COUNT_TOTAL_PRICE: {
+		case CONSTRUCTOR_COUNT_TOTAL_PRICE: {
 			let newTotalPrice = state.ingredients.reduce((price, currItem) => {
 				return price + currItem.price
 			}, 0);
@@ -45,7 +54,7 @@ export const constructorIngredientsReducer = (state = initialState, action) =>{
 			}
 		}
 
-		case REMOVE_INGREDIENT: {
+		case CONSTRUCTOR_REMOVE_INGREDIENT: {
 			newIngredients = state.ingredients.filter((item) => item.unique_key_id !== action.payload)
 			return {
 				...state,
@@ -53,7 +62,7 @@ export const constructorIngredientsReducer = (state = initialState, action) =>{
 			}
 		}
 
-		case SORT_INGREDIENT: {
+		case CONSTRUCTOR_SORT_INGREDIENT: {
 
 			let temp = newIngredients[action.payload.hoverIndex];
 			newIngredients[action.payload.hoverIndex] = newIngredients[action.payload.dragIndex];
@@ -63,6 +72,10 @@ export const constructorIngredientsReducer = (state = initialState, action) =>{
 				...state,
 				ingredients: newIngredients
 			}
+		}
+
+		case CONSTRUCTOR_RESET: {
+			return initialState;
 		}
 		
 		default: { 
