@@ -1,5 +1,5 @@
 import { TIngredient} from '../../types/ingredients';
-import { TGetIngredientsActions } from "../actions/get-ingredients"
+import { TGetIngredientsActions } from "../actions/get-ingredients";
 import{
 	GET_INGREDIENTS,
 	GET_INGREDIENTS_SUCCESS,
