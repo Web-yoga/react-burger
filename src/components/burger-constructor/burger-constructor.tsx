@@ -107,7 +107,8 @@ function BurgerConstructor() {
 			<section 
 				ref={dropTarget}
 				style={{outline}}
-				className={styles.ingredientsSection}>
+				className={styles.ingredientsSection}
+				data-testid="constructor-list">
 				<ul className={styles.ingredientsList}>
 					{
 					ingredients &&
@@ -140,9 +141,9 @@ function BurgerConstructor() {
 			</section>
 			{ error && <div className={styles.error}>Произошла ошибка при отправке заказа.</div> }
 			<section className={styles.order}>
-				<span className="text text_type_digits-medium">{ totalPrice }</span>
+				<span className="text text_type_digits-medium" data-testid="order-total-price">{ totalPrice }</span>
 				<span className="pl-2 pr-10"><CurrencyIcon type="primary" /></span>
-				<Button type="primary" size="medium" onClick={handleOrderOpen} htmlType="button">
+				<Button type="primary" size="medium" onClick={handleOrderOpen} htmlType="button" data-testid="order-button">
 					{ loading ? "Загрузка" : "Оформить заказ" }
 				</Button>
 				{

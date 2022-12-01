@@ -11,7 +11,7 @@ const OrderDetails = () => {
 			{
 				order &&
 				<>
-					<p className="text text_type_digits-large">{order.order.number}</p>
+					<p className="text text_type_digits-large" data-testid="order-details-number">{order.order.number}</p>
 					<p className="text text_type_main-medium mt-8">идентификатор заказа</p>
 					<img src={doneImg} alt="order" className="mb-15 mt-15"/>
 					<p className="text text_type_main-default">
