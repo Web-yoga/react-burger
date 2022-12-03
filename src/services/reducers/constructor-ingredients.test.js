@@ -61,6 +61,36 @@ describe('constructor ingredients reducer', () => {
 		)
 	});
 
+	it('should handle CONSTRUCTOR_COUNT_TOTAL_PRICE without bun', () => {
+		expect(constructorIngredientsReducer({
+				ingredients: [{ _id: "test",  type: "main", price: 3}],
+			}, {
+			type: CONSTRUCTOR_COUNT_TOTAL_PRICE
+		}))
+		.toEqual(
+			{
+				ingredients: [{ _id: "test",  type: "main", price: 3}],
+				totalPrice: 3,
+			}
+		)
+	});
+
+	it('should handle CONSTRUCTOR_COUNT_TOTAL_PRICE only bun', () => {
+		expect(constructorIngredientsReducer({
+				ingredients: [],
+				bun: { _id: "test",  type: "bun", price: 7},
+			}, {
+			type: CONSTRUCTOR_COUNT_TOTAL_PRICE
+		}))
+		.toEqual(
+			{
+				ingredients: [],
+				bun: { _id: "test",  type: "bun", price: 7},
+				totalPrice: 14,
+			}
+		)
+	});
+
 	it('should handle CONSTRUCTOR_REMOVE_INGREDIENT', () => {
 		expect(constructorIngredientsReducer({
 			ingredients: [
