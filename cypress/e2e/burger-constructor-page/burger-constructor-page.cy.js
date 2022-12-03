@@ -12,73 +12,85 @@ describe('burger-constructor page functions', () => {
 		cy.clearCookies();
 	});
 
-	it('shold have ingredients items', () => {
+	it('should have ingredients items', () => {
 		cy.get('[data-testid="ingredients-list"] li')
 			.should('have.length', 3);
 	});
 
-	it('shold open ingredient modal window', () => {
+	it('should open/close ingredient modal window', () => {
 		cy.get('[data-testid="ingredients-list"] li')
 			.first()
 			.click();
 		cy.get('[data-testid="ingredient-details-name"]')
-			.should('to.exist')
+			.should('exist')
 			.and('have.text','Краторная булка N-200i');
+		cy.get('[data-testid="modal-close-btn"]')
+			.should('exist')
+			.click();
+		cy.get('[data-testid="ingredient-details-name"]')
+			.should('not.exist');
 	});
 
 	it('should drag bun to the constructor', () => {
-		const dataTransfer = new DataTransfer;
+
+		cy.get('[data-testid="constructor-bun-top"]')
+			.contains('Краторная булка N-200i')
+			.should('not.exist');
+		cy.get('[data-testid="constructor-bun-bottom"]')
+			.contains('Краторная булка N-200i')
+			.should('not.exist');
+
 		cy.get('[data-testid="ingredients-list"] li')
-    		.first()
-    		.trigger('dragstart', { dataTransfer });
+			.contains('Краторная булка N-200i')
+    		.trigger('dragstart');
 		cy.get('[data-testid="constructor-list"]')
-    		.eq(0)
-    		.trigger('drop', { dataTransfer });
-		cy.get('[data-testid="ingredients-list"] li')
-    		.first()
-    		.trigger('dragend');
+    		.trigger('drop');
+
+		cy.get('[data-testid="constructor-bun-top"]')
+			.contains('Краторная булка N-200i')
+			.should('exist');
+		cy.get('[data-testid="constructor-bun-bottom"]')
+			.contains('Краторная булка N-200i')
+			.should('exist');
+		cy.get('[data-testid="constructor-list"]')
+			.contains('Краторная булка N-200i')
+			.should('not.exist');
 	});
 
 	it('should drag ingredient to the constructor', () => {
-		const dataTransfer = new DataTransfer;
-		cy.get('[data-testid="ingredients-list"] li')
-    		.last()
-    		.trigger('dragstart', { dataTransfer });
 		cy.get('[data-testid="constructor-list"]')
-    		.eq(0)
-    		.trigger('drop', { dataTransfer });
+			.contains('Мясо бессмертных моллюсков Protostomia')
+			.should('not.exist');
+	
 		cy.get('[data-testid="ingredients-list"] li')
-    		.last()
-    		.trigger('dragend');
+			.contains('Мясо бессмертных моллюсков Protostomia')
+    		.trigger('dragstart');
+		cy.get('[data-testid="constructor-list"]')
+    		.trigger('drop');
+		cy.get('[data-testid="constructor-list"]')
+			.contains('Мясо бессмертных моллюсков Protostomia')
+			.should('exist');
 	});
 
 	it('should be possible to create an order', () => {
-		const dataTransfer = new DataTransfer;
 		cy.get('[data-testid="ingredients-list"] li')
-    		.first()
-    		.trigger('dragstart', { dataTransfer });
+			.contains('Краторная булка N-200i')
+    		.trigger('dragstart');
 		cy.get('[data-testid="constructor-list"]')
-    		.eq(0)
-    		.trigger('drop', { dataTransfer });
+    		.trigger('drop');
 		cy.get('[data-testid="ingredients-list"] li')
-    		.first()
-    		.trigger('dragend');
-		cy.get('[data-testid="ingredients-list"] li')
-    		.last()
-    		.trigger('dragstart', { dataTransfer });
+			.contains('Мясо бессмертных моллюсков Protostomia')
+    		.trigger('dragstart');
 		cy.get('[data-testid="constructor-list"]')
-    		.eq(0)
-    		.trigger('drop', { dataTransfer });
-		cy.get('[data-testid="ingredients-list"] li')
-    		.last()
-    		.trigger('dragend');
+    		.trigger('drop');
+
 		cy.get('[data-testid="order-total-price"]')
 			.should('have.text','3847');
 		cy.get('[data-testid="order-button"]')
 			.click();
 		cy.get('[data-testid="order-details-number"]')
-			.should('to.exist')
+			.should('exist')
 			.and('have.text','123');
 	});
-
+	
 })

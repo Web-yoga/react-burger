@@ -91,7 +91,9 @@ function BurgerConstructor() {
 
 	return (
 		<div className={styles.container}>
-			<section className={styles.ingredientsBlockedTop}>
+			<section 
+				className={styles.ingredientsBlockedTop}
+				data-testid="constructor-bun-top">
 				<ul className={styles.ingredientsList}>
 					{
 						bun &&
@@ -126,7 +128,9 @@ function BurgerConstructor() {
 					} )}
 				</ul>
     		</section>
-			<section className={styles.ingredientsBlockedBottom}>
+			<section 
+				className={styles.ingredientsBlockedBottom}
+				data-testid="constructor-bun-bottom">
 				<ul className={styles.ingredientsList}>
 					{
 						bun &&

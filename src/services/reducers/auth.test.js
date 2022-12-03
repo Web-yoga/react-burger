@@ -22,6 +22,10 @@ import{
 
 describe('auth reducer', () => {
 
+	const userDataResponce = {
+		name: 'test name'
+	}
+
 	it('should return the initial sate', () => {
 		expect(authReducer(undefined, {}))
 		.toEqual(
@@ -52,16 +56,12 @@ describe('auth reducer', () => {
 			type: AUTH_REGISTER_SUCCESS,
 			user: { 
 				success: true, 
-				user: {
-					name: 'test name'
-				}
+				user: userDataResponce
 			}
 		}))
 		.toEqual(
 			{
-				user: {
-					name: 'test name'
-				},
+				user: userDataResponce,
 				loading: false
 			}
 		)
@@ -99,16 +99,12 @@ describe('auth reducer', () => {
 			type: AUTH_LOGIN_SUCCESS,
 			user: { 
 				success: true, 
-				user: {
-					name: 'test name'
-				}
+				user: userDataResponce
 			}
 		}))
 		.toEqual(
 			{
-				user: {
-					name: 'test name'
-				},
+				user: userDataResponce,
 				loading: false
 			}
 		)
@@ -221,16 +217,12 @@ describe('auth reducer', () => {
 			type: AUTH_LOAD_USER_SUCCESS,
 			payload: { 
 				success: true, 
-				user: {
-					name: 'test name'
-				}
+				user: userDataResponce
 			}
 		}))
 		.toEqual(
 			{
-				user: {
-					name: 'test name'
-				},
+				user: userDataResponce,
 				loading: false
 			}
 		)
@@ -268,16 +260,12 @@ describe('auth reducer', () => {
 			type: AUTH_UPDATE_USER_SUCCESS,
 			payload: { 
 				success: true, 
-				user: {
-					name: 'test name'
-				}
+				user: userDataResponce
 			}
 		}))
 		.toEqual(
 			{
-				user: {
-					name: 'test name'
-				},
+				user: userDataResponce,
 				message: 'Обновление данных прошло успешно!',
 				loading: false
 			}
