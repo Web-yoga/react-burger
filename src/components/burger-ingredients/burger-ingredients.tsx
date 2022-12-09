@@ -75,6 +75,7 @@ function BurgerIngredients() {
 			<section 
 				className={styles.ingredientsList}
 				onScroll={handleScroll}
+				data-testid="ingredients-list"
 			>
 				{ loading && <p>Loading!</p> }
 				{ error && <p>Error!</p> }
