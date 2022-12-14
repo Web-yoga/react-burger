@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { HashRouter as Router } from 'react-router-dom';
 import { useDispatch } from '../../services/hooks';
 
 import SwitchWithModal from '../switch-with-modal/switch-with-modal';
@@ -17,7 +17,7 @@ function App() {
 	}, [dispatch]);
 
 	return (
-		<Router>
+		<Router hashType='slash'>
 			<div className={styles.app}>
 				<AppHeader/>
 				<SwitchWithModal/>

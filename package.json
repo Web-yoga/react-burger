@@ -2,7 +2,7 @@
   "name": "react-burger",
   "version": "0.1.0",
   "private": true,
-  "homepage": "./",
+  "homepage": "https://web-yoga.github.io/react-burger/",
   "dependencies": {
     "@types/react-router": "^5.1.18",
     "@types/react-router-dom": "^5.3.3",
