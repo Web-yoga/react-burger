@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { NavLink, useRouteMatch } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { 
 	Logo, 
 	BurgerIcon, 
@@ -9,7 +9,7 @@ import {
 import styles from './app-header.module.css';
 
 function AppHeader() {
-	const { path } = useRouteMatch();
+	const { pathname } = useLocation();
 	return (
 		<header className={ `${styles.header} p-4` } >
 			<menu className={ `${styles.menu} container` }>
@@ -18,14 +18,14 @@ function AppHeader() {
 					exact 
 					className={`${styles.btn} p-5 mr-2`} 
 					activeClassName={styles.active}>
-						<BurgerIcon type={ path === "/" ? "primary" : "secondary" } />
+						<BurgerIcon type={ pathname === "/" ? "primary" : "secondary" } />
 						<span className='pl-2'>Конструктор</span>
 				</NavLink>
 				<NavLink 
 					to="/feed"  
 					className={`${styles.btn} p-5`}
 					activeClassName={styles.active}>
-						<ListIcon type={ path === "/feed" ? "primary" : "secondary" } />
+						<ListIcon type={ pathname === "/feed" ? "primary" : "secondary" } />
 						<span className='pl-2'>Лента заказов</span>
 				</NavLink>
 				<NavLink 
@@ -37,7 +37,7 @@ function AppHeader() {
 					to="/profile"  
 					className={`${styles.btn} p-5`}
 					activeClassName={styles.active}>
-						<ProfileIcon type={ path === "/profile" ? "primary" : "secondary" } />
+						<ProfileIcon type={ pathname === "/profile" ? "primary" : "secondary" } />
 						<span className='pl-2'>Личный кабинет</span> 
 				</NavLink>
 			</menu>

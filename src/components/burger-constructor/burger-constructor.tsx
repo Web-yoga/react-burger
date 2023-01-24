@@ -75,7 +75,7 @@ function BurgerConstructor() {
 		dispatch(orderSendCloseAction());
 		dispatch(constructorResetAction());
 	}
-	const handleOrderOpen = () => {
+	const handleOrderOpen = (): void => {
 		if(ingredients.length > 0 && bun ){
 			if(isLogin()){
 				const ingredientIds = ingredients.map((item: TUniqueIngredient) => item._id);

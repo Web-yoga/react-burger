@@ -5,6 +5,7 @@ import { useSelector } from '../../services/hooks';
 import { INGREDIENT_TYPES } from '../../constants';
 
 import styles from './burger-ingredients.module.css';
+import { motion } from "framer-motion";
 
 function BurgerIngredients() {
 
@@ -16,7 +17,7 @@ function BurgerIngredients() {
 		main: useRef<HTMLDivElement>(null),
 	}
 	
-	const [current, setCurrent] = useState(INGREDIENT_TYPES.BUN)
+	const [current, setCurrent] = useState(INGREDIENT_TYPES.BUN);
 
 	const {ingredients, loading, error} = useSelector(
 		state => state.ingredients);
@@ -47,8 +48,22 @@ function BurgerIngredients() {
 	}
 
 	return (
-		<div className={ `${styles.container} mr-10` }>
-			<h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
+		<motion.div 
+		initial="hidden"
+		animate="visible"
+		exit={{ opacity: 0, transition: { duration: 1 } }}
+		variants={{ visible: { transition: { staggerChildren: 0.3 } } }}
+		className={ `${styles.container} mr-10` }
+		>
+			<motion.h1 
+			    variants={{
+						hidden: { opacity: 0, y: -20 },
+						visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+					}}
+				className="text text_type_main-large mt-10 mb-5"
+				>
+					Соберите бургер
+			</motion.h1>
 			<section 
 				ref={ingredientMenuRef}
 				className={styles.tabs}
@@ -101,7 +116,7 @@ function BurgerIngredients() {
 					</>
 				)}
 			</section>
-		</div>
+		</motion.div>
 					
 	);
 }
