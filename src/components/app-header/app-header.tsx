@@ -12,6 +12,17 @@ function AppHeader() {
 	const { pathname } = useLocation();
 	return (
 		<header className={ `${styles.header} p-4` } >
+
+				<div className={styles.mobileMenuLogo}>
+					<NavLink to="/">
+						<Logo />
+					</NavLink>
+				</div>
+				<input id={styles["menu-toggle"]} type="checkbox" />
+				<label className={styles.menuButtonContainer} htmlFor={styles["menu-toggle"]}>
+					<div className={styles.menuButton}></div>
+				</label>
+
 			<menu className={ `${styles.menu} container` }>
 				<NavLink 
 					to="/"
